@@ -13,3 +13,12 @@ Planned (CONTEXT section 9.3): the 63 recreated pages should be near-copies of t
 
 ## D4. Swarm Traces `parent_id` (2026-11-08 20:25)
 Full-file check: `parent_id` is non-null in 61,125 rows (42,708 recovered_text and 18,417 response rows), always pointing to a payload (one exception points to a recovered_text). It encodes derivation (payload -> its response or recovered text), not copying between payloads, and carries no time. Gate 1 and Finding A are unchanged.
+
+## D5. Mantiq U-M: identical fan-out messages (POST HOC sensitivity, 2026-11-08 ~20:15)
+Seen after building families (lifespans only, before any window test): every one of the 19 eligible U-M families is a single sender (labels = 1) sending the same text to 15 or more recipients in separate `send_message` calls within seconds (median span 0.1 s). The pre-registered block definition (one block per message) counts each copy as a separate artifact. Pre-registered analysis is run and reported as written. Post hoc sensitivity `U-M-dedup`: keep one introduction per identical (run, sender, masked text), the earliest. Result: 0 eligible families (decision point: not tested).
+
+## D6. Mantiq U-F: tool-generated boilerplate (POST HOC sensitivity, 2026-11-08 ~20:15)
+Seen after building families (before any window test): 34 of the 36 eligible U-F families are pytest cache files (`pytest-cache-files-*/README.md` and `CACHEDIR.TAG`), identical in every worker's workspace and recorded as `made_by = agent` because the agent's own process (pytest) wrote them. This is the analogue of the wiki's default-page template, which we ablated there. Pre-registered analysis reported as written; post hoc sensitivity `U-F-noboiler` drops paths matching `pytest-cache-files-|.pytest_cache|CACHEDIR.TAG` (576 introductions). Result: 2 eligible families (decision point: not tested). The eligibility threshold (15 blocks) was NOT lowered.
+
+## D7. Mantiq copy-channel descriptives (POST HOC, descriptive only, 2026-11-08 ~20:20)
+To explain why no lineages form: share of workspace file versions delivered by git (exact bytes), how many of those carry content first written by another agent, and whether agent edits build on their own or others' versions. Descriptive, no test; table `mantiq_copy_channels.csv`.

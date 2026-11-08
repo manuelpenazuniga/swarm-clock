@@ -38,10 +38,11 @@ def perm_test(arrs, rng, B=999):
 
 
 # ---- lag-window statistic (Part 2d/3a) ----
-def lag_curve(P):
+def lag_curve(P, bins=None):
+    bins = BINS if bins is None else bins
     lag = np.abs(P["t"][P["i"]] - P["t"][P["j"]])
-    b = np.digitize(lag, BINS) - 1
-    return np.array([P["d"][b == k].mean() if (b == k).sum() >= 5 else np.nan for k in range(len(BIN_LABELS))])
+    b = np.digitize(lag, bins) - 1
+    return np.array([P["d"][b == k].mean() if (b == k).sum() >= 5 else np.nan for k in range(len(bins) - 1)])
 
 
 def rho_window(P, t, lo, hi, cross=False):
@@ -71,3 +72,9 @@ def window_test(Ps, lo, hi, rng, B=999, cross=False):
 def sig_rate(s):
     s = s.dropna()
     return round(float(np.mean(s < .05)), 2) if len(s) else np.nan
+
+
+# Mantiq: lag as fraction of run duration (PREREG_MANTIQ.md section 6)
+MQ_BINS = [0, 0.05, 0.1, 0.2, 1 / 3, 0.5, 2 / 3, 1.0001]
+MQ_BIN_LABELS = ["<0.05D", "0.05-0.1D", "0.1-0.2D", "0.2-0.33D", "0.33-0.5D", "0.5-0.67D", ">=0.67D"]
+MQ_WIN = [("short (<D/3)", 0, 1 / 3), ("long (>=D/3)", 1 / 3, 1e9), ("very long (>=2D/3)", 2 / 3, 1e9)]

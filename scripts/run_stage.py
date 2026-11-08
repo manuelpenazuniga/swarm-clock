@@ -422,6 +422,166 @@ def controls():
     print("distinct parents:", p.parent_id.nunique(), "| children per parent:", p.parent_id.value_counts().describe().round(2).to_dict())
 
 
+# ---------------------------------------------------------------- Mantiq (PREREG_MANTIQ.md)
+@stage
+def mantiq_build():
+    from swarmclock import mantiq as mq
+    units, cov = mq.build_units()
+    # POST HOC sensitivity (DECISIONS D5): one introduction per identical (run, sender, masked text): earliest send
+    units["U-M-dedup"] = units["U-M"].sort_values("ts_ns").drop_duplicates(["run", "label", "m"]).reset_index(drop=True)
+    cov["U-M-dedup"] = cov["U-M"]
+    # POST HOC sensitivity (DECISIONS D6): drop tool-generated boilerplate (pytest cache files) from U-F
+    boiler = units["U-F"].path.str.contains(r"pytest-cache-files-|\.pytest_cache|CACHEDIR\.TAG", regex=True)
+    units["U-F-noboiler"] = units["U-F"][~boiler].reset_index(drop=True)
+    cov["U-F-noboiler"] = cov["U-F"]
+    print("U-F tool-boilerplate intros dropped:", int(boiler.sum()))
+    for name, U in units.items():
+        U.to_parquet(INTERIM / f"mantiq_{name}.parquet")
+        print(name, "coverage", round(cov[name], 3), "| intros >= 8 tokens:", len(U), "| runs:", U.run.nunique(),
+              "| actors/run median:", U.groupby("run").label.nunique().median())
+    (sio.TABLES / "mantiq_text_coverage.json").write_text(json.dumps(cov, indent=1))
+
+
+def _mq_families(U, k, thr):
+    """Families built separately within each run; ids prefixed by run."""
+    parts = []
+    for run, sub in U.groupby("run", sort=True):
+        sub = sub.reset_index(drop=True)
+        fam = fm.assign_families(fm.minhashes(sub.m, k), thr)
+        parts.append(sub.assign(family=[f"{run}:{x}" for x in fam]))
+    D = pd.concat(parts, ignore_index=True)
+    return D
+
+
+def _mq_famtable(D):
+    g = D.groupby("family").agg(run=("run", "first"), blocks=("page_id", "nunique"), labels=("label", "nunique"),
+                                ts0=("ts_ns", "min"), ts1=("ts_ns", "max"), D_s=("D_s", "first"), n=("m", "size"))
+    g["span_s"] = (g.ts1 - g.ts0) / 1e9
+    g["span_frac"] = g.span_s / g.D_s
+    return g
+
+
+@stage
+def mantiq_families():
+    rows, spans, chain = [], [], []
+    for name in ["U-M", "U-M-dedup", "U-F", "U-F-noboiler"]:
+        U = pd.read_parquet(INTERIM / f"mantiq_{name}.parquet")
+        for cname, k, thr in [("k3 t0.3 (primary)", 3, .3), ("k5 t0.5 (fallback)", 5, .5)]:
+            D = _mq_families(U, k, thr); g = _mq_famtable(D)
+            tot = g.groupby("run").blocks.sum(); mx = g.groupby("run").blocks.max()
+            share = (mx / tot)
+            for run in share.index:
+                chain.append({"unit": name, "config": cname, "run": run, "largest_share": round(float(share[run]), 3),
+                              "chained": bool(share[run] > .2)})
+            f5 = g[g.blocks >= 5]
+            spans += [{"unit": name, "config": cname, "family": f, "span_s": s, "span_frac": sf, "blocks": b}
+                      for f, s, sf, b in zip(f5.index, f5.span_s, f5.span_frac, f5.blocks)]
+            el = g[g.blocks >= 15]
+            rows.append({"unit": name, "config": cname, "intros": len(U), "families_ge5": len(f5), "eligible_ge15": len(el),
+                         "eligible_runs": el.run.nunique(), "median_span_s_ge5": round(float(f5.span_s.median()), 1) if len(f5) else np.nan,
+                         "median_span_frac_ge5": round(float(f5.span_frac.median()), 3) if len(f5) else np.nan,
+                         "p90_span_frac_ge5": round(float(f5.span_frac.quantile(.9)), 3) if len(f5) else np.nan,
+                         "runs_chained": int((share > .2).sum()), "max_largest_share": round(float(share.max()), 3)})
+            tag = "primary" if k == 3 else "k5t05"
+            D.to_parquet(INTERIM / f"mantiq_D_{name}_{tag}.parquet")
+            save(el.reset_index(), f"mantiq_eligible_{name}_{tag}")
+    S = pd.DataFrame(rows); print(S.to_string(index=False)); save(S, "mantiq_lifespans")
+    save(pd.DataFrame(spans), "mantiq_lifespans_ge5"); C = pd.DataFrame(chain); save(C, "mantiq_chaining")
+    print(C.groupby(["unit", "config"]).agg(chained=("chained", "sum"), max_share=("largest_share", "max")).to_string())
+
+
+def _mq_pairs(D, el, dist=None):
+    X = fm.reps_with_strata(D, el, "length")
+    return [(f, fm.fam_pairs(X[X.family == f], dist=dist)) for f in X.family.unique()], X
+
+
+def _mq_window_rows(Ps, rng, cross, tag, B=999):
+    out = []
+    for wname, lo, hi in stt.MQ_WIN:
+        T, p, v = stt.window_test(Ps, lo, hi, rng, B=B, cross=cross)
+        out.append({**tag, "pairs": "cross-agent" if cross else "all", "window": wname,
+                    "families_with_pairs": int(np.sum(~np.isnan(v))), "T": r3(T), "p": round(p, 4) if p == p else p,
+                    "per_family_median": r3(np.nanmedian(v)) if np.any(~np.isnan(v)) else np.nan})
+    return out
+
+
+@stage
+def mantiq_tests():
+    from swarmclock import mantiq as mq
+    rng = new_rng(); WT, CUR, LAB, ELIG = [], [], [], []
+    for name in ["U-M", "U-M-dedup", "U-F", "U-F-noboiler"]:
+        for tag in ["primary", "k5t05"]:
+            D = pd.read_parquet(INTERIM / f"mantiq_D_{name}_{tag}.parquet"); D["t"] = pd.to_datetime(D.t, utc=True)
+            g = _mq_famtable(D)
+            subsets = {"all runs": g[g.blocks >= 15].index}
+            if tag == "primary":
+                subsets["no-fault practice runs"] = g[(g.blocks >= 15) & g.run.isin(mq.NO_FAULT_PRACTICE)].index
+                if name.startswith("U-F"):
+                    Dn = D[~D.path.str.contains(mq.STATUS_FILES)]
+                    gn = _mq_famtable(Dn)
+                    subsets["status files excluded"] = ("refit", Dn, gn[gn.blocks >= 15].index)
+            for sname, el in subsets.items():
+                DD = D
+                if isinstance(el, tuple):
+                    _, DD, el = el
+                ELIG.append({"unit": name, "config": tag, "subset": sname, "eligible": len(el)})
+                if len(el) < 5:
+                    print(f"{name} {tag} {sname}: {len(el)} eligible families < 5 -> not tested (decision point)")
+                    WT.append({"unit": name, "config": tag, "subset": sname, "pairs": "-", "window": "-", "T": np.nan, "p": np.nan,
+                               "families_with_pairs": len(el), "note": "fewer than 5 eligible families: not tested"})
+                    continue
+                FP, X = _mq_pairs(DD, el)
+                Ps = [P for _, P in FP]
+                for cross in [False, True]:
+                    WT += _mq_window_rows(Ps, rng, cross, {"unit": name, "config": tag, "subset": sname, "eligible": len(el)})
+                print(pd.DataFrame(WT[-6:]).to_string(index=False), flush=True)
+                if sname == "all runs":
+                    for f, P in FP:
+                        CUR.append({"unit": name, "config": tag, "family": f, "n": len(P["t"]),
+                                    **dict(zip(stt.MQ_BIN_LABELS, np.round(stt.lag_curve(P, stt.MQ_BINS), 3)))})
+                        Pc = dict(P); Pc["d"] = P["d"].copy()
+                        m = ~P["same_label"]
+                        cc = stt.lag_curve({**P, "i": P["i"][m], "j": P["j"][m], "d": P["d"][m]}, stt.MQ_BINS)
+                        CUR.append({"unit": name, "config": tag + " cross-agent", "family": f, "n": len(P["t"]),
+                                    **dict(zip(stt.MQ_BIN_LABELS, np.round(cc, 3)))})
+                        lag = np.abs(P["t"][P["i"]] - P["t"][P["j"]]); sm = lag < 0.05
+                        s_, o_ = P["d"][sm & P["same_label"]], P["d"][sm & ~P["same_label"]]
+                        LAB.append({"unit": name, "config": tag, "family": f, "pairs_same": len(s_), "d_same": r3(s_.mean()) if len(s_) else np.nan,
+                                    "pairs_diff": len(o_), "d_diff": r3(o_.mean()) if len(o_) else np.nan,
+                                    "share_diff_d0": r3((o_ == 0).mean()) if len(o_) else np.nan})
+    save(pd.DataFrame(WT), "mantiq_window_tests"); save(pd.DataFrame(CUR), "mantiq_lag_curves")
+    save(pd.DataFrame(LAB), "mantiq_same_vs_diff_agent"); save(pd.DataFrame(ELIG), "mantiq_eligibility")
+    print(pd.DataFrame(WT).to_string(index=False))
+
+
+@stage
+def mantiq_power():
+    import os
+    rng = new_rng(); rows = []
+    REPS = int(os.environ.get("SWC_MQ_REPS", 100))
+    for name in ["U-M", "U-M-dedup", "U-F", "U-F-noboiler"]:
+        D = pd.read_parquet(INTERIM / f"mantiq_D_{name}_primary.parquet"); D["t"] = pd.to_datetime(D.t, utc=True)
+        g = _mq_famtable(D); el = g[g.blocks >= 15].index
+        if len(el) < 5:
+            continue
+        X = fm.reps_with_strata(D, el, "length")
+        RF = [X[X.family == f].sort_values("t").reset_index(drop=True) for f in X.family.unique()]
+        S = Synth(D.assign(t=D.t), rng)
+        for kind in ["clock", "star"]:
+            for p in [0.0025, 0.005, 0.01, 0.02, 0.05, 0.10, 0.20]:
+                t0 = time.time(); ha, hx, dl = [], [], []
+                for _ in range(REPS):
+                    Ps = [fm.fam_pairs(S.synth_like(sub, p) if kind == "clock" else S.star_like(sub, p)) for sub in RF]
+                    ha.append(stt.window_test(Ps, 1 / 3, 1e9, rng, B=99)[1] < .05)
+                    hx.append(stt.window_test(Ps, 1 / 3, 1e9, rng, B=99, cross=True)[1] < .05)
+                    dl.append(np.nanmean([P["d"][np.abs(P["t"][P["i"]] - P["t"][P["j"]]) >= 1 / 3].mean() for P in Ps]))
+                rows.append({"unit": name, "kind": kind, "edit_rate_per_copy": p, "reject_long_all": float(np.mean(ha)),
+                             "reject_long_cross_agent": float(np.mean(hx)), "mean_distance_long_lag": round(float(np.nanmean(dl)), 3),
+                             "reps": REPS, "B": 99, "families": len(RF)})
+                print(rows[-1], f"{time.time()-t0:.0f}s", flush=True)
+    save(pd.DataFrame(rows), "mantiq_power")
+
+
 def main(argv):
     if not argv:
         print(__doc__); return

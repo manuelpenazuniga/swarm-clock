@@ -1,0 +1,9 @@
+unit,config,intros,families_ge5,eligible_ge15,eligible_runs,median_span_s_ge5,median_span_frac_ge5,p90_span_frac_ge5,runs_chained,max_largest_share
+U-M,k3 t0.3 (primary),3140,38,19,18,0.1,0.0,0.015,0,0.2
+U-M,k5 t0.5 (fallback),3140,32,19,18,0.1,0.0,0.004,0,0.2
+U-M-dedup,k3 t0.3 (primary),2758,9,0,0,0.1,0.0,0.031,1,0.222
+U-M-dedup,k5 t0.5 (fallback),2758,4,0,0,0.1,0.0,0.0,0,0.111
+U-F,k3 t0.3 (primary),2834,51,36,17,296.4,0.197,0.453,4,0.219
+U-F,k5 t0.5 (fallback),2834,42,35,17,396.0,0.199,0.453,2,0.219
+U-F-noboiler,k3 t0.3 (primary),2258,15,2,2,296.4,0.208,0.509,2,0.25
+U-F-noboiler,k5 t0.5 (fallback),2258,6,1,1,937.2,0.401,0.494,1,0.221

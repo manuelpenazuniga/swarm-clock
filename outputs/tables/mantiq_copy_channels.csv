@@ -1,0 +1,2 @@
+ws_versions,ws_made_by_git,git_versions_with_agent_author,share_git_from_other_agent,agent_writes_with_prev,share_prev_same_agent,agent_edits_prev_agent_made,share_same_agent_given_prev_agent_made,agent_edits_on_git_version
+154289,136173,86110,0.6116362791777958,5632,0.5326704545454546,4915,0.9466937945066124,28

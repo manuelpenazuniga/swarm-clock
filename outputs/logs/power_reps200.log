@@ -1,1 +1,17 @@
 ===== stage power
+{np.int64(2378): (15, 2), np.int64(2842): (28, 3), np.int64(5455): (154, 7), np.int64(6843): (121, 9)}
+{'edit_rate_per_copy': 0.0025, 'distance_slope_per_day_median': 0.0027, 'mean_distance_long_lag': 0.187, 'power_long_lag_all_pairs': 0.595, 'power_long_lag_cross_label': 0.61, 'reps': 200, 'B': 99} 51s
+{'edit_rate_per_copy': 0.005, 'distance_slope_per_day_median': 0.0077, 'mean_distance_long_lag': 0.328, 'power_long_lag_all_pairs': 0.695, 'power_long_lag_cross_label': 0.735, 'reps': 200, 'B': 99} 53s
+{'edit_rate_per_copy': 0.01, 'distance_slope_per_day_median': 0.0149, 'mean_distance_long_lag': 0.501, 'power_long_lag_all_pairs': 0.855, 'power_long_lag_cross_label': 0.885, 'reps': 200, 'B': 99} 54s
+{'edit_rate_per_copy': 0.02, 'distance_slope_per_day_median': 0.0118, 'mean_distance_long_lag': 0.664, 'power_long_lag_all_pairs': 0.87, 'power_long_lag_cross_label': 0.875, 'reps': 200, 'B': 99} 55s
+{'edit_rate_per_copy': 0.05, 'distance_slope_per_day_median': 0.0075, 'mean_distance_long_lag': 0.848, 'power_long_lag_all_pairs': 0.935, 'power_long_lag_cross_label': 0.96, 'reps': 200, 'B': 99} 53s
+{'edit_rate_per_copy': 0.1, 'distance_slope_per_day_median': 0.0029, 'mean_distance_long_lag': 0.935, 'power_long_lag_all_pairs': 0.915, 'power_long_lag_cross_label': 0.935, 'reps': 200, 'B': 99} 52s
+{'edit_rate_per_copy': 0.2, 'distance_slope_per_day_median': 0.0097, 'mean_distance_long_lag': 0.975, 'power_long_lag_all_pairs': 0.935, 'power_long_lag_cross_label': 0.945, 'reps': 200, 'B': 99} 49s
+[saved] outputs/tables/power_sampling_matched_reps200.csv
+ family  reps  pairs_ge6h  slope_per_day  mean_distance_long_lag
+   2378    15          11        -0.9013                   0.979
+   2842    28         180         0.0285                   0.951
+   5455   154        5260        -0.0001                   0.919
+   6843   121        5765        -0.0027                   0.908
+[saved] outputs/tables/observed_long_lag_slopes.csv
+===== power done in 368.2s

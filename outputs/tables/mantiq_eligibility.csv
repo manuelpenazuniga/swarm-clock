@@ -1,0 +1,15 @@
+unit,config,subset,eligible
+U-M,primary,all runs,19
+U-M,primary,no-fault practice runs,6
+U-M,k5t05,all runs,19
+U-M-dedup,primary,all runs,0
+U-M-dedup,primary,no-fault practice runs,0
+U-M-dedup,k5t05,all runs,0
+U-F,primary,all runs,36
+U-F,primary,no-fault practice runs,10
+U-F,primary,status files excluded,36
+U-F,k5t05,all runs,35
+U-F-noboiler,primary,all runs,2
+U-F-noboiler,primary,no-fault practice runs,0
+U-F-noboiler,primary,status files excluded,2
+U-F-noboiler,k5t05,all runs,1

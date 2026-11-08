@@ -52,3 +52,8 @@ class Synth:
             parent = toks0 if i == 0 else members[self.rng.integers(max(0, i - window), i)]
             members.append(self.mutate(parent, p))
         return sub.assign(m=[" ".join(x) for x in members])
+
+    def star_like(self, sub, p):
+        """Sampling-matched null: each member is an independent edit of the root (rate 3p), real times kept."""
+        toks0 = sub.m.iloc[0].split()
+        return sub.assign(m=[" ".join(self.mutate(toks0, 3 * p)) for _ in range(len(sub))])
