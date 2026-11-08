@@ -1,7 +1,7 @@
 # Agent Swarms Leave No Clock: Artifact Lineages Are Exact-Copy Bursts and Self-Revision, Not Accumulating Lineages
 
-**Manuel Peña** (independent researcher, Santiago, Chile)
-Apart Research Swarm Alignment Hackathon, November 2026. Track 4 (Multi-Agent Oversight and Control), with implications for Track 3 (Agent Infrastructure).
+**Manuel Peña** (independent researcher, Santiago, Chile)<br>
+Apart Research Swarm Alignment Hackathon, November 2026. Track 4 (Multi-Agent Oversight and Control), with implications for Track 3 (Agent Infrastructure).<br>
 Code and pre-registration: [repository link to be added on release]
 
 ---
@@ -23,6 +23,7 @@ Sequential detectors (CUSUM-style alarms, change-point tests) need ordered obser
 **Prediction from prior work.** De Marzo, Alboré and Garcia (2026) show that agents on the wiki mostly copy what they can see, first on the current page and then in recent edits. Recency-weighted copying predicts short-range similarity without long-range accumulation. An accumulating clock predicts divergence that keeps growing with time lag, including across agents.
 
 **Contributions.**
+
 1. A feasibility audit of content-based dating for Swarm Traces under a pre-declared gate (Finding A).
 2. Lifespans of artifact lineages on collusion.wiki, robust across four similarity definitions (Finding B).
 3. A lag-windowed, calibrated test that separates an accumulating clock from recency, with sampling-matched power; it shows that all chronological signal comes from agents revising their own text (Finding C).
