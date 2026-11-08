@@ -1,0 +1,37 @@
+pairs,window,variant,value
+all,short (<6h),pairs per family,"{""1979"": 190, ""2378"": 94, ""2842"": 198, ""5207"": 49141, ""5455"": 6521, ""6843"": 1495}"
+all,short (<6h),pair-weighted mean rho,0.088
+all,short (<6h),leave out 1979,"T=0.335, p=0.001"
+all,short (<6h),leave out 2378,"T=0.192, p=0.001"
+all,short (<6h),leave out 2842,"T=0.311, p=0.001"
+all,short (<6h),leave out 5455,"T=0.382, p=0.001"
+all,short (<6h),leave out 6843,"T=0.366, p=0.001"
+all,long (>=6h),pairs per family,"{""1979"": 0, ""2378"": 11, ""2842"": 180, ""5207"": 0, ""5455"": 5260, ""6843"": 5765}"
+all,long (>=6h),pair-weighted mean rho,-0.111
+all,long (>=6h),leave out 2378,"T=0.026, p=0.468"
+all,long (>=6h),leave out 2842,"T=-0.334, p=1.0"
+all,long (>=6h),leave out 5455,"T=-0.216, p=0.981"
+all,long (>=6h),leave out 6843,"T=-0.171, p=0.937"
+all,very long (>=24h),pairs per family,"{""1979"": 0, ""2378"": 0, ""2842"": 179, ""5207"": 0, ""5455"": 2877, ""6843"": 4863}"
+all,very long (>=24h),pair-weighted mean rho,-0.189
+all,very long (>=24h),leave out 2842,"T=-0.193, p=0.999"
+all,very long (>=24h),leave out 5455,"T=0.039, p=0.448"
+all,very long (>=24h),leave out 6843,"T=0.067, p=0.23"
+cross-label,short (<6h),pairs per family,"{""1979"": 169, ""2378"": 38, ""2842"": 196, ""5207"": 46550, ""5455"": 6446, ""6843"": 1479}"
+cross-label,short (<6h),pair-weighted mean rho,0.067
+cross-label,short (<6h),leave out 1979,"T=0.012, p=0.507"
+cross-label,short (<6h),leave out 2378,"T=0.112, p=0.017"
+cross-label,short (<6h),leave out 2842,"T=-0.095, p=0.971"
+cross-label,short (<6h),leave out 5455,"T=-0.02, p=0.763"
+cross-label,short (<6h),leave out 6843,"T=-0.035, p=0.842"
+cross-label,long (>=6h),pairs per family,"{""1979"": 0, ""2378"": 11, ""2842"": 180, ""5207"": 0, ""5455"": 5249, ""6843"": 5765}"
+cross-label,long (>=6h),pair-weighted mean rho,-0.111
+cross-label,long (>=6h),leave out 2378,"T=0.026, p=0.484"
+cross-label,long (>=6h),leave out 2842,"T=-0.334, p=1.0"
+cross-label,long (>=6h),leave out 5455,"T=-0.216, p=0.985"
+cross-label,long (>=6h),leave out 6843,"T=-0.171, p=0.961"
+cross-label,very long (>=24h),pairs per family,"{""1979"": 0, ""2378"": 0, ""2842"": 179, ""5207"": 0, ""5455"": 2872, ""6843"": 4863}"
+cross-label,very long (>=24h),pair-weighted mean rho,-0.189
+cross-label,very long (>=24h),leave out 2842,"T=-0.194, p=1.0"
+cross-label,very long (>=24h),leave out 5455,"T=0.039, p=0.474"
+cross-label,very long (>=24h),leave out 6843,"T=0.066, p=0.198"

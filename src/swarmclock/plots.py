@@ -12,8 +12,8 @@ C = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300"]
 INK, INK2, GRID = "#0b0b0b", "#52514e", "#d9d8d4"
 LS = ["-", "--", "-.", ":"]
 MK = ["o", "s", "^", "D", "v", "P"]
-FAM_NAMES = {5207: "exact-copy burst (1 h)", 5455: "data-link lists (7 d)", 6843: "default-page text (9 d)",
-             2842: "round-status reports (3 d)", 1979: "endpoint pages (3 h)", 2378: "archival link lists (10 h)"}
+FAM_NAMES = {5207: "exact-copy burst (5 min)", 5455: "data-link lists (30 d, 7 dates)", 6843: "default-page text (21 d, 9 dates)",
+             2842: "round-status reports (3.7 d, 3 dates)", 1979: "endpoint pages (3 h)", 2378: "archival link lists (10 h)"}
 plt.rcParams.update({"font.size": 8, "axes.edgecolor": INK2, "axes.labelcolor": INK, "xtick.color": INK2,
                      "ytick.color": INK2, "axes.spines.top": False, "axes.spines.right": False,
                      "font.family": "DejaVu Sans", "legend.frameon": False, "lines.linewidth": 1.6})
@@ -41,10 +41,10 @@ def fig_lifespans():
         x = np.sort(np.clip(sub.span_h.values, 1 / 60, None))
         ax.step(x, np.arange(1, len(x) + 1) / len(x), where="post", color=C[k], ls=LS[k], label=f"{cfg} (n={len(x)})")
     for xv, lab in [(1 / 6, "10 min"), (1, "1 h"), (24, "1 day")]:
-        ax.axvline(xv, ls=":", c=GRID, lw=1, zorder=0); ax.text(xv * 1.08, 0.03, lab, fontsize=7, color=INK2)
+        ax.axvline(xv, ls=":", c=GRID, lw=1, zorder=0); ax.text(xv * 1.08, 0.93, lab, fontsize=7, color=INK2)
     ax.set_xscale("log"); ax.set_xlabel("lineage lifespan, first to last introduction (h, log)")
     ax.set_ylabel("ECDF, families with >= 5 pages"); ax.set_ylim(0, 1.02)
-    ax.legend(fontsize=6.5, loc="lower right")
+    ax.legend(fontsize=6.5, loc="lower right", bbox_to_anchor=(1.0, 0.03))
     _save(fig, "fig1_lifespans")
 
 
@@ -89,7 +89,7 @@ def fig_forest():
         ax.scatter([T], [y], s=46, marker="D" if pr == "all pairs" else "s", color=col, zorder=3)
         txt = f"T = {T:+.3f}, p = {p:.3f}"
         if w.startswith("long"):
-            txt += f"\n(power {pw[pr]:.2f} at edit rate 0.01)"
+            txt += f"\n(power {pw[pr] + 1e-9:.2f} at edit rate 0.01)"
         ax.text(1.02, y, txt, va="center", fontsize=6.3, color=INK, transform=ax.get_yaxis_transform())
         ylabels.append(f"{pr}, {w}")
     ax.axvline(0, color=INK2, lw=0.8)
@@ -111,8 +111,9 @@ def fig_power():
         M = pd.read_csv(TABLES / "mantiq_power.csv")
         m = M[(M.unit == "U-F") & (M.kind == "clock")]
         if len(m):
-            ax.plot(m.edit_rate_per_copy, m.reject_long_cross_agent, color=C[2], ls="-.", marker="^", ms=4,
-                    label="Mantiq files (pre-reg. families), cross-agent")
+            col = "reject_long_cross_agent_a025" if "reject_long_cross_agent_a025" in m else "reject_long_cross_agent"
+            ax.plot(m.edit_rate_per_copy, m[col], color=C[2], ls="-.", marker="^", ms=4,
+                    label="Mantiq files, cross-agent (pre-reg. α = 0.025)")
     except FileNotFoundError:
         pass
     ax.axhline(.8, ls=":", c=INK2, lw=1); ax.text(0.0026, 0.81, "80%", fontsize=7, color=INK2)
@@ -131,17 +132,18 @@ def fig_schematic():
     ax.scatter(t, rng.uniform(.2, .9, 14), marker="s", s=22, color=C[1], zorder=3)
     for ti in t[1:]:
         ax.plot([t[0], ti], [0.55, 0.55], color=GRID, lw=.6, zorder=1)
-    ax.set_title("(a) Cross-agent copying: exact-copy burst", fontsize=8, loc="left")
-    ax.text(0.2, 0.05, "many agents, minutes, distance = 0 -> no divergence", fontsize=6.8, color=INK2, transform=ax.transAxes)
-    ax.set_xlabel("time (minutes)"); ax.set_yticks([]); ax.set_ylim(0, 1)
+    ax.set_title("(a) Schematic: cross-agent exact-copy burst", fontsize=8, loc="left")
+    ax.text(0.02, 0.04, "many agents within minutes; distance 0, no divergence", fontsize=6.5, color=INK2, transform=ax.transAxes)
+    ax.set_xlabel("time (minutes); each square = one agent's copy"); ax.set_yticks([]); ax.set_ylim(0, 1)
     # (b) self-revision saturating
     ax = axs[1]
     lag = np.linspace(0, 12, 100)
-    ax.plot(lag, 0.95 * (1 - np.exp(-lag / 1.2)), color=C[0], lw=2, label="observed: one label revising its own text")
+    ax.plot(lag, 0.95 * (1 - np.exp(-lag / 1.2)), color=C[0], lw=2, label="same-label revision (saturating shape)")
     ax.plot(lag, 0.08 * lag, color=INK2, ls="--", lw=1.4, label="accumulating clock (not observed)")
-    ax.set_ylim(0, 1); ax.set_xlabel("lag (hours)"); ax.set_ylabel("distance")
-    ax.set_title("(b) Self-revision: saturates within hours", fontsize=8, loc="left")
+    ax.set_ylim(0, 1); ax.set_xlabel("lag (hours)"); ax.set_ylabel("distance (illustrative)")
+    ax.set_title("(b) Schematic: same-label revision saturates", fontsize=8, loc="left")
     ax.legend(fontsize=6.3, loc="lower right")
+    fig.subplots_adjust(wspace=0.32)
     _save(fig, "fig5_regimes")
 
 
@@ -156,20 +158,21 @@ def fig_wiki_vs_mantiq():
     ax.scatter(L.d_diff, y, marker="s", s=30, facecolor="white", edgecolor=C[1], lw=1.4, label="different labels")
     for i, r in L.iterrows():
         ax.plot([r.d_same, r.d_diff], [i, i], color=GRID, lw=1, zorder=0)
-    ax.set_yticks(y); ax.set_yticklabels([FAM_NAMES.get(int(f), f) for f in L.family], fontsize=6.5)
+    ax.set_yticks(y); ax.set_yticklabels([f"{FAM_NAMES.get(int(f), f)}\nN = {a} / {b} pairs" for f, a, b in zip(L.family, L.pairs_lt1h_same, L.pairs_lt1h_diff)], fontsize=6)
     ax.set_xlim(0, 1); ax.set_xlabel("mean distance, pairs < 1 h apart")
     ax.set_title("(a) collusion.wiki: short-lag similarity is self-revision", fontsize=8, loc="left")
     ax.legend(fontsize=6.3, loc="lower left", bbox_to_anchor=(0.0, 1.06), ncol=2, borderaxespad=0)
-    ax.set_title("(a) collusion.wiki: short-lag similarity is self-revision", fontsize=8, loc="left", pad=16)
+    ax.set_title("(a) collusion.wiki: same label closer at lag < 1 h", fontsize=8, loc="left", pad=16)
     ax = axs[1]
     vals = [Cc.ws_made_by_git / Cc.ws_versions, Cc.share_git_from_other_agent, Cc.share_same_agent_given_prev_agent_made]
-    labs = ["workspace file versions\ndelivered by git (exact bytes)", "git-delivered versions first\nwritten by another agent",
-            "agent edits whose base was\nwritten by the same agent"]
+    labs = [f"workspace file versions delivered\nby git, exact bytes (N = {int(Cc.ws_versions):,})",
+            f"git-delivered versions first written\nby another agent (N = {int(Cc.git_versions_with_agent_author):,})",
+            f"agent edits on an agent-written base\nby the same agent (N = {int(Cc.agent_edits_base_agent):,})"]
     ax.barh(range(3), vals, color=[C[1], C[1], C[0]], height=.55)
     for i, v in enumerate(vals):
         ax.text(v + .01, i, f"{v:.0%}", va="center", fontsize=7, color=INK)
     ax.set_yticks(range(3)); ax.set_yticklabels(labs, fontsize=6.5); ax.set_xlim(0, 1.1); ax.invert_yaxis()
-    ax.set_title("(b) Mantiq: cross-agent = exact copy; editing = self", fontsize=8, loc="left", pad=16)
+    ax.set_title("(b) Mantiq (true identity, descriptive)", fontsize=8, loc="left", pad=16)
     ax.set_xlabel("share")
     fig.tight_layout()
     _save(fig, "fig6_wiki_vs_mantiq")

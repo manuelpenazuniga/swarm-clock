@@ -422,6 +422,89 @@ def controls():
     print("distinct parents:", p.parent_id.nunique(), "| children per parent:", p.parent_id.value_counts().describe().round(2).to_dict())
 
 
+@stage
+def mantiq_copy_channels():
+    """Descriptive copy channels (DECISIONS D7). All counts restricted to kind in {create, write}, excluding .git/upstream.git."""
+    from swarmclock import mantiq as mq
+    FV = mq.load("file_versions", ["run", "version_id", "mount", "path", "kind", "sha256", "agent_id", "made_by", "host_seq", "prev_version_id"])
+    FV = FV[FV.kind.isin(["create", "write"]) & ~FV.path.str.contains(r"(?:^|/)\.git(?:/|$)|upstream\.git", regex=True)].copy()
+    ws = FV[FV.mount.str.startswith("ws/")].copy(); ws["owner"] = ws.mount.str[3:]
+    am = FV[FV.made_by == "agent"].sort_values("host_seq").drop_duplicates(["run", "sha256"])[["run", "sha256", "agent_id"]].rename(columns={"agent_id": "first_author"})
+    g = ws[ws.made_by == "git"].merge(am, on=["run", "sha256"], how="left")
+    src = g.first_author.notna()
+    # base of each agent edit: previous version of the same file (any kind; looked up in the unfiltered table)
+    ALL = mq.load("file_versions", ["run", "version_id", "agent_id", "made_by", "kind"]).set_index(["run", "version_id"])
+    a = FV[FV.made_by == "agent"].dropna(subset=["prev_version_id"])
+    pm = ALL.reindex(list(zip(a.run, a.prev_version_id)))
+    base_made_by = pd.Series(pm.made_by.values).fillna("unknown")
+    ok = (base_made_by == "agent").values
+    same = pm.agent_id.values[ok] == a.agent_id.values[ok]
+    out = {"ws_versions": len(ws), "ws_made_by_git": int((ws.made_by == "git").sum()),
+           "share_ws_git": (ws.made_by == "git").mean(),
+           "git_versions_with_agent_author": int(src.sum()),
+           "git_versions_from_other_agent": int((g.first_author[src] != g.owner[src]).sum()),
+           "share_git_from_other_agent": float((g.first_author[src] != g.owner[src]).mean()),
+           "agent_edits_total": int((FV.made_by == "agent").sum()),
+           "agent_edits_with_prev": len(a),
+           **{f"agent_edits_base_{k}": int(v) for k, v in base_made_by.value_counts().items()},
+           "agent_edits_base_agent_same_agent": int(same.sum()),
+           "share_same_agent_given_prev_agent_made": float(same.mean())}
+    pd.DataFrame([out]).to_csv(sio.TABLES / "mantiq_copy_channels.csv", index=False)
+    runs = mq.load("runs"); M = mq.load("messages", ["run"])
+    summ = {"runs": len(runs), "run_seconds_min": int(runs.seconds.min()), "run_seconds_max": int(runs.seconds.max()),
+            "messages": len(M), "file_versions": int(len(mq.load("file_versions", ["run"]))), "agents_full_runs": 18}
+    (sio.TABLES / "mantiq_corpus_summary.json").write_text(json.dumps(summ, indent=1))
+    print(json.dumps(out, indent=1, default=float)); print(summ)
+
+
+@stage
+def robustness():
+    """POST HOC (DECISIONS D8): leave-one-family-out and pair-weighted pooled statistics for the wiki window tests."""
+    rng = new_rng(); rows = []
+    D = load_D("D_primary"); FP = real_pairs(D, elig_ids(D))
+    names = [f for f, _ in FP]; Ps = [P for _, P in FP]
+    for cross in (False, True):
+        for wname, lo, hi in stt.WIN:
+            v = np.array([stt.rho_window(P, P["t"], lo, hi, cross) for P in Ps])
+            npairs = []
+            for P in Ps:
+                lag = np.abs(P["t"][P["i"]] - P["t"][P["j"]]); m = (lag >= lo) & (lag < hi)
+                if cross: m &= ~P["same_label"]
+                npairs.append(int(m.sum()))
+            npairs = np.array(npairs); ok = ~np.isnan(v)
+            w = float(np.sum(v[ok] * npairs[ok]) / np.sum(npairs[ok])) if ok.any() else np.nan
+            base = {"pairs": "cross-label" if cross else "all", "window": wname}
+            rows.append({**base, "variant": "pairs per family", "value": json.dumps(dict(zip(map(str, names), npairs.tolist())))})
+            rows.append({**base, "variant": "pair-weighted mean rho", "value": r3(w)})
+            for k, f in enumerate(names):
+                if not ok[k]:
+                    continue
+                keep = [P for j, P in enumerate(Ps) if j != k]
+                T, p, _ = stt.window_test(keep, lo, hi, rng, B=999, cross=cross)
+                rows.append({**base, "variant": f"leave out {f}", "value": f"T={r3(T)}, p={round(p,4) if p == p else p}"})
+    R = pd.DataFrame(rows); print(R.to_string(index=False)); save(R, "robustness_wiki_windows")
+
+
+@stage
+def power_short_crosslabel():
+    """POST HOC (DECISIONS D8): power of the cross-label SHORT-lag test against planted clocks with the real sampling of all
+    eligible families that have short-lag cross-label pairs; also very-long window power."""
+    import os
+    rng = new_rng(); S = Synth(load_R(), rng)
+    D = load_D("D_primary"); X = fm.reps_with_strata(D, elig_ids(D), "length")
+    RF = [X[X.family == f].sort_values("t").reset_index(drop=True) for f in X.family.unique()]
+    REPS = int(os.environ.get("SWC_POWER_REPS", 100)); rows = []
+    for p in [0.0025, 0.005, 0.01, 0.02, 0.05, 0.10, 0.20]:
+        hs, hv = [], []
+        for _ in range(REPS):
+            Ps = [fm.fam_pairs(S.synth_like(sub, p)) for sub in RF]
+            hs.append(stt.window_test(Ps, 0, 6, rng, B=99, cross=True)[1] < .05)
+            hv.append(stt.window_test(Ps, 24, 1e9, rng, B=99, cross=True)[1] < .05)
+        rows.append({"edit_rate_per_copy": p, "power_short_cross_label": float(np.mean(hs)), "power_very_long_cross_label": float(np.mean(hv)), "reps": REPS, "B": 99})
+        print(rows[-1], flush=True)
+    save(pd.DataFrame(rows), "power_short_and_verylong_crosslabel")
+
+
 # ---------------------------------------------------------------- Mantiq (PREREG_MANTIQ.md)
 @stage
 def mantiq_build():
@@ -572,11 +655,13 @@ def mantiq_power():
                 t0 = time.time(); ha, hx, dl = [], [], []
                 for _ in range(REPS):
                     Ps = [fm.fam_pairs(S.synth_like(sub, p) if kind == "clock" else S.star_like(sub, p)) for sub in RF]
-                    ha.append(stt.window_test(Ps, 1 / 3, 1e9, rng, B=99)[1] < .05)
-                    hx.append(stt.window_test(Ps, 1 / 3, 1e9, rng, B=99, cross=True)[1] < .05)
+                    ha.append(stt.window_test(Ps, 1 / 3, 1e9, rng, B=99)[1])
+                    hx.append(stt.window_test(Ps, 1 / 3, 1e9, rng, B=99, cross=True)[1])
                     dl.append(np.nanmean([P["d"][np.abs(P["t"][P["i"]] - P["t"][P["j"]]) >= 1 / 3].mean() for P in Ps]))
-                rows.append({"unit": name, "kind": kind, "edit_rate_per_copy": p, "reject_long_all": float(np.mean(ha)),
-                             "reject_long_cross_agent": float(np.mean(hx)), "mean_distance_long_lag": round(float(np.nanmean(dl)), 3),
+                ha, hx = np.array(ha, float), np.array(hx, float)
+                rows.append({"unit": name, "kind": kind, "edit_rate_per_copy": p, "reject_long_all": float(np.nanmean(ha < .05)),
+                             "reject_long_cross_agent": float(np.nanmean(hx < .05)),
+                             "reject_long_all_a025": float(np.nanmean(ha < .025)), "reject_long_cross_agent_a025": float(np.nanmean(hx < .025)), "mean_distance_long_lag": round(float(np.nanmean(dl)), 3),
                              "reps": REPS, "B": 99, "families": len(RF)})
                 print(rows[-1], f"{time.time()-t0:.0f}s", flush=True)
     save(pd.DataFrame(rows), "mantiq_power")

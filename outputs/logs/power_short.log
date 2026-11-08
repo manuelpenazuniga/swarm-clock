@@ -1,0 +1,10 @@
+===== stage power_short_crosslabel
+{'edit_rate_per_copy': 0.0025, 'power_short_cross_label': 0.93, 'power_very_long_cross_label': 0.86, 'reps': 100, 'B': 99}
+{'edit_rate_per_copy': 0.005, 'power_short_cross_label': 0.94, 'power_very_long_cross_label': 0.91, 'reps': 100, 'B': 99}
+{'edit_rate_per_copy': 0.01, 'power_short_cross_label': 1.0, 'power_very_long_cross_label': 0.98, 'reps': 100, 'B': 99}
+{'edit_rate_per_copy': 0.02, 'power_short_cross_label': 1.0, 'power_very_long_cross_label': 1.0, 'reps': 100, 'B': 99}
+{'edit_rate_per_copy': 0.05, 'power_short_cross_label': 1.0, 'power_very_long_cross_label': 0.98, 'reps': 100, 'B': 99}
+{'edit_rate_per_copy': 0.1, 'power_short_cross_label': 1.0, 'power_very_long_cross_label': 0.99, 'reps': 100, 'B': 99}
+{'edit_rate_per_copy': 0.2, 'power_short_cross_label': 1.0, 'power_very_long_cross_label': 0.97, 'reps': 100, 'B': 99}
+[saved] outputs/tables/power_short_and_verylong_crosslabel.csv
+===== power_short_crosslabel done in 380.4s
