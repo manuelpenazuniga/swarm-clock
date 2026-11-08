@@ -1,0 +1,5 @@
+config,families_ge5,eligible_ge15,multi_day_ge3d_ge15,span_ge24h_ge15,median_span_min,p75_h,p90_h,share_gt24h,largest_family_share
+k5 t0.5,39,1,0,0,6.1,0.32,0.59,0.0,0.041
+k5 t0.3,52,3,2,2,16.6,0.9,5.92,0.077,0.042
+k3 t0.3 (primary),60,6,3,3,27.2,3.34,86.93,0.167,0.043
+k3 t0.2,40,2,1,1,15.3,1.13,70.84,0.175,0.207

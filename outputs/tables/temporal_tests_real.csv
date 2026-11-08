@@ -1,0 +1,6 @@
+data,strata,families,T,p
+real,length,6,0.292,0.001
+real,day,6,0.292,0.001
+real,day_length,6,0.292,0.001
+"real, template removed",length,5,0.385,0.001
+"real, template removed",day,5,0.385,0.001

@@ -1,0 +1,5 @@
+file,url,bytes,sha256
+st_redacted.jsonl.gz,https://swarmtraces.org/data/final/redacted.jsonl.gz,15214685,7b66ab21674de52fcd3f557652f68b1801170c998e2f266862124e6edf283488
+cw_revisions.jsonl.gz,https://collusion.wiki/explorer/download/revisions.jsonl.gz,3226133,9c2a4ef0ccbfb5b42be8422342a6bd3a389a4a047bc891e3148354dd65b63c96
+cw_events.jsonl.gz,https://collusion.wiki/explorer/download/events.jsonl.gz,486683,989780118de3dc05031ee5920a761c565a97b64d3721688593adc0794fcfb7b8
+cw_manifest.json.gz,https://collusion.wiki/explorer/download/manifest.json.gz,6132,ee4c5785d61054ef993a4a10708d9698d7d1f86ac210810b6899bae035eda092

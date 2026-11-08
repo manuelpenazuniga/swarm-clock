@@ -1,0 +1,17 @@
+===== stage ablations
+k5 t0.3 eligible: [5207, 6999, 6373]
+  distance families       pairs            window  families_with_pairs      T     p                                per_family
+NCD (zlib)  k3 t0.3         all       short (<6h)                    5  0.321 0.001  [0.155, 0.785, 0.408, nan, 0.131, 0.128]
+NCD (zlib)  k3 t0.3         all       long (>=6h)                    4 -0.197 0.994 [nan, -0.821, 0.291, nan, -0.051, -0.208]
+NCD (zlib)  k3 t0.3         all very long (>=24h)                    3  0.089 0.314     [nan, nan, 0.291, nan, 0.196, -0.221]
+NCD (zlib)  k3 t0.3 cross-label       short (<6h)                    5  0.003 0.753  [-0.2, -0.454, 0.424, nan, 0.131, 0.113]
+NCD (zlib)  k3 t0.3 cross-label       long (>=6h)                    4 -0.197 0.999 [nan, -0.821, 0.291, nan, -0.052, -0.208]
+NCD (zlib)  k3 t0.3 cross-label very long (>=24h)                    3  0.088 0.309     [nan, nan, 0.291, nan, 0.194, -0.221]
+Jaccard k3  k5 t0.3         all       short (<6h)                    2 -0.117 0.802                      [nan, -0.18, -0.053]
+Jaccard k3  k5 t0.3         all       long (>=6h)                    2 -0.017 0.924                      [nan, -0.01, -0.023]
+Jaccard k3  k5 t0.3         all very long (>=24h)                    2 -0.089 0.936                     [nan, -0.146, -0.032]
+Jaccard k3  k5 t0.3 cross-label       short (<6h)                    2 -0.120 0.800                      [nan, -0.18, -0.061]
+Jaccard k3  k5 t0.3 cross-label       long (>=6h)                    2 -0.017 0.918                      [nan, -0.01, -0.025]
+Jaccard k3  k5 t0.3 cross-label very long (>=24h)                    2 -0.089 0.937                     [nan, -0.146, -0.032]
+[saved] outputs/tables/ablations.csv
+===== ablations done in 16.1s

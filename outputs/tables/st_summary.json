@@ -1,0 +1,45 @@
+{
+ "rows": 189579,
+ "fields": {
+  "id": 189579,
+  "cite": 189579,
+  "kind": 189579,
+  "parent_id": 189579,
+  "time_utc": 189579,
+  "tags": 189579,
+  "text": 189579
+ },
+ "kind_counts": {
+  "payload": 91037,
+  "response": 23008,
+  "recovered_text": 75534
+ },
+ "parent_id_nonnull_full": 61125,
+ "time_utc_nonnull_full": 0,
+ "tags_nonnull_full": 37,
+ "records_with_anchor": 2948,
+ "share_with_anchor": 0.015550245544073974,
+ "anchor_rows_by_type": {
+  "epoch_s": 2557,
+  "date_str": 1185,
+  "epoch_ms": 48,
+  "gzip_mtime": 9
+ },
+ "independent_anchored_records": 827,
+ "share_independent_of_anchored": 0.2805291723202171,
+ "independent_on_jul11_12": 736,
+ "families_ge15": 3,
+ "top_families": {
+  "46382": 137,
+  "178530": 22,
+  "113563": 17,
+  "45240": 12,
+  "44617": 11,
+  "52361": 10,
+  "10987": 8,
+  "42538": 7,
+  "33564": 6,
+  "47315": 6
+ },
+ "gate1_passed": false
+}

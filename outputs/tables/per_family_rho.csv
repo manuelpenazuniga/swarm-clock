@@ -1,0 +1,12 @@
+data,family,reps,days,labels,strata,rho
+real,1979,20,1,11,3,0.244
+real,2378,15,2,4,3,0.819
+real,2842,28,3,26,3,0.415
+real,5207,314,1,58,3,
+real,5455,154,7,109,3,0.063
+real,6843,121,9,112,3,-0.081
+"real, template removed",1966,20,1,11,3,0.244
+"real, template removed",2363,15,2,4,3,0.819
+"real, template removed",2825,28,3,26,3,0.415
+"real, template removed",5207,314,1,58,3,
+"real, template removed",5432,154,7,109,3,0.063

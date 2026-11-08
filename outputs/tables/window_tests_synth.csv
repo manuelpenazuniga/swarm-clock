@@ -1,0 +1,13 @@
+synthetic,window,reject_rate,n
+clock p=0.02,short (<6h),0.0,20
+clock p=0.02,long (>=6h),0.95,20
+clock p=0.02,very long (>=24h),0.95,20
+clock p=0.05,short (<6h),0.0,20
+clock p=0.05,long (>=6h),1.0,20
+clock p=0.05,very long (>=24h),0.95,20
+star p=0.02,short (<6h),0.0,20
+star p=0.02,long (>=6h),0.0,20
+star p=0.02,very long (>=24h),0.05,20
+star p=0.05,short (<6h),0.0,20
+star p=0.05,long (>=6h),0.05,20
+star p=0.05,very long (>=24h),0.0,20

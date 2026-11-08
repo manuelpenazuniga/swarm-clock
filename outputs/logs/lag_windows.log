@@ -1,0 +1,59 @@
+===== stage lag_windows
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/scripts/run_stage.py:274: RuntimeWarning: Mean of empty slice
+  srows.append({"set": name, **dict(zip(stt.BIN_LABELS, np.round(np.nanmean([stt.lag_curve(P) for P in Ps], axis=0), 3)))})
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/scripts/run_stage.py:274: RuntimeWarning: Mean of empty slice
+  srows.append({"set": name, **dict(zip(stt.BIN_LABELS, np.round(np.nanmean([stt.lag_curve(P) for P in Ps], axis=0), 3)))})
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/scripts/run_stage.py:274: RuntimeWarning: Mean of empty slice
+  srows.append({"set": name, **dict(zip(stt.BIN_LABELS, np.round(np.nanmean([stt.lag_curve(P) for P in Ps], axis=0), 3)))})
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/scripts/run_stage.py:274: RuntimeWarning: Mean of empty slice
+  srows.append({"set": name, **dict(zip(stt.BIN_LABELS, np.round(np.nanmean([stt.lag_curve(P) for P in Ps], axis=0), 3)))})
+             set  family  <10m  10-30m  30m-1h  1-3h  3-6h  6-12h  12-24h  1-3d   >3d
+         primary    1979 0.354   0.914   0.934 0.898 0.922    NaN     NaN   NaN   NaN
+         primary    2378 0.086   0.138   0.603 0.856 0.947  0.979     NaN   NaN   NaN
+         primary    2842 0.862   0.821   0.853 0.919 0.946    NaN     NaN 0.947 0.983
+         primary    5207 0.000     NaN     NaN   NaN   NaN    NaN     NaN   NaN   NaN
+         primary    5455 0.871   0.908   0.909 0.912 0.915  0.920   0.912   NaN 0.919
+         primary    6843 0.744   0.883   0.899 0.891 0.925  0.925   0.903 0.925 0.878
+template_removed    1966 0.354   0.914   0.934 0.898 0.922    NaN     NaN   NaN   NaN
+template_removed    2363 0.086   0.138   0.603 0.856 0.947  0.979     NaN   NaN   NaN
+template_removed    2825 0.862   0.819   0.850 0.918 0.946    NaN     NaN 0.947 0.983
+template_removed    5207 0.000     NaN     NaN   NaN   NaN    NaN     NaN   NaN   NaN
+template_removed    5432 0.871   0.908   0.909 0.912 0.915  0.920   0.912   NaN 0.919
+[saved] outputs/tables/lag_curves_real.csv
+            data pairs            window  families_with_pairs      T     p                                per_family
+         primary   all       short (<6h)                    5  0.317 0.001  [0.244, 0.819, 0.342, nan, 0.058, 0.122]
+         primary   all       long (>=6h)                    4 -0.174 0.992 [nan, -0.775, 0.307, nan, -0.046, -0.182]
+         primary   all very long (>=24h)                    3 -0.029 0.723    [nan, nan, 0.299, nan, -0.165, -0.221]
+template_removed   all       short (<6h)                    4  0.365 0.001         [0.244, 0.819, 0.339, nan, 0.058]
+template_removed   all       long (>=6h)                    3 -0.172 0.925         [nan, -0.775, 0.306, nan, -0.046]
+template_removed   all very long (>=24h)                    2  0.066 0.211            [nan, nan, 0.297, nan, -0.165]
+[saved] outputs/tables/window_tests_real.csv
+         set  <10m  10-30m  30m-1h  1-3h  3-6h  6-12h  12-24h  1-3d   >3d
+clock p=0.02   NaN     NaN   0.298 0.400 0.362  0.357   0.393 0.499 0.639
+clock p=0.05   NaN     NaN   0.507 0.631 0.616  0.631   0.634 0.730 0.845
+ star p=0.02 0.493     NaN   0.538 0.545 0.545  0.554   0.559 0.552 0.548
+ star p=0.05   NaN     NaN   0.801 0.831 0.831  0.822   0.828 0.829 0.828
+   synthetic            window  reject_rate  n
+clock p=0.02       short (<6h)         0.00 20
+clock p=0.02       long (>=6h)         0.95 20
+clock p=0.02 very long (>=24h)         0.95 20
+clock p=0.05       short (<6h)         0.00 20
+clock p=0.05       long (>=6h)         1.00 20
+clock p=0.05 very long (>=24h)         0.95 20
+ star p=0.02       short (<6h)         0.00 20
+ star p=0.02       long (>=6h)         0.00 20
+ star p=0.02 very long (>=24h)         0.05 20
+ star p=0.05       short (<6h)         0.00 20
+ star p=0.05       long (>=6h)         0.05 20
+ star p=0.05 very long (>=24h)         0.00 20
+[saved] outputs/tables/lag_curves_synth.csv
+[saved] outputs/tables/window_tests_synth.csv
+ family  pairs_lt1h_same  d_same  pairs_lt1h_diff  d_diff  share_diff_pairs_d0
+   1979               21   0.157              100   0.904                0.020
+   2378               31   0.297                2   0.692                0.000
+   2842                2   0.941               62   0.840                0.000
+   5207             2591   0.000            46550   0.000                1.000
+   5455               57   0.752             3240   0.892                0.010
+   6843               16   0.744              538   0.867                0.022
+[saved] outputs/tables/same_vs_diff_label_lt1h.csv
+===== lag_windows done in 16.5s

@@ -1,0 +1,10 @@
+===== stage crosslabel
+            data       pairs            window  families_with_pairs      T     p                                 per_family
+         primary cross-label       short (<6h)                    5 -0.005 0.667 [-0.073, -0.473, 0.353, nan, 0.054, 0.113]
+         primary cross-label       long (>=6h)                    4 -0.174 0.995  [nan, -0.775, 0.307, nan, -0.046, -0.182]
+         primary cross-label very long (>=24h)                    3 -0.030 0.722     [nan, nan, 0.299, nan, -0.166, -0.221]
+template_removed cross-label       short (<6h)                    4 -0.036 0.774        [-0.073, -0.473, 0.349, nan, 0.054]
+template_removed cross-label       long (>=6h)                    3 -0.172 0.950          [nan, -0.775, 0.306, nan, -0.046]
+template_removed cross-label very long (>=24h)                    2  0.066 0.209             [nan, nan, 0.297, nan, -0.166]
+[saved] outputs/tables/window_tests_crosslabel.csv
+===== crosslabel done in 10.7s

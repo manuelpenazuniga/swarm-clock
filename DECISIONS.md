@@ -1,0 +1,15 @@
+# DECISIONS (methodology changes and their justification)
+
+Frozen methodology: CONTEXT.md section 5. Anything below that touches analysis is labeled PRE-SPECIFIED (decided before seeing the relevant outcome) or POST HOC.
+
+## D1. Per-stage RNG (refactor, 2026-11-08 20:00)
+Notebooks shared one `default_rng(20261108)` across cells in a single kernel. The refactor seeds a fresh `default_rng(20261108)` per stage so stages are independent and re-runnable. Affects only permutation draws and simulation outputs. Not a methodology change.
+
+## D2. More Monte Carlo replicates for calibration and power (2026-11-08 20:20). Precision only.
+Calibration cells and power points were estimated from 20 lineages / 20 replicates, which gives a binomial SE of about 0.05 to 0.11; batches disagreed (contaminated star false-positive rate 0.00 to 0.20). We add replicates with the identical design: calibration with 10 batches (200 lineages per cell), sampling-matched power with 200 replicates per edit rate (B = 99 per test unchanged). Original 20-replicate outputs are kept (`calibration_summary.csv`, `power_sampling_matched.csv`). The paper reports the higher-precision estimates with Wilson 95% intervals. Decided after seeing the noisy 20-replicate numbers, but it changes no design choice, test, or threshold.
+
+## D3. Positive control with `first_recreation_of` pairs: premise failed (2026-11-08 20:25). Reported as a finding.
+Planned (CONTEXT section 9.3): the 63 recreated pages should be near-copies of the pre-deletion text (distance ~0). Measured: 60 of 63 matched to their deletion event (same page, all 60); masked-body k=3 Jaccard distance to the last pre-deletion revision has median 1.0, mean 0.87; only 4 of 60 (6.7%) are identical. Agents reuse deleted page titles with new content; they do not restore deleted text. This is not a valid positive control of the metric, so we do not use it as one. The metric is validated instead by (a) planted synthetic lineages (calibration) and (b) the real exact-copy burst family (46,550 cross-label pairs at distance 0). No threshold or analysis was changed.
+
+## D4. Swarm Traces `parent_id` (2026-11-08 20:25)
+Full-file check: `parent_id` is non-null in 61,125 rows (42,708 recovered_text and 18,417 response rows), always pointing to a payload (one exception points to a recovered_text). It encodes derivation (payload -> its response or recovered text), not copying between payloads, and carries no time. Gate 1 and Finding A are unchanged.

@@ -1,0 +1,4 @@
+kind,records,with_anchor,with_independent_anchor,anchor_rate,independent_rate
+payload,91037,1820,779,0.02,0.0086
+recovered_text,75534,828,44,0.011,0.0006
+response,23008,300,4,0.013,0.0002

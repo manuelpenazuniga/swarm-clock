@@ -1,0 +1,22 @@
+===== stage tests_real
+                  data  family  reps  days  labels  strata    rho
+                  real    1979    20     1      11       3  0.244
+                  real    2378    15     2       4       3  0.819
+                  real    2842    28     3      26       3  0.415
+                  real    5207   314     1      58       3    NaN
+                  real    5455   154     7     109       3  0.063
+                  real    6843   121     9     112       3 -0.081
+real, template removed    1966    20     1      11       3  0.244
+real, template removed    2363    15     2       4       3  0.819
+real, template removed    2825    28     3      26       3  0.415
+real, template removed    5207   314     1      58       3    NaN
+real, template removed    5432   154     7     109       3  0.063
+                  data     strata  families     T     p
+                  real     length         6 0.292 0.001
+                  real        day         6 0.292 0.001
+                  real day_length         6 0.292 0.001
+real, template removed     length         5 0.385 0.001
+real, template removed        day         5 0.385 0.001
+[saved] outputs/tables/temporal_tests_real.csv
+[saved] outputs/tables/per_family_rho.csv
+===== tests_real done in 10.2s
