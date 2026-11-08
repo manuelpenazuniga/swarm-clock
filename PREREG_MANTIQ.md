@@ -1,6 +1,6 @@
 # Pre-registration: Mantiq replication (zenml/mantiq-swarm-traces, CC-BY-4.0)
 
-Written 2026-11-08 ~20:40 America/Santiago, committed to git BEFORE any temporal quantity (time, lag, distance-vs-lag, family span) was computed or inspected on Mantiq. What had been inspected: the dataset card, table schemas, row counts, message lengths (median 158 characters), the share of agent-written file versions with exported text (80.3%), mounts, file extensions and top-level path names. Nothing about timing.
+Written 2026-11-08 ~20:06 America/Santiago, committed to git BEFORE any temporal quantity (time, lag, distance-vs-lag, family span) was computed or inspected on Mantiq. What had been inspected: the dataset card, table schemas, row counts, message lengths (median 158 characters), the share of agent-written file versions with exported text (80.3%), mounts, file extensions and top-level path names. Nothing about timing.
 
 The dataset card asks that its canary GUID not enter training corpora; we never copy it into the repo or paper.
 

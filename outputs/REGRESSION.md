@@ -1,6 +1,6 @@
 # Regression: refactored pipeline vs results/RESULTS_LOG.md
 
-Run: 2026-11-08 ~20:10 America/Santiago, local CPU (macOS arm64), Python 3.14.5, pandas 2.3.3, numpy 2.5.4, datasketch 2.0.0.
+Run: 2026-11-08 ~20:00 America/Santiago, local CPU (macOS arm64), Python 3.14.5, pandas 2.3.3, numpy 2.5.4, datasketch 2.0.0.
 Inputs re-downloaded and pinned in `outputs/tables/inputs_sha256.csv`.
 Rule: counts exact; statistics within +-0.01; p-values may move but must not cross 0.05 in the opposite direction.
 

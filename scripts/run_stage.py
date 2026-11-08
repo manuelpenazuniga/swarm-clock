@@ -582,6 +582,13 @@ def mantiq_power():
     save(pd.DataFrame(rows), "mantiq_power")
 
 
+@stage
+def figures():
+    from swarmclock import plots
+    for f in plots.ALL:
+        f()
+
+
 def main(argv):
     if not argv:
         print(__doc__); return
