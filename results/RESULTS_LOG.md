@@ -237,3 +237,16 @@ template_removed  very long          T= 0.066  p=0.193
 - Part 3b: Mantiq schema discovery, then replication design.
 - Swarm Traces: check `parent_id` over the full file; describe kind-specific anchor rates.
 - Positive control with the 63 `first_recreation_of` pairs (distance should be near 0).
+
+---
+
+## Session 2026-11-08 evening (refactored pipeline, `scripts/run_stage.py`). Source of truth: `outputs/tables/`
+- Regression vs everything above: PASS (`outputs/REGRESSION.md`).
+- Part 3a power (sampling-matched, 200 reps, B=99), long-lag test, all / cross-label: 0.0025: 0.60/0.61; 0.005: 0.70/0.74; 0.01: 0.86/0.89; 0.02: 0.87/0.88; 0.05: 0.94/0.96; 0.10: 0.92/0.94; 0.20: 0.94/0.95.
+- Cross-label short / >=24 h power (post hoc, 100 reps): 0.93 to 1.00 / 0.86 to 0.99 over 0.0025 to 0.20.
+- NCD ablation: short 0.321 (0.001), long -0.197 (0.994), very long 0.089 (0.314); cross-label short 0.003 (0.753). k5 t0.3: 3 eligible families, no window significant.
+- Robustness (post hoc, D8): long-lag LOFO all p >= 0.47 (T = 0.026 without the 11-pair archival family); short all-pairs LOFO all p = 0.001; cross-label short LOFO without archival family T = 0.112, p = 0.017 (cross-label null fragile).
+- Calibration x10 (200 lineages/cell): star planted-only 0.04/0.04; star contaminated 0.15/0.15; clock length 0.95-0.99, day 0.49-0.59.
+- Recreation control: premise failed (median distance 1.0; 4/60 identical).
+- Swarm Traces parent_id: 61,125 non-null (derivation links to payloads).
+- Mantiq (PREREG commit 90996c3): U-M 19 / U-F 36 eligible as written; decisive cross-agent long-window tests undefined; power at alpha 0.025: U-F clock 0.11 to 0.31, star 0 to 0.04, U-M 0 -> inconclusive. Post hoc: dedup messages 0 eligible; no pytest boilerplate 2 eligible. Copy channels: 88% of workspace versions are git copies; 61% of agent-authored git copies from another agent; 94% (4,438/4,700) of edits on agent-written bases by the same agent.

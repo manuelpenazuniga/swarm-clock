@@ -16,3 +16,23 @@ if ref.exists():
 pypandoc.convert_file(str(tmp), "docx", format="markdown+pipe_tables+raw_html", outputfile=str(ROOT / "paper/report.docx"), extra_args=args)
 tmp.unlink()
 print("wrote paper/report.docx")
+
+# post-process: booktabs-like borders, small table font
+import docx
+from docx.shared import Pt
+from docx.oxml.ns import qn
+from docx.oxml import OxmlElement
+d = docx.Document(str(ROOT / "paper/report.docx"))
+for t in d.tables:
+    tblPr = t._tbl.tblPr
+    b = OxmlElement("w:tblBorders")
+    for edge in ("top", "bottom", "insideH"):
+        e = OxmlElement(f"w:{edge}"); e.set(qn("w:val"), "single"); e.set(qn("w:sz"), "4"); e.set(qn("w:color"), "808080"); b.append(e)
+    tblPr.append(b)
+    for row in t.rows:
+        for cell in row.cells:
+            for p in cell.paragraphs:
+                for r in p.runs:
+                    r.font.size = Pt(8)
+d.save(str(ROOT / "paper/report.docx"))
+print("styled tables:", len(d.tables))
