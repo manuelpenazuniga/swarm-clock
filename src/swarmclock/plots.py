@@ -40,8 +40,8 @@ def fig_lifespans():
     for k, (cfg, sub) in enumerate(S.groupby("config", sort=False)):
         x = np.sort(np.clip(sub.span_h.values, 1 / 60, None))
         ax.step(x, np.arange(1, len(x) + 1) / len(x), where="post", color=C[k], ls=LS[k], label=f"{cfg} (n={len(x)})")
-    for xv, lab in [(1 / 6, "10 min"), (1, "1 h"), (24, "1 day")]:
-        ax.axvline(xv, ls=":", c=GRID, lw=1, zorder=0); ax.text(xv * 1.08, 0.93, lab, fontsize=7, color=INK2)
+    for xv, lab, yy in [(1 / 6, "10 min", 0.93), (1, "1 h", 0.84), (24, "1 day", 0.93)]:
+        ax.axvline(xv, ls=":", c=GRID, lw=1, zorder=0); ax.text(xv * 1.08, yy, lab, fontsize=7, color=INK2)
     ax.set_xscale("log"); ax.set_xlabel("lineage lifespan, first to last introduction (h, log)")
     ax.set_ylabel("ECDF, families with >= 5 pages"); ax.set_ylim(0, 1.02)
     ax.legend(fontsize=6.5, loc="lower right", bbox_to_anchor=(1.0, 0.03))
@@ -129,12 +129,11 @@ def fig_schematic():
     # (a) cross-agent exact-copy burst
     ax = axs[0]
     t = np.sort(rng.uniform(0, 5, 14))
-    ax.scatter(t, rng.uniform(.2, .9, 14), marker="s", s=22, color=C[1], zorder=3)
-    for ti in t[1:]:
-        ax.plot([t[0], ti], [0.55, 0.55], color=GRID, lw=.6, zorder=1)
+    ax.plot([0, 5], [0.0, 0.0], color=GRID, lw=1, zorder=1)
+    ax.scatter(t, np.zeros(14), marker="s", s=26, color=C[1], zorder=3, clip_on=False)
     ax.set_title("(a) Schematic: cross-agent exact-copy burst", fontsize=8, loc="left")
-    ax.text(0.02, 0.04, "many agents within minutes; distance 0, no divergence", fontsize=6.5, color=INK2, transform=ax.transAxes)
-    ax.set_xlabel("time (minutes); each square = one agent's copy"); ax.set_yticks([]); ax.set_ylim(0, 1)
+    ax.text(0.02, 0.12, "many agents within minutes; every copy at distance 0", fontsize=6.5, color=INK2, transform=ax.transAxes)
+    ax.set_xlabel("time (minutes); each square = one agent's copy"); ax.set_ylabel("distance to first copy (illustrative)"); ax.set_ylim(-0.05, 1)
     # (b) self-revision saturating
     ax = axs[1]
     lag = np.linspace(0, 12, 100)
@@ -162,7 +161,7 @@ def fig_wiki_vs_mantiq():
     ax.set_xlim(0, 1); ax.set_xlabel("mean distance, pairs < 1 h apart")
     ax.set_title("(a) collusion.wiki: short-lag similarity is self-revision", fontsize=8, loc="left")
     ax.legend(fontsize=6.3, loc="lower left", bbox_to_anchor=(0.0, 1.06), ncol=2, borderaxespad=0)
-    ax.set_title("(a) collusion.wiki: same label closer at lag < 1 h", fontsize=8, loc="left", pad=16)
+    ax.set_title("(a) collusion.wiki: same vs different label, pairs < 1 h", fontsize=8, loc="left", pad=16)
     ax = axs[1]
     vals = [Cc.ws_made_by_git / Cc.ws_versions, Cc.share_git_from_other_agent, Cc.share_same_agent_given_prev_agent_made]
     labs = [f"workspace file versions delivered\nby git, exact bytes (N = {int(Cc.ws_versions):,})",
