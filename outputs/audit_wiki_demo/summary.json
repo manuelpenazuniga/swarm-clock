@@ -1,0 +1,16 @@
+{
+ "n_texts": 7964,
+ "n_actors": 2329,
+ "span_h": 946.5008333333334,
+ "families_ge5": 61,
+ "lifespan_h_quantiles_ge5": {
+  "0.5": 0.468,
+  "0.75": 3.296,
+  "0.9": 86.771
+ },
+ "largest_family_share": 0.043,
+ "chaining_warning": false,
+ "eligible_families": 6,
+ "verdict": "no cross-actor long-lag signal (T=-0.174, p=0.987); accumulating clocks with per-copy edit rates in [0.01, 0.1] would be detected with >= 80% power",
+ "max_star_false_positive_rate": 0.1
+}

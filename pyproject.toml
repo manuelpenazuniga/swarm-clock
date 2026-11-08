@@ -1,0 +1,20 @@
+[project]
+name = "swarmclock"
+version = "0.1.0"
+description = "Content-chronology audit for multi-agent corpora: does artifact divergence carry time?"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = ["datasketch>=1.6", "pandas>=2.0,<3", "numpy", "scipy", "pyarrow", "matplotlib", "tabulate"]
+
+[project.optional-dependencies]
+mantiq = ["huggingface_hub"]
+
+[project.scripts]
+swarmclock = "swarmclock.audit:main"
+
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

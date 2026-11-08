@@ -1,0 +1,10 @@
+datasketch>=1.6
+pandas<3,>=2.0
+numpy
+scipy
+pyarrow
+matplotlib
+tabulate
+
+[mantiq]
+huggingface_hub

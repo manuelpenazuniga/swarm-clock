@@ -1,0 +1,7 @@
+pairs,window,T,p,families_with_pairs
+all,short (<6h),0.3210736437980487,0.001,5
+all,long (>=6h),-0.17346149905010116,0.986,4
+all,very long (>=24h),-0.028212706009417787,0.716,3
+cross-actor,short (<6h),-0.0010536151232424184,0.696,5
+cross-actor,long (>=6h),-0.17352455573661266,0.987,4
+cross-actor,very long (>=24h),-0.02836518600731529,0.715,3

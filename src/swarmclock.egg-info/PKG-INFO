@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: swarmclock
+Version: 0.1.0
+Summary: Content-chronology audit for multi-agent corpora: does artifact divergence carry time?
+License: MIT
+Requires-Python: >=3.10
+Requires-Dist: datasketch>=1.6
+Requires-Dist: pandas<3,>=2.0
+Requires-Dist: numpy
+Requires-Dist: scipy
+Requires-Dist: pyarrow
+Requires-Dist: matplotlib
+Requires-Dist: tabulate
+Provides-Extra: mantiq
+Requires-Dist: huggingface_hub; extra == "mantiq"
