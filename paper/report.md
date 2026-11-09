@@ -2,7 +2,7 @@
 
 **Manuel Peña** (independent researcher, Santiago, Chile)<br>
 Apart Research Swarm Alignment Hackathon, November 2026. Track 4 (Multi-Agent Oversight and Control), with implications for Track 3 (Agent Infrastructure). Evidence from collusion.wiki, Swarm Traces and a recorder-instrumented coding swarm (Mantiq).<br>
-Code, tables and pre-registrations: REPO_LINK
+Code, tables and pre-registrations: https://github.com/manuelpenazuniga/swarm-clock
 
 ---
 

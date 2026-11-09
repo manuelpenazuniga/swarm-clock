@@ -3,3 +3,5 @@ data/
 __pycache__/
 *.pyc
 .DS_Store
+paper/apart_template.docx
+paper/_*.md
