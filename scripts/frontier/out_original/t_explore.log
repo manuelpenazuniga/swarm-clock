@@ -1,0 +1,16 @@
+CONFIRM q90 m2: coverage 0.7112 success 0.6782
+targets by day (top 6):
+            size   mean
+day                    
+2026-06-18   414  0.857
+2026-06-16   277  0.711
+2026-06-17   235  0.838
+2026-06-20   152  0.461
+2026-06-19   107  0.318
+2026-06-21    70  0.371
+excluding the 2 busiest days: n 673 success 0.554 null mean 0.249 p975 0.278
+kNN (J<0.3) dated 0.857 success [-1h,+24h] 0.607 | |err|<24h 0.795 | TPQ on same targets 0.678
+anchor share 0.02: coverage 0.234 success 0.572 null 0.267
+anchor share 0.05: coverage 0.449 success 0.609 null 0.237
+anchor share 0.1: coverage 0.550 success 0.610 null 0.229
+anchor share 0.25: coverage 0.664 success 0.648 null 0.224

@@ -1,0 +1,7 @@
+real component sizes: median 2.0 max 44
+{'model': 'peer', 'p': 0.02, 'pairs': 2672, 'clusters_with_pairs': 130, 'S0_length': 0.512, 'S1_polarity': 0.785, 'S2_novelty': 0.719, 'S3_centrality': 0.505}
+{'model': 'peer', 'p': 0.05, 'pairs': 780, 'clusters_with_pairs': 144, 'S0_length': 0.457, 'S1_polarity': 0.788, 'S2_novelty': 0.736, 'S3_centrality': 0.527}
+{'model': 'peer', 'p': 0.1, 'pairs': 590, 'clusters_with_pairs': 148, 'S0_length': 0.445, 'S1_polarity': 0.815, 'S2_novelty': 0.754, 'S3_centrality': 0.61}
+{'model': 'star', 'p': 0.02, 'pairs': 3587, 'clusters_with_pairs': 148, 'S0_length': 0.501, 'S1_polarity': 0.511, 'S2_novelty': 0.508, 'S3_centrality': 0.499}
+{'model': 'star', 'p': 0.05, 'pairs': 70, 'clusters_with_pairs': 32, 'S0_length': 0.419, 'S1_polarity': 0.324, 'S2_novelty': 0.422, 'S3_centrality': 0.515}
+{'model': 'star', 'p': 0.1, 'pairs': 0, 'clusters_with_pairs': 0}

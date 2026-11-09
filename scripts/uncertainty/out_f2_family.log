@@ -1,0 +1,5 @@
+{'model': 'block_family', 'rate': 0.01, 'reps': 200, 'lineage_recovery': np.float64(0.96375), 'end_to_end_reject': 0.44, 'mean_parent_child_dist': 0.0244, 'mean_dist_long_lag': 0.237, 'sec_per_rep': 1.8}
+{'model': 'block_family', 'rate': 0.02, 'reps': 200, 'lineage_recovery': np.float64(0.9525), 'end_to_end_reject': 0.52, 'mean_parent_child_dist': 0.0473, 'mean_dist_long_lag': 0.382, 'sec_per_rep': 1.79}
+{'model': 'block_family', 'rate': 0.05, 'reps': 200, 'lineage_recovery': np.float64(0.90625), 'end_to_end_reject': 0.675, 'mean_parent_child_dist': 0.1115, 'mean_dist_long_lag': 0.613, 'sec_per_rep': 1.79}
+{'model': 'block_family', 'rate': 0.1, 'reps': 200, 'lineage_recovery': np.float64(0.87125), 'end_to_end_reject': 0.635, 'mean_parent_child_dist': 0.2083, 'mean_dist_long_lag': 0.768, 'sec_per_rep': 1.43}
+{'model': 'block_family', 'rate': 0.2, 'reps': 200, 'lineage_recovery': np.float64(0.7475), 'end_to_end_reject': 0.64, 'mean_parent_child_dist': 0.3603, 'mean_dist_long_lag': 0.868, 'sec_per_rep': 1.51}

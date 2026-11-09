@@ -1,0 +1,5 @@
+{'model': 'block_corpus', 'rate': 0.01, 'reps': 200, 'lineage_recovery': np.float64(0.94125), 'end_to_end_reject': 0.44, 'mean_parent_child_dist': 0.0267, 'mean_dist_long_lag': 0.23, 'sec_per_rep': 1.8}
+{'model': 'block_corpus', 'rate': 0.02, 'reps': 200, 'lineage_recovery': np.float64(0.85125), 'end_to_end_reject': 0.555, 'mean_parent_child_dist': 0.0536, 'mean_dist_long_lag': 0.373, 'sec_per_rep': 1.75}
+{'model': 'block_corpus', 'rate': 0.05, 'reps': 200, 'lineage_recovery': np.float64(0.72625), 'end_to_end_reject': 0.63, 'mean_parent_child_dist': 0.1261, 'mean_dist_long_lag': 0.603, 'sec_per_rep': 1.71}
+{'model': 'block_corpus', 'rate': 0.1, 'reps': 200, 'lineage_recovery': np.float64(0.4975), 'end_to_end_reject': 0.68, 'mean_parent_child_dist': 0.2263, 'mean_dist_long_lag': 0.728, 'sec_per_rep': 1.37}
+{'model': 'block_corpus', 'rate': 0.2, 'reps': 200, 'lineage_recovery': np.float64(0.265), 'end_to_end_reject': 0.45, 'mean_parent_child_dist': 0.3946, 'mean_dist_long_lag': 0.836, 'sec_per_rep': 1.37}

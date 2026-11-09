@@ -1,0 +1,7 @@
+real component sizes: median 2.0 max 44
+{'model': 'peer', 'p': 0.05, 'pairs': 1243, 'clusters_with_pairs': 112, 'S0_length': 0.509, 'S1_polarity': 0.662, 'S2_novelty': 0.637, 'S3_centrality': 0.521, 'edit': 'donor_block'}
+{'model': 'peer', 'p': 0.1, 'pairs': 1057, 'clusters_with_pairs': 136, 'S0_length': 0.57, 'S1_polarity': 0.731, 'S2_novelty': 0.718, 'S3_centrality': 0.528, 'edit': 'donor_block'}
+{'model': 'peer', 'p': 0.2, 'pairs': 497, 'clusters_with_pairs': 138, 'S0_length': 0.589, 'S1_polarity': 0.751, 'S2_novelty': 0.751, 'S3_centrality': 0.603, 'edit': 'donor_block'}
+{'model': 'star', 'p': 0.05, 'pairs': 3388, 'clusters_with_pairs': 143, 'S0_length': 0.481, 'S1_polarity': 0.501, 'S2_novelty': 0.466, 'S3_centrality': 0.474, 'edit': 'donor_block'}
+{'model': 'star', 'p': 0.1, 'pairs': 1121, 'clusters_with_pairs': 81, 'S0_length': 0.513, 'S1_polarity': 0.456, 'S2_novelty': 0.515, 'S3_centrality': 0.526, 'edit': 'donor_block'}
+{'model': 'star', 'p': 0.2, 'pairs': 46, 'clusters_with_pairs': 12, 'S0_length': 0.428, 'S1_polarity': 0.266, 'S2_novelty': 0.36, 'S3_centrality': 0.449, 'edit': 'donor_block'}

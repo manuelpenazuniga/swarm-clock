@@ -1,0 +1,7 @@
+model,p,pairs,clusters_with_pairs,S0_length,S1_polarity,S2_novelty,S3_centrality,edit
+peer,0.05,1243,112,0.509,0.662,0.637,0.521,donor_block
+peer,0.1,1057,136,0.57,0.731,0.718,0.528,donor_block
+peer,0.2,497,138,0.589,0.751,0.751,0.603,donor_block
+star,0.05,3388,143,0.481,0.501,0.466,0.474,donor_block
+star,0.1,1121,81,0.513,0.456,0.515,0.526,donor_block
+star,0.2,46,12,0.428,0.266,0.36,0.449,donor_block

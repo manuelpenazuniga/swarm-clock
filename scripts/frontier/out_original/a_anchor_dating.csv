@@ -1,0 +1,7 @@
+set,f,q_hours,q_baseline_hours,half0_dated_share,half1_dated_share,half1_n_dated_pooled,half1_coverage_of_q,half1_median_abs_err_min,half1_share_within_1h,half1_baseline_coverage,half1_baseline_median_abs_err_h,A1_validity_ge_0.85,A2_q_le_2h_and_baseline_ge_24h
+all,0.016,0.008,79.1,0.0395,0.0366,14127,0.923,0.2,0.998,0.879,33.3,True,True
+all,0.05,0.038,76.2,0.0446,0.0445,16618,0.947,0.22,0.991,0.872,33.4,True,True
+all,0.2,0.159,75.3,0.0565,0.0566,17798,0.936,0.27,0.975,0.871,33.5,True,True
+r2,0.016,0.449,86.2,0.0016,0.0018,647,0.912,1.67,0.932,0.909,34.2,True,True
+r2,0.05,1.196,80.1,0.0052,0.0056,1919,0.933,1.62,0.933,0.88,34.6,True,True
+r2,0.2,0.648,76.8,0.0169,0.0183,5249,0.935,2.05,0.935,0.863,34.7,True,True

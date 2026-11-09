@@ -1,0 +1,2 @@
+adv,mode,set,near_dups,stat,m,targets,coverage,success,validity,median_t_minus_tpq_h,share_success_dayscale,null_success_mean,null_success_p975,null_validity_mean,null_dayscale_mean,excess,p_perm,T1
+all3,pilot,all,exclude,q90,2,2009,0.7118,0.6238,0.8336,1.5111,0.3483,0.1945,0.2196,0.796,0.1429,0.4293,0.005,True

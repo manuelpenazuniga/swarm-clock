@@ -1,0 +1,6 @@
+{'k': 4, 'thr': 0.25, 'min_blocks': 15, 'templates': 2, 'template_pages': '15/131', 'rate': 0.01, 'reps': 100, 'lineage_recovery': 0.95, 'end_to_end_reject': 0.53, 'sec_per_rep': 1.86}
+{'k': 4, 'thr': 0.25, 'min_blocks': 15, 'templates': 2, 'template_pages': '15/131', 'rate': 0.05, 'reps': 100, 'lineage_recovery': 0.495, 'end_to_end_reject': 0.22, 'sec_per_rep': 1.67}
+{'k': 4, 'thr': 0.3, 'min_blocks': 15, 'templates': 1, 'template_pages': '122', 'rate': 0.01, 'reps': 100, 'lineage_recovery': 0.91, 'end_to_end_reject': 0.74, 'sec_per_rep': 1.55}
+{'k': 4, 'thr': 0.3, 'min_blocks': 15, 'templates': 1, 'template_pages': '122', 'rate': 0.05, 'reps': 100, 'lineage_recovery': 0.07, 'end_to_end_reject': 0.07, 'sec_per_rep': 1.62}
+{'k': 4, 'thr': 0.35, 'min_blocks': 15, 'templates': 2, 'template_pages': '37/21', 'rate': 0.01, 'reps': 100, 'lineage_recovery': 0.705, 'end_to_end_reject': 0.04, 'sec_per_rep': 1.48}
+{'k': 4, 'thr': 0.35, 'min_blocks': 15, 'templates': 2, 'template_pages': '37/21', 'rate': 0.05, 'reps': 100, 'lineage_recovery': 0.04, 'end_to_end_reject': 0.01, 'sec_per_rep': 1.46}

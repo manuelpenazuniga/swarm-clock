@@ -1,2 +1,129 @@
 /Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
   var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+{'family': 6843, 'rate': 0.005, 'reps': 200, 'B': 399, 'recovered': np.float64(1.0), 'pooled_eq_real': 0.0, 'pooled_pw_real': 0.61, 'per_family_a05': 0.865, 'per_family_a0125': 0.83, 'pooled_eq_gen': 0.18, 'pooled_pw_gen': 0.57, 'holm4_clock': np.float64(0.83), 'holm4_any_star_FWER': np.float64(0.025), 'sec_per_rep': 2.93}
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+{'family': 6843, 'rate': 0.01, 'reps': 200, 'B': 399, 'recovered': np.float64(0.985), 'pooled_eq_real': 0.0, 'pooled_pw_real': 0.845, 'per_family_a05': 0.945, 'per_family_a0125': 0.935, 'pooled_eq_gen': 0.21, 'pooled_pw_gen': 0.77, 'holm4_clock': np.float64(0.935), 'holm4_any_star_FWER': np.float64(0.035), 'sec_per_rep': 2.89}
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+{'family': 6843, 'rate': 0.02, 'reps': 200, 'B': 399, 'recovered': np.float64(0.96), 'pooled_eq_real': 0.0, 'pooled_pw_real': 0.83, 'per_family_a05': 0.95, 'per_family_a0125': 0.94, 'pooled_eq_gen': 0.24, 'pooled_pw_gen': 0.865, 'holm4_clock': np.float64(0.945), 'holm4_any_star_FWER': np.float64(0.03), 'sec_per_rep': 2.45}
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/.venv/lib/python3.14/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,

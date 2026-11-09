@@ -1,0 +1,86 @@
+line,split,subset,score,acc,ci_lo,ci_hi,pairs,components
+"D (main, r2)",0,all_pairs,S0_length,0.551,0.451,0.649,283,69
+"D (main, r2)",0,all_pairs,S1_polarity,0.483,0.385,0.581,283,69
+"D (main, r2)",0,all_pairs,S2_novelty,0.482,0.39,0.577,283,69
+"D (main, r2)",0,all_pairs,S3_centrality,0.515,0.497,0.538,283,69
+"D (main, r2)",0,length_balanced,S0_length,0.442,0.307,0.583,137,33
+"D (main, r2)",0,length_balanced,S1_polarity,0.43,0.302,0.555,137,33
+"D (main, r2)",0,length_balanced,S2_novelty,0.434,0.311,0.555,137,33
+"D (main, r2)",0,length_balanced,S3_centrality,0.516,0.465,0.567,137,33
+"D (main, r2)",0,lag<1h,S0_length,0.572,0.461,0.678,204,62
+"D (main, r2)",0,lag<1h,S1_polarity,0.464,0.367,0.561,204,62
+"D (main, r2)",0,lag<1h,S2_novelty,0.478,0.374,0.574,204,62
+"D (main, r2)",0,lag<1h,S3_centrality,0.529,0.502,0.561,204,62
+"D (main, r2)",0,lag>=1h,S0_length,0.549,0.333,0.757,79,15
+"D (main, r2)",0,lag>=1h,S1_polarity,0.644,0.425,0.867,79,15
+"D (main, r2)",0,lag>=1h,S2_novelty,0.625,0.4,0.828,79,15
+"D (main, r2)",0,lag>=1h,S3_centrality,0.468,0.342,0.61,79,15
+"D (main, r2)",1,all_pairs,S0_length,0.613,0.505,0.721,280,62
+"D (main, r2)",1,all_pairs,S1_polarity,0.481,0.385,0.582,280,62
+"D (main, r2)",1,all_pairs,S2_novelty,0.531,0.432,0.623,280,62
+"D (main, r2)",1,all_pairs,S3_centrality,0.503,0.478,0.527,280,62
+"D (main, r2)",1,length_balanced,S0_length,0.515,0.368,0.66,116,32
+"D (main, r2)",1,length_balanced,S1_polarity,0.487,0.352,0.626,116,32
+"D (main, r2)",1,length_balanced,S2_novelty,0.45,0.333,0.569,116,32
+"D (main, r2)",1,length_balanced,S3_centrality,0.469,0.403,0.524,116,32
+"D (main, r2)",1,lag<1h,S0_length,0.58,0.455,0.692,151,51
+"D (main, r2)",1,lag<1h,S1_polarity,0.491,0.383,0.601,151,51
+"D (main, r2)",1,lag<1h,S2_novelty,0.581,0.478,0.684,151,51
+"D (main, r2)",1,lag<1h,S3_centrality,0.524,0.499,0.557,151,51
+"D (main, r2)",1,lag>=1h,S0_length,0.634,0.423,0.837,129,19
+"D (main, r2)",1,lag>=1h,S1_polarity,0.493,0.294,0.696,129,19
+"D (main, r2)",1,lag>=1h,S2_novelty,0.395,0.211,0.583,129,19
+"D (main, r2)",1,lag>=1h,S3_centrality,0.477,0.349,0.603,129,19
+"H (hubs, held out)",-,all,S0_length,0.666,0.557,0.766,7756,52
+"H (hubs, held out)",-,all,S1_polarity,0.505,0.403,0.613,7756,52
+"H (hubs, held out)",-,all,S2_novelty,0.588,0.498,0.679,7756,52
+"H (hubs, held out)",-,lag<10min,S0_length,0.628,0.508,0.746,2961,45
+"H (hubs, held out)",-,lag<10min,S1_polarity,0.462,0.335,0.59,2961,45
+"H (hubs, held out)",-,lag<10min,S2_novelty,0.526,0.416,0.637,2961,45
+"H (hubs, held out)",-,lag>=10min,S0_length,0.685,0.549,0.815,4795,29
+"H (hubs, held out)",-,lag>=10min,S1_polarity,0.592,0.459,0.723,4795,29
+"H (hubs, held out)",-,lag>=10min,S2_novelty,0.602,0.473,0.73,4795,29
+SIM peer (token),p=0.02,all,S0_length,0.512,,,2672,130
+SIM peer (token),p=0.02,all,S1_polarity,0.785,,,2672,130
+SIM peer (token),p=0.02,all,S2_novelty,0.719,,,2672,130
+SIM peer (token),p=0.02,all,S3_centrality,0.505,,,2672,130
+SIM peer (token),p=0.05,all,S0_length,0.457,,,780,144
+SIM peer (token),p=0.05,all,S1_polarity,0.788,,,780,144
+SIM peer (token),p=0.05,all,S2_novelty,0.736,,,780,144
+SIM peer (token),p=0.05,all,S3_centrality,0.527,,,780,144
+SIM peer (token),p=0.1,all,S0_length,0.445,,,590,148
+SIM peer (token),p=0.1,all,S1_polarity,0.815,,,590,148
+SIM peer (token),p=0.1,all,S2_novelty,0.754,,,590,148
+SIM peer (token),p=0.1,all,S3_centrality,0.61,,,590,148
+SIM star (token),p=0.02,all,S0_length,0.501,,,3587,148
+SIM star (token),p=0.02,all,S1_polarity,0.511,,,3587,148
+SIM star (token),p=0.02,all,S2_novelty,0.508,,,3587,148
+SIM star (token),p=0.02,all,S3_centrality,0.499,,,3587,148
+SIM star (token),p=0.05,all,S0_length,0.419,,,70,32
+SIM star (token),p=0.05,all,S1_polarity,0.324,,,70,32
+SIM star (token),p=0.05,all,S2_novelty,0.422,,,70,32
+SIM star (token),p=0.05,all,S3_centrality,0.515,,,70,32
+SIM peer (donor_block),p=0.05,all,S0_length,0.509,,,1243,112
+SIM peer (donor_block),p=0.05,all,S1_polarity,0.662,,,1243,112
+SIM peer (donor_block),p=0.05,all,S2_novelty,0.637,,,1243,112
+SIM peer (donor_block),p=0.05,all,S3_centrality,0.521,,,1243,112
+SIM peer (donor_block),p=0.1,all,S0_length,0.57,,,1057,136
+SIM peer (donor_block),p=0.1,all,S1_polarity,0.731,,,1057,136
+SIM peer (donor_block),p=0.1,all,S2_novelty,0.718,,,1057,136
+SIM peer (donor_block),p=0.1,all,S3_centrality,0.528,,,1057,136
+SIM peer (donor_block),p=0.2,all,S0_length,0.589,,,497,138
+SIM peer (donor_block),p=0.2,all,S1_polarity,0.751,,,497,138
+SIM peer (donor_block),p=0.2,all,S2_novelty,0.751,,,497,138
+SIM peer (donor_block),p=0.2,all,S3_centrality,0.603,,,497,138
+SIM star (donor_block),p=0.05,all,S0_length,0.481,,,3388,143
+SIM star (donor_block),p=0.05,all,S1_polarity,0.501,,,3388,143
+SIM star (donor_block),p=0.05,all,S2_novelty,0.466,,,3388,143
+SIM star (donor_block),p=0.05,all,S3_centrality,0.474,,,3388,143
+SIM star (donor_block),p=0.1,all,S0_length,0.513,,,1121,81
+SIM star (donor_block),p=0.1,all,S1_polarity,0.456,,,1121,81
+SIM star (donor_block),p=0.1,all,S2_novelty,0.515,,,1121,81
+SIM star (donor_block),p=0.1,all,S3_centrality,0.526,,,1121,81
+SIM star (donor_block),p=0.2,all,S0_length,0.428,,,46,12
+SIM star (donor_block),p=0.2,all,S1_polarity,0.266,,,46,12
+SIM star (donor_block),p=0.2,all,S2_novelty,0.36,,,46,12
+SIM star (donor_block),p=0.2,all,S3_centrality,0.449,,,46,12
