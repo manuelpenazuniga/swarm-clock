@@ -603,7 +603,7 @@ def ext_a_exposure():
     for run, Ur in U.groupby("run"):
         Fr = first[first.run == run]
         srcS, srcW, srcT, srcH = list(Fr.S), Fr.w.values, Fr.t_auth.values, Fr.sha256.values
-        for x_S, r, tx in zip(Ur.S, Ur.label, Ur.ts_ns):
+        for x_id, x_S, r, tx in zip(Ur.rev_id, Ur.S, Ur.label, Ur.ts_ns):
             nx = len(x_S)
             for S, w, ta, h in zip(srcS, srcW, srcT, srcH):
                 if w == r or ta >= tx:
@@ -611,8 +611,8 @@ def ext_a_exposure():
                 te = expo.get((run, r, h))
                 exposed = te is not None and te < tx
                 c = len(x_S & S) / nx
-                rows.append((run, r, exposed, c, (tx - te) / (dur[run] * 1e9) if exposed else np.nan))
-    P = pd.DataFrame(rows, columns=["run", "reader", "exposed", "c", "lag_frac"])
+                rows.append((run, x_id, r, exposed, c, (tx - te) / (dur[run] * 1e9) if exposed else np.nan))
+    P = pd.DataFrame(rows, columns=["run", "target", "reader", "exposed", "c", "lag_frac"])
     print("pairs:", len(P), "| exposed:", int(P.exposed.sum()), "| targets runs:", P.run.nunique())
     def auc(df):
         r_ = rankdata(df.c.values); n1 = int(df.exposed.sum()); n0 = len(df) - n1
@@ -629,6 +629,16 @@ def ext_a_exposure():
             "mean_c_exposed": float(P.c[P.exposed].mean()), "mean_c_unexposed": float(P.c[~P.exposed].mean()),
             "share_c_ge_0.5_exposed": float((P.c[P.exposed] >= .5).mean()), "share_c_ge_0.5_unexposed": float((P.c[~P.exposed] >= .5).mean()),
             "share_c_eq_1_exposed": float((P.c[P.exposed] == 1).mean()), "share_c_eq_1_unexposed": float((P.c[~P.exposed] == 1).mean())}
+    # pre-registered target-level comparison: max containment over exposed vs over unexposed sources
+    mx = P.groupby(["run", "target", "exposed"]).c.max().unstack()
+    both = mx.dropna()
+    summ["targets_with_both_source_types"] = int(len(both))
+    summ["share_targets_max_c_ge_0.5_exposed"] = float((both[True] >= .5).mean())
+    summ["share_targets_max_c_ge_0.5_unexposed"] = float((both[False] >= .5).mean())
+    summ["share_targets_max_exposed_gt_max_unexposed"] = float((both[True] > both[False]).mean())
+    summ["share_targets_max_exposed_lt_max_unexposed"] = float((both[True] < both[False]).mean())
+    pr = P.groupby(["run", "exposed"]).c.mean().unstack()
+    summ["runs_unexposed_mean_c_gt_exposed"] = int((pr[False] > pr[True]).sum()); summ["runs"] = int(len(pr))
     # A2: exposed pairs, windows by fraction of run
     E = P[P.exposed].copy(); E["d"] = 1 - E.c
     WT = []
@@ -657,6 +667,58 @@ def ext_a_exposure():
     (sio.TABLES / "ext_a_exposure.json").write_text(json.dumps(summ, indent=1, default=float))
     save(curve, "ext_a_exposure_lag_curve"); save(pd.DataFrame(WT), "ext_a_exposure_windows")
     P.to_parquet(INTERIM / "ext_a_pairs.parquet")
+
+
+@stage
+def power_end_to_end():
+    """POST HOC (DECISIONS D13): end-to-end power. Plant a lineage with each multi-day family's real times, labels and size
+    (root = its earliest introduction) as NEW rows in the real log, rebuild families with LSH on the whole corpus, require
+    recovery (>= 80% of planted members in one family with >= 15 blocks), recompute length strata on planted members only,
+    and run the pooled long-window test on the recovered planted lineages. A replicate counts as detected only if p < 0.05.
+    `star` (independent edits of the root, same sampling) gives the false-positive rate."""
+    import os
+    kinds = os.environ.get("SWC_E2E_KINDS", "clock,star").split(",")
+    rates = [float(x) for x in os.environ.get("SWC_E2E_RATES", "0.005,0.01,0.02,0.05,0.1,0.2").split(",")]
+    REPS = int(os.environ.get("SWC_E2E_REPS", 40)); tag = os.environ.get("SWC_E2E_TAG", "")
+    import zlib; rng = np.random.default_rng(sio.SEED + zlib.crc32(tag.encode()) % 1000); R = load_R(); S = Synth(R, rng)
+    mh_real = fm.minhashes(R.m, 3)
+    RF = list(_real_fams_multiday().values())
+    rows = []
+    for kind in kinds:
+        for p in rates:
+            det, rec, nrec = [], [], []
+            t0 = time.time()
+            for rep in range(REPS):
+                parts = []
+                for li, sub in enumerate(RF):
+                    syn = S.synth_like(sub, p) if kind == "clock" else S.star_like(sub, p)
+                    parts.append(pd.DataFrame({"rev_id": [f"E2E{li}_{i}" for i in range(len(syn))],
+                                               "page_id": [f"E2E/{li}_{i}" for i in range(len(syn))],
+                                               "label": syn.label.values, "t": syn.t.values, "m": syn.m.values, "lin": li}))
+                Pl = pd.concat(parts, ignore_index=True)
+                A = pd.concat([R.assign(lin=-1), Pl], ignore_index=True)
+                fam = fm.assign_families(mh_real + fm.minhashes(Pl.m, 3), 0.3)
+                D, g = fm.family_table(A[["rev_id", "page_id", "label", "t", "m"]], fam)
+                D["lin"] = A.lin.values
+                Ps = []
+                for li in range(len(RF)):
+                    mem = D[D.lin == li]; f = mem.family.mode().iloc[0]
+                    ok = (mem.family == f).mean() >= .8 and g.loc[f, "blocks"] >= 15
+                    rec.append(ok)
+                    if ok:
+                        only = D[(D.lin == li) & (D.family == f)]
+                        X = fm.reps_with_strata(only, [f], "length")
+                        Ps.append(fm.fam_pairs(X))
+                nrec.append(len(Ps))
+                if Ps:
+                    pval = stt.window_test(Ps, 6, 1e9, rng, B=99)[1]
+                    det.append(bool(pval < .05) if pval == pval else False)
+                else:
+                    det.append(False)
+            rows.append({"kind": kind, "edit_rate_per_copy": p, "reps": REPS, "lineage_recovery": float(np.mean(rec)),
+                         "mean_lineages_recovered": float(np.mean(nrec)), "end_to_end_reject": float(np.mean(det))})
+            print(rows[-1], f"{time.time()-t0:.0f}s", flush=True)
+    save(pd.DataFrame(rows), "power_end_to_end" + (f"_{tag}" if tag else ""))
 
 
 # ---------------------------------------------------------------- Mantiq (PREREG_MANTIQ.md)

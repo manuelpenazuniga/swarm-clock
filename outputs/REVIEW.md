@@ -45,3 +45,15 @@ Run with all material inline (paper, DECISIONS, PREREG, REVIEW, CONTEXT sections
 - Presentation: new per-family table (Table 2) replaces inline numbers; schematic figure moved out of the main text to save space.
 - Related work: MemeTracker (Leskovec, Backstrom and Kleinberg, 2009) and BitShred (Jang, Brumley and Venkataraman, 2011) added after verifying both.
 Not adopted: re-running sampling-matched power through LSH (replaced by the end-to-end bound from the existing calibration); a full-file U-F sensitivity (whole-file accumulation is the within-document clock the design excludes by construction, pitfall 2).
+
+## Fourth pass: GPT-6 Astra High (via `codex exec`, sandbox read-only, launched 22:38 as requested)
+Audited the version after the Argon fixes and extensions. Scores: impact 3, execution 3, presentation 3 (harsher than Argon). Accepted:
+- "End-to-end" power bound was not measured (fixed-family power combined with a calibration of a different design). Response: new end-to-end simulation (DECISIONS D13); all end-to-end wording now comes from it.
+- Overclaims replaced: section headings (5.1 "fails the anchor-feasibility gate", 5.3 "no detected association beyond 6 hours"); day-strata validity requires exchangeability; Finding D described as misattribution, and real-data p-values not validated in the far tail; same-label result stated as correlation, not ordering; exposure result stated observationally (one possible explanation, untested); A2 p-values labeled descriptive (pair dependence).
+- Table 2 labels now counted on representatives (11, 4, 26, 58, 109, 112).
+- LSH linkage described as estimated similarity, not verified Jaccard.
+- New limitation: absolute-lag correlation does not test direction or dating accuracy.
+- Related work: Mantel test (window statistic is a Mantel-type association) and code clone genealogies (Kim et al., 2005), both verified.
+- Figure 1 now rendered at full width; provenance of Section 5.6 demo stated.
+- Pre-registered target-level comparison for the exposure analysis added (D14).
+Not adopted: replacing the take-away with a purely negative sentence (kept a scoped, measured statement); moving Limitations to an appendix (Section 7 plus Appendix A satisfy "Limitations and Dual-Use" as we read the requirement; to recheck against the official template).

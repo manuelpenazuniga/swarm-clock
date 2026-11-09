@@ -13,6 +13,13 @@
  "share_c_ge_0.5_unexposed": 0.012366944467365294,
  "share_c_eq_1_exposed": 0.002566987833180955,
  "share_c_eq_1_unexposed": 0.0026095387408201997,
+ "targets_with_both_source_types": 1700,
+ "share_targets_max_c_ge_0.5_exposed": 0.05,
+ "share_targets_max_c_ge_0.5_unexposed": 0.21941176470588236,
+ "share_targets_max_exposed_gt_max_unexposed": 0.05411764705882353,
+ "share_targets_max_exposed_lt_max_unexposed": 0.48058823529411765,
+ "runs_unexposed_mean_c_gt_exposed": 18,
+ "runs": 19,
  "windows": [
   {
    "window": "short (<D/3)",
