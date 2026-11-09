@@ -15,7 +15,7 @@ p { margin: 3pt 0 4pt; text-align: justify; } li { margin: 1pt 0; text-align: ju
 table { border-collapse: collapse; font-size: 8.4pt; margin: 4pt auto 6pt; } th, td { border-top: 0.5pt solid #888; border-bottom: 0.5pt solid #888; padding: 1.5pt 4pt; }
 th { background: #f0f0f0; } img { display: block; margin: 4pt auto 0; max-width: 100%; } em { font-size: 9pt; }
 hr { border: 0; border-top: 0.5pt solid #aaa; margin: 6pt 0; } code { font-size: 8.5pt; }
-img[alt="Figure 1"] { max-width: 100%; } img[alt="Figure 2"], img[alt="Figure 4"] { max-width: 92%; }
+img[alt="Figure 1"] { max-width: 100%; } img[alt="Figure 2"], img[alt="Figure C1"] { max-width: 85%; }
 img[alt="Figure 3"] { max-width: 85%; }
 """
 html = f"<!doctype html><html><head><meta charset='utf-8'><style>{css}</style></head><body>{body}</body></html>"
