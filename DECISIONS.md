@@ -58,3 +58,6 @@ An independent analysis agent wrote PREREG_FRONTIER.md, PREREG_FRONTIER_H.md and
 
 ## D19. Reproduction of the TPQ confirmation (main author, 2026-11-09 ~00:35)
 From the committed scripts (scripts/frontier/t_tpq.py), the pilot selection (q90, m = 2) and the confirmation result reproduce exactly: covered 71.1% of 1,918 targets; success 0.678 vs null mean 0.228 (97.5th percentile 0.253; p = 0.005, B = 200); day-scale successes 0.400 vs 0.180; T1 true. Outputs in scripts/frontier/out_repro/.
+
+## D20. Integration of calendar (T), direction (D/H) and uncertainty (F1-F3) results; retitle (2026-11-09 ~01:30)
+Title changed to "Can a Swarm's Text Tell Time? Co-Time and a Calendar, but No Clock". Section 5.2 now reports F1 (one-family clocks: pooled test blind; Holm excludes only a default-page clock), F2 (phrase-block edits: lower detection at slow rates, less fragmentation) and F3 (one of five informative definitions shows long-lag association, in the data-link lists). New Section 5.4 reports the calendar (Table 5). Direction is reported as a pre-registered negative. Numbers taken from outputs/tables/uncertainty_f*.csv and outputs/tables/frontier/.

@@ -1,0 +1,11 @@
+model,rate,reps,mean_parent_child_dist,lineage_recovery,end_to_end_reject
+block_corpus,0.01,200,0.027,0.941,0.44
+block_corpus,0.02,200,0.054,0.851,0.555
+block_corpus,0.05,200,0.126,0.726,0.63
+block_corpus,0.1,200,0.226,0.498,0.68
+block_corpus,0.2,200,0.395,0.265,0.45
+block_family,0.01,200,0.024,0.964,0.44
+block_family,0.02,200,0.047,0.952,0.52
+block_family,0.05,200,0.112,0.906,0.675
+block_family,0.1,200,0.208,0.871,0.635
+block_family,0.2,200,0.36,0.748,0.64
