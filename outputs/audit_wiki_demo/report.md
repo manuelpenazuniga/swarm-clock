@@ -2,7 +2,7 @@
 
 Input: `data/interim/wiki_audit_input.jsonl` (actor=`label`, time=`t`, text=`m`, doc=`page_id`)
 
-**Verdict:** no cross-actor long-lag signal (T=-0.174, p=0.987); accumulating clocks with per-copy edit rates in [0.01, 0.1] would be detected with >= 80% power
+**Verdict:** no cross-actor long-lag signal (T=-0.174, p=0.987); planted clocks at per-copy edit rates 0.05 to 0.1 are detected with a 95% lower bound >= 80% (fixed families; family recovery not simulated)
 
 ## Corpus
 
@@ -23,23 +23,24 @@ Input: `data/interim/wiki_audit_input.jsonl` (actor=`label`, time=`t`, text=`m`,
 
 ## Sampling-matched calibration (long window; planted lineages reuse each family's times, actors, size)
 
-| planted   |   edit_rate |   reject_long_all |   reject_long_cross_actor |   reps |
-|:----------|------------:|------------------:|--------------------------:|-------:|
-| clock     |       0.005 |             0.600 |                     0.667 |     30 |
-| clock     |       0.010 |             0.700 |                     0.800 |     30 |
-| clock     |       0.020 |             0.900 |                     0.900 |     30 |
-| clock     |       0.050 |             0.867 |                     0.900 |     30 |
-| clock     |       0.100 |             0.967 |                     0.967 |     30 |
-| star      |       0.005 |             0.000 |                     0.000 |     30 |
-| star      |       0.010 |             0.067 |                     0.067 |     30 |
-| star      |       0.020 |             0.000 |                     0.033 |     30 |
-| star      |       0.050 |             0.033 |                     0.100 |     30 |
-| star      |       0.100 |             0.000 |                     0.000 |     30 |
+| planted   |   edit_rate |   reject_long_all |   reject_long_cross_actor |   reps |   ci_lo_cross_actor |
+|:----------|------------:|------------------:|--------------------------:|-------:|--------------------:|
+| clock     |       0.005 |             0.740 |                     0.750 |    100 |               0.657 |
+| clock     |       0.010 |             0.720 |                     0.770 |    100 |               0.678 |
+| clock     |       0.020 |             0.810 |                     0.860 |    100 |               0.779 |
+| clock     |       0.050 |             0.900 |                     0.920 |    100 |               0.850 |
+| clock     |       0.100 |             0.930 |                     0.940 |    100 |               0.875 |
+| star      |       0.005 |             0.020 |                     0.060 |    100 |               0.028 |
+| star      |       0.010 |             0.060 |                     0.090 |    100 |               0.048 |
+| star      |       0.020 |             0.040 |                     0.060 |    100 |               0.028 |
+| star      |       0.050 |             0.020 |                     0.040 |    100 |               0.016 |
+| star      |       0.100 |             0.030 |                     0.060 |    100 |               0.028 |
 
-Max false-positive rate of planted no-clock stars (cross-actor): 0.10 (nominal 0.05).
+Max false-positive rate of planted no-clock stars (cross-actor): 0.09 (nominal 0.05).
 
 ## How to read this
 
 - A positive short-lag statistic that vanishes for cross-actor pairs means similarity comes from actors revising their own text.
 - A clock requires a positive long-lag cross-actor statistic AND adequate calibrated power; a null without power is inconclusive.
 - Similarity is not transmission: families are candidate reuse, not proof of copying. Actor labels may not be identities.
+- Calibration holds family membership fixed: planted lineages are not re-clustered, so fast clocks that would fragment families are counted as detectable. Treat high edit rates with caution.

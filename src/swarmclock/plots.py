@@ -184,7 +184,7 @@ def fig_summary():
     Sy = pd.read_csv(TABLES / "lag_curves_synth.csv")
     P = pd.read_csv(TABLES / "power_sampling_matched_reps200.csv")
     labs = ["<10m", "10-30m", "30m-1h", "1-3h", "3-6h", "6-12h", "12-24h", "1-3d", ">3d"]
-    fig, axs = plt.subplots(1, 3, figsize=(7.0, 2.25))
+    fig, axs = plt.subplots(1, 3, figsize=(7.0, 2.6))
     ax = axs[0]
     x = np.sort(np.clip(S[S.config.str.contains("primary")].span_h.values, 1 / 60, None))
     ax.step(x, np.arange(1, len(x) + 1) / len(x), where="post", color=C[0])
@@ -193,16 +193,19 @@ def fig_summary():
     ax.set_title("(a) Most lexical families are short-lived", fontsize=8, loc="left")
     ax = axs[1]
     xi = np.arange(len(labs))
-    ax.axvspan(4.5, len(labs) - 0.5, color="#f0efec", zorder=0); ax.text(4.65, 0.70, "lag >= 6 h", fontsize=6.5, color=INK2)
+    ax.axvspan(4.5, len(labs) - 0.5, color="#f0efec", zorder=0); ax.text(4.65, 0.03, "lag >= 6 h", fontsize=6.5, color=INK2)
     for k, fam in enumerate([5455, 6843]):
         r = R[R.family == fam].iloc[0]
         ax.plot(xi, r[labs].astype(float).values, color=INK2, marker=MK[k], ms=3.5, mfc="white", lw=1.2,
-                label=FAM_NAMES[fam].split(" (")[0] + " (real)")
+                label=FAM_NAMES[fam].split(" (")[0] + " (real intros)")
+    PC = pd.read_csv(TABLES / "positive_control_bodies_lag_curve.csv")
+    ax.plot(xi, PC.mean_distance.values, color=C[2], lw=2, marker="^", ms=3.5, label="whole page bodies (real)")
     r = Sy[Sy.set == "clock p=0.02"].iloc[0]
     ax.plot(xi, r[labs].astype(float).values, color=C[0], lw=2, ls="--", label="planted clock (synthetic)")
-    ax.set_xticks(xi[::2]); ax.set_xticklabels(labs[::2], fontsize=6.5); ax.set_ylim(0, 1.02)
+    ax.set_xticks(xi[::2]); ax.set_xticklabels(labs[::2], fontsize=6.2, rotation=25); ax.set_ylim(0, 1.02)
     ax.set_ylabel("mean distance"); ax.set_xlabel("time lag")
-    ax.set_title("(b) Real text does not drift", fontsize=8, loc="left"); ax.legend(fontsize=5.8, loc="lower left")
+    ax.set_title("(b) Introductions flat; documents drift", fontsize=8, loc="left")
+    ax.legend(fontsize=5.6, loc="upper center", bbox_to_anchor=(0.5, -0.24), ncol=2, columnspacing=0.8, handlelength=1.6)
     ax = axs[2]
     E = pd.read_csv(TABLES / "power_end_to_end.csv"); E = E[E.kind == "clock"]
     ax.axvspan(0.005, 0.05, color="#ecebe6", zorder=0)

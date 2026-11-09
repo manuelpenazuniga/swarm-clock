@@ -850,6 +850,45 @@ def ext_a_prime():
     P.to_parquet(INTERIM / "ext_a_prime_pairs.parquet")
 
 
+@stage
+def positive_control_bodies_curve():
+    """Lag curve only (no permutations) for the positive control; same unit as positive_control_bodies."""
+    import os; os.environ["SWC_PC_CURVE_ONLY"] = "1"; positive_control_bodies()
+
+
+@stage
+def positive_control_bodies():
+    """PREREG_EXTENSIONS2 P: window tests on full page bodies of pages with >= 15 revisions (accumulation by construction)."""
+    rng = new_rng()
+    cw = list(sio.read_jsonl_gz(RAW / "cw_revisions.jsonl.gz"))
+    I = wiki.intro_frame(cw); F = wiki.window_filter(I)
+    msk = wiki.Masker(F.label)
+    body = {r["rev_id"]: wiki.get_body(r) for r in cw}
+    F = F.assign(m=[msk(body[r]) for r in F.rev_id])
+    F = F[F.m.str.split().str.len() >= 8]
+    cnt = F.page_id.value_counts(); pages = cnt[cnt >= 15].index
+    X = F[F.page_id.isin(pages)].copy()
+    X["family"] = X.page_id; X["page_id"] = X.rev_id     # each revision is its own block
+    X["len"] = X.m.str.len()
+    X["stratum"] = X.groupby("family")["len"].transform(lambda s: pd.qcut(s.rank(method="first"), 3, labels=False)).astype(int)
+    Ps = [fm.fam_pairs(X[X.family == f].reset_index(drop=True)) for f in pages]
+    import os
+    rows = []
+    if os.environ.get("SWC_PC_CURVE_ONLY") != "1":
+        for cross in (False, True):
+            rows += _window_rows(Ps, rng, cross, {"unit": f"full page bodies ({len(pages)} pages with >= 15 revisions)"})
+    if not rows:
+        curves = np.array([stt.lag_curve(P) for P in Ps])
+        C = pd.DataFrame({"bin": stt.BIN_LABELS, "mean_distance": np.nanmean(curves, axis=0), "pages_with_bin": (~np.isnan(curves)).sum(axis=0)})
+        print(C.to_string(index=False)); save(C, "positive_control_bodies_lag_curve"); return
+    R = pd.DataFrame(rows); print(R.drop(columns=["per_family"]).to_string(index=False)); save(R, "positive_control_bodies")
+    curves = np.array([stt.lag_curve(P) for P in Ps])
+    C = pd.DataFrame({"bin": stt.BIN_LABELS, "mean_distance": np.nanmean(curves, axis=0),
+                      "pages_with_bin": (~np.isnan(curves)).sum(axis=0)})
+    save(C, "positive_control_bodies_lag_curve")
+    print("revisions:", len(X), "| pages:", len(pages))
+
+
 # ---------------------------------------------------------------- Mantiq (PREREG_MANTIQ.md)
 @stage
 def mantiq_build():

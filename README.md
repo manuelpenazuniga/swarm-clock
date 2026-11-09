@@ -1,6 +1,6 @@
 # swarmclock: does agent artifact content carry a clock?
 
-Code, pre-registration and results for **"Agent Swarms Leave No Clock: Artifact Lineages Are Exact-Copy Bursts and Self-Revision, Not Accumulating Lineages"** (Apart Research Swarm Alignment Hackathon, November 2026). Paper: `paper/report.md` (PDF in `paper/`).
+Code, pre-registrations and results for the paper on whether agent-swarm artifacts carry a content clock (Apart Research Swarm Alignment Hackathon, November 2026). Paper: `paper/report.md` (PDF in `paper/`).
 
 ## The audit tool
 
@@ -18,11 +18,11 @@ What it does (the paper's frozen pipeline, generalized):
 4. runs lag-window tests (Spearman of pairwise distance vs pairwise lag within families, stratified permutation null, B = 999) for all pairs and for cross-actor pairs;
 5. calibrates with each eligible family's real timestamps, actors and size: planted accumulating clocks (power) and planted no-clock stars (false-positive rate).
 
-Output: `report.md` with a one-line verdict, plus CSV tables. A verdict is one of: no eligible families; long-lag cross-actor test undefined; signal detected; no signal with the edit-rate range excluded at 80% power; no signal but inconclusive (power below 80%).
+Output: `report.md` with a one-line verdict, plus CSV tables. A verdict is one of: no eligible families; long-lag cross-actor test undefined; signal detected; no signal, with the edit rates whose detection rate has a 95% lower bound of at least 80%; or no signal with partial sensitivity (detection rates reported). Calibration holds family membership fixed (planted lineages are not re-clustered); the paper (Section 5.4) reports end-to-end detection rates, which are lower.
 
-Validation: run on the collusion.wiki introductions (`outputs/audit_wiki_demo/report.md`), the tool reproduces the paper (short-lag T = 0.321 vs 0.317 in the paper, cross-actor long-lag T = -0.174, p = 0.99; clocks with edit rates 0.01 to 0.10 excluded at 80% power); small differences come from masking already-masked text.
+Validation: run on the collusion.wiki introductions (`outputs/audit_wiki_demo/report.md`), the tool reproduces the paper's window statistics (short-lag T = 0.321 vs 0.317 in the paper; cross-actor long-lag T = -0.174, p = 0.99); small differences come from masking already-masked text.
 
-Runtime: about 2 minutes for 8,000 texts on a laptop CPU with `--reps 30`.
+Runtime: a few minutes for 8,000 texts on a laptop CPU with the default `--reps 100`.
 
 ## Reproducing the paper
 

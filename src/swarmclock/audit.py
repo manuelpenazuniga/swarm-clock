@@ -99,17 +99,23 @@ def run_audit(X, k=3, thr=0.3, min_blocks=15, windows_h=(6, 24), B=999, reps=50,
     tables["calibration"] = pd.DataFrame(CAL)
     long_x = tables["window_tests"].query("pairs == 'cross-actor'").iloc[1]
     pw = tables["calibration"].query("planted == 'clock'")
-    excl = pw[pw.reject_long_cross_actor >= .8].edit_rate.tolist()
+    from .plots import wilson
+    pw = pw.assign(ci_lo=[wilson(round(v * n), n)[0] for v, n in zip(pw.reject_long_cross_actor, pw.reps)])
+    tables["calibration"]["ci_lo_cross_actor"] = [wilson(round(v * n), n)[0] for v, n in
+                                                  zip(tables["calibration"].reject_long_cross_actor, tables["calibration"].reps)]
+    excl = pw[pw.ci_lo >= .8].edit_rate.tolist()
+    rng_txt = f"{pw.reject_long_cross_actor.min():.0%} to {pw.reject_long_cross_actor.max():.0%}"
     size = tables["calibration"].query("planted == 'star'").reject_long_cross_actor.max()
     if np.isnan(long_x["T"]):
         out["verdict"] = "long-lag cross-actor test undefined (no eligible family has long-lag cross-actor pairs with varying distance)"
     elif long_x["p"] < .05:
         out["verdict"] = f"cross-actor long-lag temporal signal detected (T={long_x['T']:.3f}, p={long_x['p']:.3f}); check calibration size before interpreting"
     elif excl:
-        out["verdict"] = (f"no cross-actor long-lag signal (T={long_x['T']:.3f}, p={long_x['p']:.3f}); accumulating clocks with per-copy edit "
-                          f"rates in [{min(excl)}, {max(excl)}] would be detected with >= 80% power, conditional on the lineage still forming one family")
+        out["verdict"] = (f"no cross-actor long-lag signal (T={long_x['T']:.3f}, p={long_x['p']:.3f}); planted clocks at per-copy edit rates "
+                          f"{min(excl)} to {max(excl)} are detected with a 95% lower bound >= 80% (fixed families; family recovery not simulated)")
     else:
-        out["verdict"] = f"no cross-actor long-lag signal (T={long_x['T']:.3f}, p={long_x['p']:.3f}) but power < 80% at every tested edit rate: inconclusive"
+        out["verdict"] = (f"no cross-actor long-lag signal (T={long_x['T']:.3f}, p={long_x['p']:.3f}); planted clocks detected in {rng_txt} of replicates "
+                          f"across edit rates (fixed families; no rate reaches a 95% lower bound of 80%): sensitivity is partial, read the calibration table")
     out["max_star_false_positive_rate"] = float(size)
     return out, tables
 
@@ -134,7 +140,8 @@ def write_report(out, tables, outdir, args):
     L += ["## How to read this", "",
           "- A positive short-lag statistic that vanishes for cross-actor pairs means similarity comes from actors revising their own text.",
           "- A clock requires a positive long-lag cross-actor statistic AND adequate calibrated power; a null without power is inconclusive.",
-          "- Similarity is not transmission: families are candidate reuse, not proof of copying. Actor labels may not be identities.", ""]
+          "- Similarity is not transmission: families are candidate reuse, not proof of copying. Actor labels may not be identities.",
+          "- Calibration holds family membership fixed: planted lineages are not re-clustered, so fast clocks that would fragment families are counted as detectable. Treat high edit rates with caution.", ""]
     (outdir / "report.md").write_text("\n".join(L))
     return outdir / "report.md"
 
@@ -150,7 +157,7 @@ def main(argv=None):
     a.add_argument("--k", type=int, default=3); a.add_argument("--threshold", type=float, default=0.3)
     a.add_argument("--min-blocks", type=int, default=15)
     a.add_argument("--short-window-h", type=float, default=6); a.add_argument("--very-long-window-h", type=float, default=24)
-    a.add_argument("--B", type=int, default=999); a.add_argument("--reps", type=int, default=50)
+    a.add_argument("--B", type=int, default=999); a.add_argument("--reps", type=int, default=100)
     a.add_argument("--seed", type=int, default=20261108); a.add_argument("--out", default="swarmclock_report")
     args = ap.parse_args(argv)
     t0 = time.time()

@@ -11,6 +11,6 @@
  "largest_family_share": 0.043,
  "chaining_warning": false,
  "eligible_families": 6,
- "verdict": "no cross-actor long-lag signal (T=-0.174, p=0.987); accumulating clocks with per-copy edit rates in [0.01, 0.1] would be detected with >= 80% power",
- "max_star_false_positive_rate": 0.1
+ "verdict": "no cross-actor long-lag signal (T=-0.174, p=0.987); planted clocks at per-copy edit rates 0.05 to 0.1 are detected with a 95% lower bound >= 80% (fixed families; family recovery not simulated)",
+ "max_star_false_positive_rate": 0.09
 }
