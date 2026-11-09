@@ -177,4 +177,41 @@ def fig_wiki_vs_mantiq():
     _save(fig, "fig6_wiki_vs_mantiq")
 
 
-ALL = [fig_lifespans, fig_lag_curves, fig_forest, fig_power, fig_schematic, fig_wiki_vs_mantiq]
+def fig_summary():
+    """Figure 0: the result at a glance (three panels)."""
+    S = pd.read_csv(TABLES / "lifespans_ge5_by_config.csv")
+    R = pd.read_csv(TABLES / "lag_curves_real.csv"); R = R[R.set == "primary"]
+    Sy = pd.read_csv(TABLES / "lag_curves_synth.csv")
+    P = pd.read_csv(TABLES / "power_sampling_matched_reps200.csv")
+    labs = ["<10m", "10-30m", "30m-1h", "1-3h", "3-6h", "6-12h", "12-24h", "1-3d", ">3d"]
+    fig, axs = plt.subplots(1, 3, figsize=(7.0, 2.25))
+    ax = axs[0]
+    x = np.sort(np.clip(S[S.config.str.contains("primary")].span_h.values, 1 / 60, None))
+    ax.step(x, np.arange(1, len(x) + 1) / len(x), where="post", color=C[0])
+    med = np.median(x); ax.axvline(med, ls=":", c=INK2, lw=1); ax.text(med * 1.15, 0.08, f"median\n{med*60:.0f} min", fontsize=6.5, color=INK2)
+    ax.set_xscale("log"); ax.set_xlabel("lineage lifespan (h, log)"); ax.set_ylabel("ECDF (60 families)")
+    ax.set_title("(a) Lineages die within hours", fontsize=8, loc="left")
+    ax = axs[1]
+    xi = np.arange(len(labs))
+    ax.axvspan(4.5, len(labs) - 0.5, color="#f0efec", zorder=0); ax.text(4.65, 0.70, "lag >= 6 h", fontsize=6.5, color=INK2)
+    for k, fam in enumerate([5455, 6843]):
+        r = R[R.family == fam].iloc[0]
+        ax.plot(xi, r[labs].astype(float).values, color=INK2, marker=MK[k], ms=3.5, mfc="white", lw=1.2,
+                label=FAM_NAMES[fam].split(" (")[0] + " (real)")
+    r = Sy[Sy.set == "clock p=0.02"].iloc[0]
+    ax.plot(xi, r[labs].astype(float).values, color=C[0], lw=2, ls="--", label="planted clock (synthetic)")
+    ax.set_xticks(xi[::2]); ax.set_xticklabels(labs[::2], fontsize=6.5); ax.set_ylim(0, 1.02)
+    ax.set_ylabel("mean distance"); ax.set_xlabel("time lag")
+    ax.set_title("(b) Real text does not drift", fontsize=8, loc="left"); ax.legend(fontsize=5.8, loc="lower left")
+    ax = axs[2]
+    ax.axvspan(0.01, 0.2, color="#f0efec", zorder=0); ax.text(0.0105, 0.42, "excluded\n(power >= 80%)", fontsize=6.3, color=INK2)
+    ax.plot(P.edit_rate_per_copy, P.power_long_lag_cross_label, color=C[1], marker="s", ms=3.5, label="cross-label")
+    ax.plot(P.edit_rate_per_copy, P.power_long_lag_all_pairs, color=C[0], marker="o", ms=3.5, ls="--", label="all pairs")
+    ax.axhline(.8, ls=":", c=INK2, lw=1); ax.set_xscale("log"); ax.set_ylim(0, 1.02)
+    ax.set_xlabel("clock edit rate per copy (log)"); ax.set_ylabel("power, lag >= 6 h")
+    ax.set_title("(c) ...although a clock would show", fontsize=8, loc="left"); ax.legend(fontsize=5.8, loc="lower right")
+    fig.tight_layout()
+    _save(fig, "fig0_summary")
+
+
+ALL = [fig_summary, fig_lifespans, fig_lag_curves, fig_forest, fig_power, fig_schematic, fig_wiki_vs_mantiq]
