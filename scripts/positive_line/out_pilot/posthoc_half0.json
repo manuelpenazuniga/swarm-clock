@@ -1,0 +1,21 @@
+{
+ "L1_components": {
+  "components": 74,
+  "items_in_components": 193,
+  "share_components_span_lt_1h": 0.8783783783783784,
+  "share_components_span_lt_10min": 0.581081081081081,
+  "median_component_span_min": 6.058333333348855,
+  "largest_component_size": 11,
+  "share_items_in_largest": 0.05699481865284974,
+  "components_span_gt_24h": 0
+ },
+ "L2_low_cv": {
+  "pages_low_cv_tercile": 22,
+  "cv_cut": 0.5261793541980195,
+  "median_abs_ser": 0.9999797419119498,
+  "median_abs_len": 0.9999145226081453,
+  "median_diff": 0.0,
+  "share_ser_gt_len": 0.3181818181818182,
+  "wilcoxon_greater_p": 0.3474433011862367
+ }
+}

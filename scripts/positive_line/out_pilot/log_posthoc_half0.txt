@@ -1,0 +1,35 @@
+{
+ "components": 74,
+ "items_in_components": 193,
+ "share_components_span_lt_1h": 0.8783783783783784,
+ "share_components_span_lt_10min": 0.581081081081081,
+ "median_component_span_min": 6.058333333348855,
+ "largest_component_size": 11,
+ "share_items_in_largest": 0.05699481865284974,
+ "components_span_gt_24h": 0
+}
+    size  pages  labels    span_h  family
+17    11     11       8  0.360833    5455
+23     5      5       4  0.103889    7068
+27     5      5       4  0.226667     907
+18     4      4       4  6.340000    5455
+1      4      3       4  0.065833    7640
+65     4      4       4  0.138889    5517
+26     4      4       4  0.071667     917
+60     4      4       4  0.005833    2517
+50     4      4       3  0.448889    1539
+49     4      3       4  2.022778    2169
+44     4      4       4  0.347222    1335
+29     3      3       2  2.546667    1950
+37     3      3       3  2.615000    5455
+42     3      3       3  0.098056    1496
+22     3      3       3  0.086389    1446
+{
+ "pages_low_cv_tercile": 22,
+ "cv_cut": 0.5261793541980195,
+ "median_abs_ser": 0.9999797419119498,
+ "median_abs_len": 0.9999145226081453,
+ "median_diff": 0.0,
+ "share_ser_gt_len": 0.3181818181818182,
+ "wilcoxon_greater_p": 0.3474433011862367
+}

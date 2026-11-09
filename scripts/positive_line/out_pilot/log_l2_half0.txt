@@ -1,0 +1,22 @@
+{
+ "half": 0,
+ "pages": 64,
+ "pages_valid": 64,
+ "median_abs_rho_ser": 0.9929507599593304,
+ "median_abs_rho_len": 0.9788349189133849,
+ "median_diff": 0.0,
+ "share_ser_gt_len": 0.359375,
+ "wilcoxon_greater_p": 0.19800394701438107,
+ "subset_abs_len_lt_0.5": {
+  "pages": 20,
+  "median_abs_rho_ser": 0.4155221992177389,
+  "median_abs_rho_len": 0.1887548169014569,
+  "median_diff": 0.2829011943162738,
+  "wilcoxon_greater_p": 0.007656097412109375
+ },
+ "root_to_tip": {
+  "median_r_time": 0.7629720135956382,
+  "median_r_index": 0.803093061250286,
+  "share_index_gt_time": 0.65625
+ }
+}
