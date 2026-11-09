@@ -1,0 +1,7 @@
+family,pages,labels,span_h,dates,rho_whole,rho_short_all,rho_short_cross,rho_long_all,long_pairs
+endpoint pages,20,12,3.1,1,0.244,0.244,-0.073,,0
+archival link lists,15,4,9.8,2,0.819,0.819,-0.473,-0.775,11
+round-status reports,28,31,88.4,3,0.415,0.342,0.353,0.307,180
+exact-copy burst,314,58,0.1,1,,,,,0
+data-link lists,154,117,721.4,7,0.063,0.058,0.054,-0.046,5260
+default-page text,121,119,499.8,9,-0.081,0.122,0.113,-0.182,5765

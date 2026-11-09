@@ -107,7 +107,7 @@ def run_audit(X, k=3, thr=0.3, min_blocks=15, windows_h=(6, 24), B=999, reps=50,
         out["verdict"] = f"cross-actor long-lag temporal signal detected (T={long_x['T']:.3f}, p={long_x['p']:.3f}); check calibration size before interpreting"
     elif excl:
         out["verdict"] = (f"no cross-actor long-lag signal (T={long_x['T']:.3f}, p={long_x['p']:.3f}); accumulating clocks with per-copy edit "
-                          f"rates in [{min(excl)}, {max(excl)}] would be detected with >= 80% power")
+                          f"rates in [{min(excl)}, {max(excl)}] would be detected with >= 80% power, conditional on the lineage still forming one family")
     else:
         out["verdict"] = f"no cross-actor long-lag signal (T={long_x['T']:.3f}, p={long_x['p']:.3f}) but power < 80% at every tested edit rate: inconclusive"
     out["max_star_false_positive_rate"] = float(size)

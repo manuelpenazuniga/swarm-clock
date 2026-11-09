@@ -204,7 +204,8 @@ def fig_summary():
     ax.set_ylabel("mean distance"); ax.set_xlabel("time lag")
     ax.set_title("(b) Real text does not drift", fontsize=8, loc="left"); ax.legend(fontsize=5.8, loc="lower left")
     ax = axs[2]
-    ax.axvspan(0.01, 0.2, color="#f0efec", zorder=0); ax.text(0.0105, 0.42, "excluded\n(power >= 80%)", fontsize=6.3, color=INK2)
+    ax.axvspan(0.01, 0.05, color="#e4e2dc", zorder=0); ax.axvspan(0.05, 0.2, color="#f6f5f2", zorder=0)
+    ax.text(0.0105, 0.42, "excluded\nend to end", fontsize=6.3, color=INK2); ax.text(0.055, 0.42, "power >= 80%,\nbut lineages\nfragment", fontsize=6.0, color=INK2)
     ax.plot(P.edit_rate_per_copy, P.power_long_lag_cross_label, color=C[1], marker="s", ms=3.5, label="cross-label")
     ax.plot(P.edit_rate_per_copy, P.power_long_lag_all_pairs, color=C[0], marker="o", ms=3.5, ls="--", label="all pairs")
     ax.axhline(.8, ls=":", c=INK2, lw=1); ax.set_xscale("log"); ax.set_ylim(0, 1.02)
