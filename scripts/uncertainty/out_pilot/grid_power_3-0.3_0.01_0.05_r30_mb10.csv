@@ -1,0 +1,3 @@
+k,thr,min_blocks,templates,template_pages,rate,reps,lineage_recovery,end_to_end_reject,sec_per_rep
+3,0.3,10,6,15/13/28/154/13/121,0.01,30,0.994,0.6,1.07
+3,0.3,10,6,15/13/28/154/13/121,0.05,30,0.767,0.6666666666666666,0.99

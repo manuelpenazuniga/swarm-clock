@@ -1,0 +1,4 @@
+model,rate,reps,lineage_recovery,end_to_end_reject,mean_parent_child_dist,mean_dist_long_lag,sec_per_rep
+block_family,0.02,50,0.945,0.48,0.0481,0.383,1.28
+block_family,0.1,50,0.875,0.7,0.2097,0.762,1.15
+block_family,0.2,50,0.775,0.66,0.3659,0.87,1.25

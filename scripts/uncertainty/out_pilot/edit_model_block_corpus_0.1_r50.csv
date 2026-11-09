@@ -1,0 +1,2 @@
+model,rate,reps,lineage_recovery,end_to_end_reject,mean_parent_child_dist,mean_dist_long_lag,sec_per_rep
+block_corpus,0.1,50,0.51,0.72,0.2303,0.735,1.05

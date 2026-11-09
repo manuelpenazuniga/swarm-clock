@@ -1,0 +1,4 @@
+model,rate,reps,lineage_recovery,end_to_end_reject,mean_parent_child_dist,mean_dist_long_lag,sec_per_rep
+token,0.005,50,1.0,0.62,0.0353,0.3,1.29
+token,0.02,50,0.965,0.8,0.131,0.666,1.16
+token,0.1,50,0.275,0.52,0.4662,0.882,1.11
