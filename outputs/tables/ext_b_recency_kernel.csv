@@ -1,0 +1,3 @@
+pairs,n_pairs,d0,d_inf,tau_h,half_life_h,tau_ci_lo,tau_ci_hi,boot_ok,estimable
+cross-label,19533,0.762,0.912,0.039,0.027,0.03,0.93,999,True
+same-label,181,0.501,0.883,1.217,0.844,0.006,2.721,999,True

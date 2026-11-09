@@ -1,0 +1,7 @@
+data,pairs,window,families_with_pairs,T,p,per_family
+primary,same-label,short (<6h),4,0.257,0.003,"[0.205, 0.562, nan, nan, -0.105, 0.367]"
+primary,same-label,long (>=6h),1,-0.308,0.944,"[nan, nan, nan, nan, -0.308, nan]"
+primary,same-label,very long (>=24h),0,,,"[nan, nan, nan, nan, nan, nan]"
+template_removed,same-label,short (<6h),3,0.221,0.014,"[0.205, 0.562, nan, nan, -0.105]"
+template_removed,same-label,long (>=6h),1,-0.308,0.922,"[nan, nan, nan, nan, -0.308]"
+template_removed,same-label,very long (>=24h),0,,,"[nan, nan, nan, nan, nan]"

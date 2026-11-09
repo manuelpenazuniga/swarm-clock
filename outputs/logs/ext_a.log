@@ -1,0 +1,57 @@
+===== stage ext_a_exposure
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/scripts/run_stage.py:582: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  RD = RD[RD.sha256.notna() & ~RD.path.fillna("").str.contains(mq.EXCL_PATH) & ~RD.path.fillna("").str.contains(boiler, regex=True)]
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/scripts/run_stage.py:589: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  first = first[~first.path.str.contains(mq.EXCL_PATH) & ~first.path.str.contains(boiler, regex=True)]
+cross-agent first exposures: 7974 | runs: 19
+pairs: 125390 | exposed: 28438 | targets runs: 19
+{
+ "cross_agent_first_exposures": 7974,
+ "pairs": 125390,
+ "exposed_pairs": 28438,
+ "auc": 0.47781371817469354,
+ "auc_ci": [
+  0.45349971165909164,
+  0.49171028373511605
+ ],
+ "mean_c_exposed": 0.0052705923603688296,
+ "mean_c_unexposed": 0.016554312127222928,
+ "share_c_ge_0.5_exposed": 0.003164779520360082,
+ "share_c_ge_0.5_unexposed": 0.012366944467365294,
+ "share_c_eq_1_exposed": 0.002566987833180955,
+ "share_c_eq_1_unexposed": 0.0026095387408201997,
+ "windows": [
+  {
+   "window": "short (<D/3)",
+   "runs": 18,
+   "T": 0.01,
+   "p": 0.178,
+   "note": ""
+  },
+  {
+   "window": "long (>=D/3)",
+   "runs": 17,
+   "T": -0.038,
+   "p": 0.752,
+   "note": ""
+  },
+  {
+   "window": "very long (>=2D/3)",
+   "runs": 4,
+   "T": 0.109,
+   "p": 0.393,
+   "note": ""
+  }
+ ]
+}
+        b    n  mean_containment
+   <0.05D 1796          0.004532
+0.05-0.1D 7351          0.011481
+ 0.1-0.2D 3770          0.000795
+0.2-0.33D 7344          0.004331
+0.33-0.5D 5253          0.002613
+0.5-0.67D 2150          0.003794
+  >=0.67D  774          0.000854
+[saved] outputs/tables/ext_a_exposure_lag_curve.csv
+[saved] outputs/tables/ext_a_exposure_windows.csv
+===== ext_a_exposure done in 54.2s

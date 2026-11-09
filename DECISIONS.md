@@ -34,3 +34,6 @@ The first version of `mantiq_copy_channels.csv` was produced by ad hoc commands 
 
 ## D11. Git history rewritten to remove attribution trailers (2026-11-08 ~22:00)
 At the author's request, the "Co-Authored-By" trailer was removed from every commit message (`git filter-branch --msg-filter`). File contents and author/committer dates are unchanged; only commit hashes changed. The pre-registration commit (formerly 90996c3) is now f6dd463, still dated 2026-11-08 20:06:46 -0300, before any Mantiq timing was computed (first Mantiq analysis commit f679e0b, 20:10:43).
+
+## D12. Extensions A, B, C (pre-registered in PREREG_EXTENSIONS.md before computation; exploratory)
+Run 2026-11-08 ~21:58 to 22:02 exactly as pre-registered. Results: C same-label short-lag T = 0.257 (p = 0.003); B cross-label tau = 0.039 h (CI 0.030 to 0.930), same-label tau = 1.217 h (CI 0.006 to 2.721); A AUC = 0.478 (CI 0.453 to 0.492), A2 windows null. A prediction (AUC > 0.5) failed; reported as found. One post hoc descriptive diagnostic after A: per-run comparison of mean containment (unexposed > exposed in 18 of 19 runs) and the share of pairs with any overlap (0.075 unexposed vs 0.031 exposed). Interpretation caveat stated in the paper: file-system reads include automated reads (imports, tests).

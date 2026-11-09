@@ -48,7 +48,9 @@ def lag_curve(P, bins=None):
 def rho_window(P, t, lo, hi, cross=False):
     lag = np.abs(t[P["i"]] - t[P["j"]])
     m = (lag >= lo) & (lag < hi)
-    if cross:
+    if cross == "same":
+        m &= P["same_label"]
+    elif cross:
         m &= ~P["same_label"]
     if m.sum() < 10 or np.ptp(lag[m]) == 0 or np.ptp(P["d"][m]) == 0:
         return np.nan

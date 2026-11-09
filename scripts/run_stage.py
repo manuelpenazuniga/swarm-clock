@@ -505,6 +505,160 @@ def power_short_crosslabel():
     save(pd.DataFrame(rows), "power_short_and_verylong_crosslabel")
 
 
+@stage
+def ext_c_same_label():
+    """PREREG_EXTENSIONS C: same-label-only window tests (wiki primary)."""
+    rng = new_rng(); rows = []
+    for n, d in [("primary", "D_primary"), ("template_removed", "D_template_removed")]:
+        D = load_D(d); Ps = [P for _, P in real_pairs(D, elig_ids(D))]
+        for wname, lo, hi in stt.WIN:
+            T, p, v = stt.window_test(Ps, lo, hi, rng, B=999, cross="same")
+            rows.append({"data": n, "pairs": "same-label", "window": wname, "families_with_pairs": int(np.sum(~np.isnan(v))),
+                         "T": r3(T), "p": round(p, 4) if p == p else p, "per_family": [r3(x) for x in v]})
+    R = pd.DataFrame(rows); print(R.to_string(index=False)); save(R, "ext_c_same_label_windows")
+
+
+@stage
+def ext_b_recency_kernel():
+    """PREREG_EXTENSIONS B: exponential recency kernel for cross-label and same-label pairs (wiki, 5 families)."""
+    from scipy.optimize import curve_fit
+    rng = new_rng()
+    D = load_D("D_primary"); FP = [(f, P) for f, P in real_pairs(D, elig_ids(D)) if f != 5207]
+    def model(lag, dinf, d0, tau):
+        return dinf - (dinf - d0) * np.exp(-lag / tau)
+    def fit(fams, which):
+        lag, dist = [], []
+        for _, P in fams:
+            m = P["same_label"] if which == "same" else ~P["same_label"]
+            lag.append(np.abs(P["t"][P["i"]] - P["t"][P["j"]])[m]); dist.append(P["d"][m])
+        lag, dist = np.concatenate(lag), np.concatenate(dist)
+        try:
+            popt, _ = curve_fit(model, lag, dist, p0=[0.9, 0.5, 1.0], bounds=([0, 0, 1e-3], [1, 1, 1e4]), maxfev=20000)
+            return popt, len(lag)
+        except Exception:
+            return None, len(lag)
+    rows = []
+    for which in ["cross", "same"]:
+        popt, n = fit(FP, which)
+        boots = []
+        for _ in range(999):
+            idx = rng.integers(0, len(FP), len(FP))
+            pb, _ = fit([FP[k] for k in idx], which)
+            if pb is not None:
+                boots.append(pb[2])
+        boots = np.array(boots)
+        lo, hi = (np.quantile(boots, [.025, .975]) if len(boots) > 50 else (np.nan, np.nan))
+        estimable = popt is not None and hi == hi and hi <= 946
+        rows.append({"pairs": which + "-label", "n_pairs": n, "d0": r3(popt[1]) if popt is not None else np.nan,
+                     "d_inf": r3(popt[0]) if popt is not None else np.nan, "tau_h": r3(popt[2]) if popt is not None else np.nan,
+                     "half_life_h": r3(popt[2] * np.log(2)) if popt is not None else np.nan,
+                     "tau_ci_lo": r3(lo), "tau_ci_hi": r3(hi), "boot_ok": len(boots), "estimable": bool(estimable)})
+    R = pd.DataFrame(rows); print(R.to_string(index=False)); save(R, "ext_b_recency_kernel")
+
+
+@stage
+def ext_a_exposure():
+    """PREREG_EXTENSIONS A: observed exposure (read_version) vs content similarity, Mantiq."""
+    import glob as _g, pyarrow.parquet as pq
+    from scipy.stats import rankdata
+    from swarmclock import mantiq as mq
+    rng = new_rng()
+    mk = mq.MantiqMasker()
+    boiler = r"pytest-cache-files-|\.pytest_cache|CACHEDIR\.TAG"
+    FV = mq.load("file_versions", ["run", "version_id", "sha256", "made_by", "agent_id", "event_id", "path", "kind"])
+    blobs = mq.load("blobs", ["run", "sha256", "text"]); btext = dict(zip(zip(blobs.run, blobs.sha256), blobs.text))
+    dur = dict(zip(*[mq.load("runs")[c] for c in ("run", "seconds")]))
+    AM = FV[(FV.made_by == "agent") & FV.agent_id.notna()]
+    # read links
+    reads = []
+    for f in sorted(_g.glob(str(mq.MDIR / "links" / "*" / "*.parquet"))):
+        L = pq.read_table(f, columns=["run", "link_type", "from_event", "from_agent", "details"]).to_pandas()
+        L = L[(L.link_type == "read_version") & L.from_agent.fillna("").str.match(r"^a\d\d$")]
+        L["version_id"] = L.details.str.extract(r'"version_id":"([^"]+)"')[0]
+        reads.append(L[["run", "from_event", "from_agent", "version_id"]])
+    RD = pd.concat(reads, ignore_index=True)
+    vinfo = FV.set_index(["run", "version_id"])[["sha256", "path"]]
+    RD = RD.join(vinfo, on=["run", "version_id"])
+    RD = RD[RD.sha256.notna() & ~RD.path.fillna("").str.contains(mq.EXCL_PATH) & ~RD.path.fillna("").str.contains(boiler, regex=True)]
+    # event times for reads and agent-made versions
+    need = pd.concat([RD[["run", "from_event"]].rename(columns={"from_event": "event_id"}), AM[["run", "event_id"]]]).drop_duplicates()
+    ts = mq.event_times(need)
+    RD["t_e"] = [ts.get((r, e), np.nan) for r, e in zip(RD.run, RD.from_event)]
+    AM = AM.assign(ts=[ts.get((r, e), np.nan) for r, e in zip(AM.run, AM.event_id)]).dropna(subset=["ts"])
+    first = AM.sort_values("ts").drop_duplicates(["run", "sha256"])[["run", "sha256", "agent_id", "ts", "path"]].rename(columns={"agent_id": "w", "ts": "t_auth"})
+    first = first[~first.path.str.contains(mq.EXCL_PATH) & ~first.path.str.contains(boiler, regex=True)]
+    first["text"] = [btext.get((r, h)) for r, h in zip(first.run, first.sha256)]
+    first = first[first.text.notna()].copy()
+    first["S"] = [fm.shingle_set(mk(t), 3) for t in first.text]
+    first = first[first.S.map(len) > 0]
+    RD = RD.merge(first[["run", "sha256", "w"]], on=["run", "sha256"])
+    RD = RD[(RD.w != RD.from_agent) & RD.t_e.notna()]
+    RD = RD.sort_values("t_e").drop_duplicates(["run", "from_agent", "sha256"])
+    print("cross-agent first exposures:", len(RD), "| runs:", RD.run.nunique())
+    # targets
+    U = pd.read_parquet(INTERIM / "mantiq_U-F-noboiler.parquet")
+    U["S"] = [fm.shingle_set(m, 3) for m in U.m]
+    expo = {(r, a, h): t for r, a, h, t in zip(RD.run, RD.from_agent, RD.sha256, RD.t_e)}
+    rows = []
+    for run, Ur in U.groupby("run"):
+        Fr = first[first.run == run]
+        srcS, srcW, srcT, srcH = list(Fr.S), Fr.w.values, Fr.t_auth.values, Fr.sha256.values
+        for x_S, r, tx in zip(Ur.S, Ur.label, Ur.ts_ns):
+            nx = len(x_S)
+            for S, w, ta, h in zip(srcS, srcW, srcT, srcH):
+                if w == r or ta >= tx:
+                    continue
+                te = expo.get((run, r, h))
+                exposed = te is not None and te < tx
+                c = len(x_S & S) / nx
+                rows.append((run, r, exposed, c, (tx - te) / (dur[run] * 1e9) if exposed else np.nan))
+    P = pd.DataFrame(rows, columns=["run", "reader", "exposed", "c", "lag_frac"])
+    print("pairs:", len(P), "| exposed:", int(P.exposed.sum()), "| targets runs:", P.run.nunique())
+    def auc(df):
+        r_ = rankdata(df.c.values); n1 = int(df.exposed.sum()); n0 = len(df) - n1
+        return (r_[df.exposed.values].sum() - n1 * (n1 + 1) / 2) / (n1 * n0) if n1 and n0 else np.nan
+    A_obs = auc(P); runs = P.run.unique(); boots = []
+    G = {k: g for k, g in P.groupby("run")}
+    for _ in range(999):
+        boots.append(auc(pd.concat([G[k] for k in rng.choice(runs, len(runs))], ignore_index=True)))
+    lo, hi = np.nanquantile(boots, [.025, .975])
+    # share of targets with max containment >= 0.5
+    U2 = P.assign(tid=P.groupby(["run", "reader"]).cumcount())  # not a target id; compute per target below instead
+    summ = {"cross_agent_first_exposures": int(len(RD)), "pairs": int(len(P)), "exposed_pairs": int(P.exposed.sum()),
+            "auc": float(A_obs), "auc_ci": [float(lo), float(hi)],
+            "mean_c_exposed": float(P.c[P.exposed].mean()), "mean_c_unexposed": float(P.c[~P.exposed].mean()),
+            "share_c_ge_0.5_exposed": float((P.c[P.exposed] >= .5).mean()), "share_c_ge_0.5_unexposed": float((P.c[~P.exposed] >= .5).mean()),
+            "share_c_eq_1_exposed": float((P.c[P.exposed] == 1).mean()), "share_c_eq_1_unexposed": float((P.c[~P.exposed] == 1).mean())}
+    # A2: exposed pairs, windows by fraction of run
+    E = P[P.exposed].copy(); E["d"] = 1 - E.c
+    WT = []
+    for wname, lo_w, hi_w in stt.MQ_WIN:
+        def T_of(lagcol):
+            vals = []
+            for run, g in E.groupby("run"):
+                m = (g[lagcol] >= lo_w) & (g[lagcol] < hi_w)
+                if m.sum() >= 10 and np.ptp(g.d[m]) > 0 and np.ptp(g[lagcol][m]) > 0:
+                    vals.append(np.corrcoef(rankdata(g.d[m]), rankdata(g[lagcol][m]))[0, 1])
+            return (np.mean(vals) if vals else np.nan), len(vals)
+        T, nrun = T_of("lag_frac")
+        if wname.startswith("long") and nrun < 5:
+            WT.append({"window": wname, "runs": nrun, "T": T, "p": np.nan, "note": "fewer than 5 runs: not tested"}); continue
+        null = []
+        for _ in range(999):
+            E["perm"] = E.groupby(["run", "reader"]).lag_frac.transform(lambda s: rng.permutation(s.values))
+            null.append(T_of("perm")[0])
+        null = np.array(null); null = null[~np.isnan(null)]
+        p = (1 + np.sum(null >= T)) / (len(null) + 1) if T == T else np.nan
+        WT.append({"window": wname, "runs": nrun, "T": r3(T), "p": round(float(p), 4) if p == p else p, "note": ""})
+    curve = E.assign(b=pd.cut(E.lag_frac, stt.MQ_BINS, labels=stt.MQ_BIN_LABELS, right=False)).groupby("b", observed=False).agg(
+        n=("d", "size"), mean_containment=("c", "mean")).reset_index()
+    summ["windows"] = WT
+    print(json.dumps(summ, indent=1, default=float)); print(curve.to_string(index=False))
+    (sio.TABLES / "ext_a_exposure.json").write_text(json.dumps(summ, indent=1, default=float))
+    save(curve, "ext_a_exposure_lag_curve"); save(pd.DataFrame(WT), "ext_a_exposure_windows")
+    P.to_parquet(INTERIM / "ext_a_pairs.parquet")
+
+
 # ---------------------------------------------------------------- Mantiq (PREREG_MANTIQ.md)
 @stage
 def mantiq_build():
