@@ -679,7 +679,7 @@ def power_end_to_end():
     import os
     kinds = os.environ.get("SWC_E2E_KINDS", "clock,star").split(",")
     rates = [float(x) for x in os.environ.get("SWC_E2E_RATES", "0.005,0.01,0.02,0.05,0.1,0.2").split(",")]
-    REPS = int(os.environ.get("SWC_E2E_REPS", 40)); tag = os.environ.get("SWC_E2E_TAG", "")
+    REPS = int(os.environ.get("SWC_E2E_REPS", 200)); tag = os.environ.get("SWC_E2E_TAG", "")
     import zlib; rng = np.random.default_rng(sio.SEED + zlib.crc32(tag.encode()) % 1000); R = load_R(); S = Synth(R, rng)
     mh_real = fm.minhashes(R.m, 3)
     RF = list(_real_fams_multiday().values())
@@ -694,7 +694,7 @@ def power_end_to_end():
                     syn = S.synth_like(sub, p) if kind == "clock" else S.star_like(sub, p)
                     parts.append(pd.DataFrame({"rev_id": [f"E2E{li}_{i}" for i in range(len(syn))],
                                                "page_id": [f"E2E/{li}_{i}" for i in range(len(syn))],
-                                               "label": syn.label.values, "t": syn.t.values, "m": syn.m.values, "lin": li}))
+                                               "label": syn.label.values, "t": pd.to_datetime(syn.t.values, utc=True), "m": syn.m.values, "lin": li}))
                 Pl = pd.concat(parts, ignore_index=True)
                 A = pd.concat([R.assign(lin=-1), Pl], ignore_index=True)
                 fam = fm.assign_families(mh_real + fm.minhashes(Pl.m, 3), 0.3)

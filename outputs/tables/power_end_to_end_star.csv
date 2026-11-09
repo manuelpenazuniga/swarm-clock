@@ -1,0 +1,4 @@
+kind,edit_rate_per_copy,reps,lineage_recovery,mean_lineages_recovered,end_to_end_reject
+star,0.01,200,1.0,4.0,0.01
+star,0.05,200,0.705,2.82,0.045
+star,0.1,200,0.0,0.0,0.0

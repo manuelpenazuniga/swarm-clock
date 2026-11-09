@@ -190,7 +190,7 @@ def fig_summary():
     ax.step(x, np.arange(1, len(x) + 1) / len(x), where="post", color=C[0])
     med = np.median(x); ax.axvline(med, ls=":", c=INK2, lw=1); ax.text(med * 1.15, 0.08, f"median\n{med*60:.0f} min", fontsize=6.5, color=INK2)
     ax.set_xscale("log"); ax.set_xlabel("lineage lifespan (h, log)"); ax.set_ylabel("ECDF (60 families)")
-    ax.set_title("(a) Lineages die within hours", fontsize=8, loc="left")
+    ax.set_title("(a) Most lexical families are short-lived", fontsize=8, loc="left")
     ax = axs[1]
     xi = np.arange(len(labs))
     ax.axvspan(4.5, len(labs) - 0.5, color="#f0efec", zorder=0); ax.text(4.65, 0.70, "lag >= 6 h", fontsize=6.5, color=INK2)
@@ -204,13 +204,16 @@ def fig_summary():
     ax.set_ylabel("mean distance"); ax.set_xlabel("time lag")
     ax.set_title("(b) Real text does not drift", fontsize=8, loc="left"); ax.legend(fontsize=5.8, loc="lower left")
     ax = axs[2]
-    ax.axvspan(0.01, 0.05, color="#e4e2dc", zorder=0); ax.axvspan(0.05, 0.2, color="#f6f5f2", zorder=0)
-    ax.text(0.0105, 0.42, "excluded\nend to end", fontsize=6.3, color=INK2); ax.text(0.055, 0.42, "power >= 80%,\nbut lineages\nfragment", fontsize=6.0, color=INK2)
-    ax.plot(P.edit_rate_per_copy, P.power_long_lag_cross_label, color=C[1], marker="s", ms=3.5, label="cross-label")
-    ax.plot(P.edit_rate_per_copy, P.power_long_lag_all_pairs, color=C[0], marker="o", ms=3.5, ls="--", label="all pairs")
+    E = pd.read_csv(TABLES / "power_end_to_end.csv"); E = E[E.kind == "clock"]
+    ax.axvspan(0.005, 0.05, color="#ecebe6", zorder=0)
+    ax.plot(P.edit_rate_per_copy, P.power_long_lag_all_pairs, color=C[0], marker="o", ms=3.5, ls="--", label="fixed families")
+    n = E.reps.values; lo, hi = zip(*[wilson(round(v * k), k) for v, k in zip(E.end_to_end_reject, n)])
+    ax.fill_between(E.edit_rate_per_copy, lo, hi, color=C[1], alpha=.18, lw=0)
+    ax.plot(E.edit_rate_per_copy, E.end_to_end_reject, color=C[1], marker="s", ms=3.5, label="end to end (LSH rebuilt)")
     ax.axhline(.8, ls=":", c=INK2, lw=1); ax.set_xscale("log"); ax.set_ylim(0, 1.02)
-    ax.set_xlabel("clock edit rate per copy (log)"); ax.set_ylabel("power, lag >= 6 h")
-    ax.set_title("(c) ...although a clock would show", fontsize=8, loc="left"); ax.legend(fontsize=5.8, loc="lower right")
+    ax.text(0.0052, 0.08, "detected in\n69-84% of runs", fontsize=6.0, color=INK2)
+    ax.set_xlabel("clock edit rate per copy (log)"); ax.set_ylabel("detection rate, lag >= 6 h")
+    ax.set_title("(c) ...although a clock would usually show", fontsize=8, loc="left"); ax.legend(fontsize=5.8, loc="lower left", bbox_to_anchor=(0.0, 0.22))
     fig.tight_layout()
     _save(fig, "fig0_summary")
 

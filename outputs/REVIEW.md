@@ -57,3 +57,4 @@ Audited the version after the Argon fixes and extensions. Scores: impact 3, exec
 - Figure 1 now rendered at full width; provenance of Section 5.6 demo stated.
 - Pre-registered target-level comparison for the exposure analysis added (D14).
 Not adopted: replacing the take-away with a purely negative sentence (kept a scoped, measured statement); moving Limitations to an appendix (Section 7 plus Appendix A satisfy "Limitations and Dual-Use" as we read the requirement; to recheck against the official template).
+- Follow-up (23:10): the end-to-end simulation (D13, 200 replicates per rate) gives detection 69 to 84% at 0.005 to 0.05 per copy (84% at 0.02), 59% at 0.10, 0% at 0.20; stars 0 to 4.5%. The paper no longer claims an edit-rate range excluded at 80% power; abstract, take-away, Figure 1c, 5.4 and Discussion now report the measured end-to-end rates. Figure 1a retitled "Most lexical families are short-lived".

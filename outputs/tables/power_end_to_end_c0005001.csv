@@ -1,0 +1,3 @@
+kind,edit_rate_per_copy,reps,lineage_recovery,mean_lineages_recovered,end_to_end_reject
+clock,0.005,200,0.99625,3.985,0.685
+clock,0.01,200,0.9875,3.95,0.725
