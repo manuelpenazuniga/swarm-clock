@@ -1,0 +1,18 @@
+===== stage uncertainty_real
+              family  long_pairs    rho      p  holm_threshold  holm_reject
+round-status reports         180  0.307 0.0149        0.012500        False
+     data-link lists        5260 -0.046 0.8060        0.016667        False
+   default-page text        5765 -0.182 0.9997        0.025000        False
+ archival link lists          11 -0.775 0.9999        0.050000        False
+[saved] outputs/tables/uncertainty_f1_per_family.csv
+{'k': 3, 'threshold': 0.25, 'eligible': 6, 'largest_share': 0.043, 'excluded_chaining': False, 'T_long_all': -0.231, 'p_long_all': np.float64(0.999), 'fams_long_all': 4, 'T_long_cross': -0.231, 'p_long_cross': np.float64(0.999), 'fams_long_cross': 4}
+{'k': 3, 'threshold': 0.3, 'eligible': 6, 'largest_share': 0.043, 'excluded_chaining': False, 'T_long_all': -0.174, 'p_long_all': np.float64(0.988), 'fams_long_all': 4, 'T_long_cross': -0.174, 'p_long_cross': np.float64(0.992), 'fams_long_cross': 4}
+{'k': 3, 'threshold': 0.35, 'eligible': 3, 'largest_share': 0.042, 'excluded_chaining': False, 'T_long_all': -0.098, 'p_long_all': np.float64(0.875), 'fams_long_all': 2, 'T_long_cross': -0.099, 'p_long_cross': np.float64(0.876), 'fams_long_cross': 2}
+{'k': 4, 'threshold': 0.25, 'eligible': 3, 'largest_share': 0.042, 'excluded_chaining': False, 'T_long_all': 0.115, 'p_long_all': np.float64(0.289), 'fams_long_all': 2, 'T_long_cross': 0.115, 'p_long_cross': np.float64(0.319), 'fams_long_cross': 2}
+{'k': 4, 'threshold': 0.3, 'eligible': 2, 'largest_share': 0.042, 'excluded_chaining': False, 'T_long_all': 0.186, 'p_long_all': np.float64(0.003), 'fams_long_all': 1, 'T_long_cross': 0.186, 'p_long_cross': np.float64(0.002), 'fams_long_cross': 1}
+{'k': 4, 'threshold': 0.35, 'eligible': 3, 'largest_share': 0.041, 'excluded_chaining': False, 'T_long_all': -0.042, 'p_long_all': np.float64(0.592), 'fams_long_all': 2, 'T_long_cross': -0.038, 'p_long_cross': np.float64(0.535), 'fams_long_cross': 2}
+{'k': 5, 'threshold': 0.25, 'eligible': 3, 'largest_share': 0.042, 'excluded_chaining': False, 'T_long_all': -0.024, 'p_long_all': np.float64(0.946), 'fams_long_all': 2, 'T_long_cross': -0.025, 'p_long_cross': np.float64(0.956), 'fams_long_cross': 2}
+{'k': 5, 'threshold': 0.3, 'eligible': 3, 'largest_share': 0.042, 'excluded_chaining': False, 'T_long_all': -0.017, 'p_long_all': np.float64(0.9), 'fams_long_all': 2, 'T_long_cross': -0.017, 'p_long_cross': np.float64(0.905), 'fams_long_cross': 2}
+{'k': 5, 'threshold': 0.35, 'eligible': 2, 'largest_share': 0.041, 'excluded_chaining': False, 'T_long_all': 0.187, 'p_long_all': np.float64(0.094), 'fams_long_all': 1, 'T_long_cross': 0.182, 'p_long_cross': np.float64(0.084), 'fams_long_cross': 1}
+[saved] outputs/tables/uncertainty_f3_grid_real.csv
+===== uncertainty_real done in 72.8s

@@ -889,6 +889,42 @@ def positive_control_bodies():
     print("revisions:", len(X), "| pages:", len(pages))
 
 
+@stage
+def uncertainty_real():
+    """PREREG_UNCERTAINTY F1 (per-family long-lag p, B = 9,999, Holm) and F3 (pooled long-lag T per (k, threshold))."""
+    rng = new_rng(); rows = []
+    D = load_D("D_primary"); FP = real_pairs(D, elig_ids(D))
+    names = {5207: "exact-copy burst", 5455: "data-link lists", 6843: "default-page text", 2842: "round-status reports", 1979: "endpoint pages", 2378: "archival link lists"}
+    for f, P in FP:
+        lag = np.abs(P["t"][P["i"]] - P["t"][P["j"]])
+        if int((lag >= 6).sum()) < 10:
+            continue
+        T, pv, _ = stt.window_test([P], 6, 1e9, rng, B=9999)
+        rows.append({"family": names.get(int(f), f), "long_pairs": int((lag >= 6).sum()), "rho": r3(T), "p": pv})
+    F1 = pd.DataFrame(rows).sort_values("p").reset_index(drop=True)
+    m = len(F1); rej = []; stop = False
+    for i, pv in enumerate(F1.p):
+        thr = 0.05 / (m - i)
+        ok = (not stop) and pv <= thr; rej.append(ok); stop = stop or not ok
+    F1["holm_threshold"] = [0.05 / (m - i) for i in range(m)]; F1["holm_reject"] = rej
+    print(F1.to_string(index=False)); save(F1, "uncertainty_f1_per_family")
+    R = load_R(); out = []; cache = {}
+    for k in (3, 4, 5):
+        cache[k] = fm.minhashes(R.m, k)
+        for thr in (0.25, 0.30, 0.35):
+            fam = fm.assign_families(cache[k], thr); Dk, g = fm.family_table(R, fam)
+            share = g.blocks.max() / g.blocks.sum(); el = g[g.blocks >= 15].index
+            row = {"k": k, "threshold": thr, "eligible": len(el), "largest_share": round(float(share), 3), "excluded_chaining": bool(share > .2)}
+            if not row["excluded_chaining"] and len(el):
+                Ps = [P for _, P in real_pairs(Dk, el)]
+                for cross in (False, True):
+                    T, pv, v = stt.window_test(Ps, 6, 1e9, rng, B=999, cross=cross)
+                    key = "cross" if cross else "all"
+                    row[f"T_long_{key}"] = r3(T); row[f"p_long_{key}"] = pv; row[f"fams_long_{key}"] = int(np.sum(~np.isnan(v)))
+            out.append(row); print(row, flush=True)
+    save(pd.DataFrame(out), "uncertainty_f3_grid_real")
+
+
 # ---------------------------------------------------------------- Mantiq (PREREG_MANTIQ.md)
 @stage
 def mantiq_build():

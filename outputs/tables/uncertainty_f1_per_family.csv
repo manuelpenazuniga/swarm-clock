@@ -1,0 +1,5 @@
+family,long_pairs,rho,p,holm_threshold,holm_reject
+round-status reports,180,0.307,0.0149,0.0125,False
+data-link lists,5260,-0.046,0.806,0.016666666666666666,False
+default-page text,5765,-0.182,0.9997,0.025,False
+archival link lists,11,-0.775,0.9999,0.05,False
