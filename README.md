@@ -26,7 +26,6 @@ Implication for oversight: content can synchronize and coarsely date events afte
 
 | Path | Contents |
 |---|---|
-| `paper/` | Paper source (`report.md`), Apart-template version (`report_apart.md`/`.docx`), interim PDF |
 | `src/swarmclock/` | Library: masking, MinHash LSH families, permutation statistics, synthetic lineages, Mantiq loaders, figures, audit tool |
 | `scripts/run_stage.py` | Every core analysis as a re-runnable stage that reads and writes files |
 | `scripts/positive_line/`, `scripts/frontier/`, `scripts/uncertainty/` | Extension analyses (co-time, calendar and direction, sensitivity), with pilot and confirmation outputs |
@@ -65,8 +64,8 @@ python scripts/run_stage.py mantiq_build mantiq_families mantiq_tests mantiq_pow
 # extensions (pilot then confirmation; see PREREG_POSITIVE_LINE.md and PREREG_FRONTIER_T.md)
 python scripts/positive_line/l1_cotime.py 1 hidden
 python scripts/frontier/t_tpq.py pilot all exclude && python scripts/frontier/t_tpq.py confirm all exclude
-# figures and paper
-python scripts/run_stage.py figures && python scripts/build_pdf.py
+# figures
+python scripts/run_stage.py figures
 ```
 
 Seed: `numpy.random.default_rng(20261108)` per stage. Input SHA-256 hashes are in `outputs/tables/inputs_sha256.csv` and `outputs/tables/mantiq_inputs_sha256.csv`. Scripts under `scripts/positive_line/`, `scripts/frontier/` and `scripts/uncertainty/` contain an absolute project path; edit it when relocating. CPU only; the full pipeline runs in under an hour on a laptop.
