@@ -138,9 +138,11 @@ Both pre-registered units passed the eligibility rule (19 message families, 36 f
 - **Mantiq is inconclusive** about a clock and covers one model, one task and minutes-long runs; exposure analyses are observational, with dependence between pairs.
 - **Swarm Traces** was only tested for anchor feasibility; anchor extraction relies on regular expressions.
 
-## Appendix A: Dual-use and ethics
+## Appendix A: Limitations and Dual-Use / Ethical Considerations
 
-Swarm Traces payloads are attack code. We treated all text as inert data: nothing was executed or evaluated, no URL found in the data was visited, and no payload content appears in this paper. Wiki and Mantiq excerpts are short and masked. The Mantiq dataset card asks that its canary string stay out of training corpora; we do not reproduce it. Our result is negative about forensic inference from content and does not improve attack capability. A possible dual-use concern is that an adversary might rely on content being undatable; the mitigation we recommend (gateway-side logging of time, actor and content hash) does not depend on content. The audit tool reports similarity structure and test statistics, not identities.
+**Limitations.** The main limitations are listed in Section 7: one testable corpus with few long-lived families; lexical, masked families; synthetic token-level clocks; association rather than dating for the clock test; an empirical, one-sided calendar interval with 71% coverage on one corpus; an inconclusive Mantiq replication; and Swarm Traces tested only for anchor feasibility. AI coding and writing assistants were used throughout; every number in the paper is computed by the released code and read from its output tables, and every reference was checked against its source.
+
+**Dual-use and ethics.** Swarm Traces payloads are attack code. We treated all text as inert data: nothing was executed or evaluated, no URL found in the data was visited, and no payload content appears in this paper. Wiki and Mantiq excerpts are short and masked. The Mantiq dataset card asks that its canary string stay out of training corpora; we do not reproduce it. Our result is negative about forensic inference from content and does not improve attack capability. A possible dual-use concern is that an adversary might rely on content being undatable; the mitigation we recommend (gateway-side logging of time, actor and content hash) does not depend on content. The audit tool reports similarity structure and test statistics, not identities.
 
 ## Appendix B: Reproducibility
 
