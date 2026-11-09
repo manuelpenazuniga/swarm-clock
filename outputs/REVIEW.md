@@ -61,3 +61,15 @@ Not adopted: replacing the take-away with a purely negative sentence (kept a sco
 
 ## Final verification pass (fresh verifier, 2026-11-09 ~01:30)
 All numbers checked against outputs/tables (and frontier, positive_line, uncertainty outputs); only small mismatches. Fixed: direction CI corrected to the decisive D1 interval 0.41 to 0.53; the direction test is described as "which near-duplicate came first", not "who copied whom" (as its pre-registration states); calendar claims scoped (68% of the 71% covered, half the pages timestamped, one-sided window, one corpus) instead of "most texts" and "a few timestamps"; co-time coverage (about 6% of texts) stated in abstract and take-away; abstract power claim restricted to all-four-family clocks; template-removed T = 0.385 stated; Mantiq message-unit power (0%) stated; post hoc and secondary labels added (D13, Table 4 row, exploratory simulation); "five sets of extensions"; Figure C1 referenced; Mantiq dataset cited in Table 1; reference order fixed. Abstract 249 words; no em dashes; main text ends on page 7.
+
+## Sixth pass: GPT-6 Astra High (via `codex exec`, scheduled after quota reset; ran 03:37 to 03:43)
+Scores 3/3/3. 52 numbers spot-checked, all matched except two (fixed: "no lineage survives" -> 0.8% recovered, none detected; "95 to 98%" -> "95 to 98.5%"). Accepted and fixed:
+- Calendar presented as empirical intervals, not guaranteed bounds: validity 0.86 (14% of covered targets predate the estimate by more than 1 h), 68% of the 71% covered = about 48% of held-out texts; retrospective imputation (future anchors allowed), not online monitoring; permutation null preserves activity but not topic bursts. "lower bound"/"bound" wording replaced by "estimate" throughout.
+- Clock claims scoped: "no detected pooled clock under the primary definition"; copy modes "consistent with", not causal; take-away and Section 1 rewritten.
+- Restored the pre-specified L2 weak-length subset result (content seriation better in both halves, p = 0.008, 0.009), with its caveat.
+- Pre-registration chronology in Section 4 corrected (positive-line and frontier protocols hashed before, committed after; adaptive extensions).
+- Finding D described as a misattribution rate, not a generic type-I error rate.
+- Exposure analysis: "inferred from one matching probe line"; observational.
+- Figures: Wilson intervals removed from panels with dependent units (1c, 1d, 2c); titles "No detected clock" and "Overlap by inferred exposure"; Figure C2 discloses clipping below 30 s; captions updated.
+- Removed the unsupported "phylodynamics conflates" claim and its Drummond citation.
+- Reproducibility appendix lists the extension scripts' commands and their absolute-path dependency.

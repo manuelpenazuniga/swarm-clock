@@ -102,7 +102,7 @@ def fig_three_times():
                       Line2D([], [], color=INK, marker="s", mfc="white", mew=0.8, ms=3.4, lw=0.9, label=FAM[6843])],
              loc="lower left", bbox_to_anchor=(0.0, 0.0), fontsize=6.3)
     a.set_ylim(0, 1.08)
-    _panel_label(a, "(a) No clock in what agents pass on")
+    _panel_label(a, "(a) No detected clock in what agents pass on")
 
     # (b) Sensitivity -------------------------------------------------------------------------
     ck = E[E.kind == "clock"].sort_values("edit_rate_per_copy"); st = E[E.kind == "star"].sort_values("edit_rate_per_copy")
@@ -130,12 +130,7 @@ def fig_three_times():
             v = row[col]; xpos = g_i + (h_i - 0.5) * width
             hatch = None if h_i == 1 else "////"
             c.bar(xpos, v, width * 0.92, color=colr if h_i == 1 else "white", edgecolor=colr, hatch=hatch, lw=0.8, zorder=2)
-            top = v
-            if col != "random":
-                l_, u_ = wilson(round(v * n), n)
-                c.errorbar(xpos, v, yerr=[[v - l_], [u_ - v]], color=INK, lw=0.7, capsize=1.6, capthick=0.7, zorder=3)
-                top = u_
-            c.text(xpos, top + 0.02, f"{v:.2f}", ha="center", va="bottom", fontsize=5.9, color=INK)
+            c.text(xpos, v + 0.02, f"{v:.2f}", ha="center", va="bottom", fontsize=5.9, color=INK)
     c.set_xticks(range(3)); c.set_xticklabels(groups, fontsize=6.6)
     c.set_ylim(0, 1.12); c.set_yticks([0, .25, .5, .75, 1]); c.set_ylabel("share written within 1 h")
     n0, n1 = int(sub.iloc[0].covered), int(sub.iloc[1].covered)
@@ -160,14 +155,12 @@ def fig_three_times():
         d.plot([nm, n975], [yi, yi], color=MUTED, lw=2.6, solid_capstyle="butt", alpha=0.55, zorder=2)
         d.plot(nm, yi, marker="o", mfc="white", mec=MUTED, mew=0.9, ms=4.2, zorder=3)
         d.plot([n975, sv], [yi, yi], color=OI["blue"], lw=0.7, ls=":", zorder=1)
-        k = round(sv * cov * ntar); n = round(cov * ntar); l_, u_ = wilson(k, n)
-        d.errorbar(sv, yi, xerr=[[sv - l_], [u_ - sv]], color=OI["blue"], lw=0.8, capsize=1.6, capthick=0.7, zorder=4)
         d.plot(sv, yi, marker="D", color=OI["blue"], ms=4.2, zorder=5)
         d.text(1.0, yi, f"{cov:.0%}", ha="right", va="center", fontsize=6.0, color=MUTED)
     d.text(1.0, len(vals) - 0.45, "covered", ha="right", va="bottom", fontsize=6.0, color=MUTED, style="italic")
     d.set_yticks(y); d.set_yticklabels([v[0] for v in vals], fontsize=6.6)
     d.set_xlim(0, 1.0); d.set_ylim(-0.6, len(vals) + 0.75)
-    d.set_xlabel(r"share dated to the day before (window $[-1\,\mathrm{h}, +24\,\mathrm{h}]$)")
+    d.set_xlabel(r"share with true time in [estimate $-$1 h, estimate +24 h]")
     d.legend(handles=[Line2D([], [], marker="D", color=OI["blue"], ls="none", ms=4.2, label="real anchor times"),
                       Line2D([], [], marker="o", mfc="white", mec=MUTED, ls="-", color=MUTED, lw=2.6, alpha=.7, ms=4.2,
                              label="permuted times: mean to 97.5th pct.")],
@@ -220,13 +213,11 @@ def fig_copy_modes():
     ne, nu = X["exposed_pairs"], X["pairs"] - X["exposed_pairs"]
     for xi, v, n, col, lab in [(0, seen, ne, OI["blue"], "seen by\nthe model"), (1, unseen, nu, OI["grey"], "not seen")]:
         c.bar(xi, v * 100, 0.6, color=col, lw=0)
-        l_, u_ = wilson(round(v * n), n)
-        c.errorbar(xi, v * 100, yerr=[[(v - l_) * 100], [(u_ - v) * 100]], color=INK, lw=0.7, capsize=1.6)
-        c.text(xi, v * 100 + 0.35, f"{v:.1%}", ha="center", fontsize=6.6)
+        c.text(xi, v * 100 + 0.12, f"{v:.1%}", ha="center", fontsize=6.6)
     c.set_xticks([0, 1]); c.set_xticklabels(["seen", "not seen"], fontsize=6.8)
-    c.set_xlabel("source in the writer's model context", fontsize=6.8)
+    c.set_xlabel("source inferred in the writer's model context", fontsize=6.6)
     c.set_ylabel(r"share with containment $\geq 0.5$ (%)"); c.set_ylim(0, 5)
-    c.set_title("(c) Copying from context", pad=16)
+    c.set_title("(c) Overlap by inferred exposure", pad=16)
     _save(fig, "fig2_copy_modes")
 
 
