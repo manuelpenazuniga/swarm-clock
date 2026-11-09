@@ -215,7 +215,7 @@ for gc in auth_tbl._tbl.tblGrid.findall(qn("w:gridCol")):
 abs_cell = hdr.rows[1].cells[0].tables[1].rows[0].cells[0]
 ap = abs_cell.paragraphs[0]; clear_runs(ap._p); add_runs(ap, abstract)
 for r in ap.runs:
-    r.italic = False
+    r.italic = False; r.font.size = Pt(9.5)
 for extra in abs_cell.paragraphs[1:]:
     extra._p.getparent().remove(extra._p)
 
@@ -271,11 +271,11 @@ for p in all_paragraphs(d):
             continue
         set_font(r)
     if p.style.name == "Heading 3":
-        pf = p.paragraph_format; pf.space_before = Pt(10); pf.space_after = Pt(2)
+        pf = p.paragraph_format; pf.space_before = Pt(10); pf.space_after = Pt(5); pf.line_spacing = 1.15
         for r in p.runs:
             r.bold = True; r.font.size = Pt(13); r.font.color.rgb = RGBColor(0x66, 0x66, 0x66)
     if p.style.name == "Heading 2":
-        pf = p.paragraph_format; pf.space_before = Pt(10); pf.space_after = Pt(0)
+        pf = p.paragraph_format; pf.space_before = Pt(12); pf.space_after = Pt(6); pf.line_spacing = 1.5
         for r in p.runs:
             r.bold = True; r.font.size = Pt(14); r.font.color.rgb = RGBColor(0x43, 0x43, 0x43)
 d.save(str(OUT))
