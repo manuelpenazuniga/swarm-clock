@@ -237,6 +237,7 @@ def fig_c1_lag_curves():
     fig, ax = plt.subplots(figsize=(TEXTW * 0.62, 2.35))
     x = np.arange(len(LAG_BINS))
     ax.axvspan(4.5, len(x) - 0.5, color=SHADE, lw=0, zorder=0)
+    ax.text(len(x) - 0.6, 0.03, r"lag $\geq$ 6 h", ha="right", va="bottom", fontsize=6.6, color=MUTED)
     mks = ["o", "s", "^", "D", "v"]
     for k, (_, r) in enumerate(R.iterrows()):
         ax.plot(x, r[LAG_BINS].astype(float).values, color=INK, marker=mks[k], mfc="white", mew=0.8, ms=3.3, lw=0.8,
@@ -261,10 +262,12 @@ def fig_c2_lifespans():
         v = np.sort(np.clip(sub.span_h.values * 60, 0.5, None))
         ax.step(v, np.arange(1, len(v) + 1) / len(v), where="post", color=col, ls=ls, lw=1.3 if "primary" not in cfg else 1.8,
                 label=f"{cfg.replace(' (primary)', ', primary')} ({len(v)})")
-    for xv, lab in [(10, "10 min"), (60, "1 h"), (1440, "1 d")]:
-        ax.axvline(xv, color=GRID, lw=0.7, zorder=0); ax.text(xv * 1.1, 0.03, lab, fontsize=6, color=MUTED)
-    ax.set_xscale("log"); ax.set_xlabel("lineage lifespan (minutes)"); ax.set_ylabel(r"ECDF (families $\geq$ 5 pages)")
-    ax.set_ylim(0, 1.02); ax.legend(loc="lower right", fontsize=6.2)
+    for xv in (10, 60, 1440, 10080):
+        ax.axvline(xv, color=GRID, lw=0.7, zorder=0)
+    ax.set_xscale("log"); ax.set_xticks([1, 10, 60, 1440, 10080, 43200]); ax.minorticks_off()
+    ax.set_xticklabels(["1 min", "10 min", "1 h", "1 d", "1 wk", "30 d"])
+    ax.set_xlabel("lineage lifespan, first to last introduction"); ax.set_ylabel(r"ECDF (families $\geq$ 5 pages)")
+    ax.set_ylim(0, 1.02); ax.legend(loc="upper left", fontsize=6.2)
     _save(fig, "figC2_lifespans")
 
 

@@ -1089,9 +1089,9 @@ def mantiq_power():
 
 @stage
 def figures():
-    from swarmclock import plots
-    for f in plots.ALL:
-        f()
+    """Publication figures (src/swarmclock/figures_paper.py: tueplots sizing, STIX serif, Okabe-Ito, PDF + 600 dpi PNG)."""
+    from swarmclock import figures_paper
+    figures_paper.main()
 
 
 def main(argv):

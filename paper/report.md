@@ -14,8 +14,8 @@ Sequential swarm monitors need ordered events, yet 97% of Swarm Traces payloads 
 
 **Take-away.** The text an agent swarm writes carries no divergence clock: copies do not drift with time, so lineages cannot be dated the way pathogen genomes are. It does carry two weaker kinds of time. Near-duplicates, which about 6% of texts have, usually mark co-time (92% were written within the same hour), and the first appearance of shared material gives a coarse day-scale lower bound on date when many artifacts are timestamped (half the pages in our test; with 2%, only 23% of texts are covered). Use content to synchronize and coarsely date events, with a calibrated check (`swarmclock audit`), and log time at the gateway.
 
-![Figure 1](../outputs/figs/fig0_summary.png)
-*Figure 1. The result at a glance (collusion.wiki). (a) Lexical content families are short-lived (median 27 minutes; 60 families with at least 5 pages). (b) Distance between introductions (the text a revision added) does not grow with time lag in the two longest-lived families, unlike a planted clock; whole page bodies, which accumulate edits, drift steadily (positive control). (c) Detection of planted accumulating clocks with the real sampling: holding family membership fixed (dashed) and end to end, with families rebuilt by LSH on the whole corpus (solid; 200 replicates each; bands: 95% Wilson intervals). The null has measured, though imperfect, sensitivity.*
+![Figure 1](../outputs/figs/fig1_three_times.png)
+*Figure 1. Three kinds of time in agent text (collusion.wiki). (a) No clock: distance between the texts agents add (two longest-lived families) does not grow with lag, unlike a planted clock; whole page bodies, which accumulate edits, drift steadily (positive control). (b) Sensitivity of the long-lag test to planted accumulating clocks with the real sampling: families held fixed and end to end with families rebuilt by LSH (200 replicates; band: 95% Wilson interval); crosses mark no-clock controls. (c) Co-time: for texts with a near-duplicate on another page under another label, share whose most similar, closest-length or random partner was written within 1 hour, in the pilot and held-out halves (burst and template removed; bars: 95% Wilson intervals). (d) Calendar: share of held-out texts whose true time falls within [-1 h, +24 h] of the terminus post quem from timestamped anchors, against permuted anchor times (mean to 97.5th percentile), with coverage on the right.*
 
 ## 1. Introduction
 
@@ -70,13 +70,13 @@ Sequential detectors (CUSUM-style alarms, change-point tests) need ordered obser
 | 6 h or more | -0.174 (0.992) | -0.174 (0.995) | **0.542 (0.001)** | 0.541 (0.001) |
 | 24 h or more | -0.029 (0.723) | -0.030 (0.722) | 0.487 (0.001) | 0.481 (0.001) |
 
-The introductions show association only under 6 hours. Beyond 6 hours there is no pooled association, and no leave-one-family-out variant is significant (all p ≥ 0.46); the negative pooled long-lag T comes from the archival lists, which have only 11 long-lag pairs (T = 0.026, p = 0.468 without them). The two longest-lived families stay near 0.9 in distance beyond 10 minutes (0.88 to 0.93), held together by shared structure (link-list syntax, the wiki's default page text) rather than by accumulating edits (Figure 1b). The same test on whole page bodies is significant at every lag and positive in 94% of the 50 pages with long-lag pairs, and across labels: mean distance rises from 0.34 under 10 minutes to 0.71 at 1 to 3 hours and 0.93 beyond 3 days. **A clock exists inside documents that grow, not in the text agents pass on** (and it is mostly growth: body length orders a page's revisions as well as its content does; Section 5.3).
+The introductions show association only under 6 hours. Beyond 6 hours there is no pooled association, and no leave-one-family-out variant is significant (all p ≥ 0.46); the negative pooled long-lag T comes from the archival lists, which have only 11 long-lag pairs (T = 0.026, p = 0.468 without them). The two longest-lived families stay near 0.9 in distance beyond 10 minutes (0.88 to 0.93), held together by shared structure (link-list syntax, the wiki's default page text) rather than by accumulating edits (Figure 1a). The same test on whole page bodies is significant at every lag and positive in 94% of the 50 pages with long-lag pairs, and across labels: mean distance rises from 0.34 under 10 minutes to 0.71 at 1 to 3 hours and 0.93 beyond 3 days. **A clock exists inside documents that grow, not in the text agents pass on** (and it is mostly growth: body length orders a page's revisions as well as its content does; Section 5.3).
 
 The whole-family statistic agrees (T = 0.292, p = 0.001, unchanged with day strata; T = 0.385, p = 0.001 with the default page text removed), and so do compression distance (long-lag T = -0.197, p = 0.994) and character 4-gram distance (long-lag T = -0.022, p = 0.73; one family, the data-link lists, shows ρ = 0.30 under this metric); details in Appendix C.
 
 ### 5.2 How sensitive is this null?
 
-End to end (post hoc, D13), with families rebuilt from scratch, the pooled long-lag test detects a planted clock in 68.5% [62, 75] of runs at a per-copy edit rate of 0.005, 72.5% [66, 78] at 0.01, 84.0% [78, 88] at 0.02 and 75.5% [69, 81] at 0.05; at 0.10 lineage recovery falls to 31% and detection to 59%, and at 0.20 no lineage survives (Figure 1c). Planted stars are rejected in 1.0% and 4.5% of runs (rates 0.01 and 0.05), so the test holds its size. Holding family membership fixed, power is 86 to 94% at 0.01 to 0.20. An accumulating token-edit clock running in all four long-lived families at 0.005 to 0.05 per copy would therefore have been detected more often than not, but we cannot exclude it at 80% power except near 0.02; faster clocks fragment lineages within a few copies, which is what we observe and which leaves no usable clock either. 
+End to end (post hoc, D13), with families rebuilt from scratch, the pooled long-lag test detects a planted clock in 68.5% [62, 75] of runs at a per-copy edit rate of 0.005, 72.5% [66, 78] at 0.01, 84.0% [78, 88] at 0.02 and 75.5% [69, 81] at 0.05; at 0.10 lineage recovery falls to 31% and detection to 59%, and at 0.20 no lineage survives (Figure 1b). Planted stars are rejected in 1.0% and 4.5% of runs (rates 0.01 and 0.05), so the test holds its size. Holding family membership fixed, power is 86 to 94% at 0.01 to 0.20. An accumulating token-edit clock running in all four long-lived families at 0.005 to 0.05 per copy would therefore have been detected more often than not, but we cannot exclude it at 80% power except near 0.02; faster clocks fragment lineages within a few copies, which is what we observe and which leaves no usable clock either. 
 
 **One-family clocks, other edit models, other family definitions** (pre-registered in PREREG_UNCERTAINTY.md; exploratory). The pooled test is blind to a clock confined to one family: with the other three families as observed, a clock planted only in round-status reports, data-link lists or default-page text was detected in 0% of 200 runs at every rate (archival lists: 8 to 35%). Per-family tests with Holm correction (m = 4) exclude a clock in one family only: a clock in default-page text is detected in 93 to 95% of runs at 0.01 to 0.02 per copy (95% lower bound at least 0.89), so it is excluded there; in the other three families detection is 2 to 66% and one-family clocks are not excluded (familywise error of planted stars 0.5 to 5.5%). On real data, no family rejects under Holm: round-status reports come closest (ρ = 0.31, p = 0.015 against a threshold of 0.0125), and the others have p ≥ 0.81. With phrase-block edits, a crude model of language-model rewriting, planted clocks are detected less often at slow rates (44 to 68% vs 69 to 84%) but fragment much less (lineage recovery 75% at 0.20 with same-family donors), which weakens the escape route that fast clocks would be invisible because they fragment. Across nine family definitions (k = 3 to 5 shingles, thresholds 0.25 to 0.35), five have end-to-end power of at least 0.5; four of these show no long-lag association, and one (k = 4, threshold 0.3) does (T = 0.19, p = 0.003, below the pre-registered 0.05/9), carried by a single family, the data-link lists, which also shows ρ = 0.30 under character 4-grams. **No pooled clock is present, but a long-lag association confined to one or two families, plausibly from day-to-day changes in task content, cannot be excluded.**
 
@@ -84,33 +84,13 @@ End to end (post hoc, D13), with families rebuilt from scratch, the pooled long-
 
 The recency kernel implies that high similarity between texts by different labels should be rare but, when present, should pin them close in time. We tested this in a pre-registered split-half design (PREREG_POSITIVE_LINE.md: written before computation; pilot on wiki pages with an even `crc32(page_id)`, confirmation on the others after the protocol was committed). Pairs are introductions on different pages under different labels; the outcome is a lag under 1 hour.
 
-**Table 3.** Co-time, pilot and confirmation halves. For introductions with a partner at similarity of 0.5 or more, share whose partner was written within 1 hour, for the most similar partner, the partner closest in length, and a random partner.
-
-| Half | Set | Introductions covered | Most similar | Closest length | Random | Difference, 95% CI | Median lag |
-|---|---|---|---|---|---|---|---|
-| pilot | all | 365 (9.0%) | 0.956 | 0.553 | 0.133 | [0.35, 0.45] | 0.5 min |
-| confirmation | all | 377 (9.6%) | **0.950** | 0.573 | 0.166 | **[0.33, 0.43]** | 0.6 min |
-| pilot | burst and template removed | 193 (5.2%) | 0.917 | 0.316 | 0.087 | [0.53, 0.68] | 3.3 min |
-| confirmation | burst and template removed | 213 (5.9%) | **0.920** | 0.366 | 0.115 | **[0.49, 0.62]** | 3.0 min |
-
-Both pre-registered predictions held in both halves: the most similar partner beats the closest-length partner by more than the required 0.20, and the pair-level AUC exceeds 0.5 (pilot 0.529, 95% interval 0.525 to 0.536; confirmation 0.524, 0.520 to 0.529), although only slightly, because most introductions have no near-duplicate. At a stricter similarity of 0.9, the most similar partner falls within the hour in 98.8% of confirmation-half cases (162 introductions, burst and template removed). Text therefore tells co-time: a near-duplicate is strong evidence that two artifacts were written within the same hour, which can synchronize events across agents even without timestamps. It does not tell calendar time, and it did not transfer to the coding swarm, where agents almost never share text across agents and files outside git (no confirmation-run pair reached similarity 0.5; pair-level AUC 0.526, below length alone, 0.545). A second pre-registered line failed in both halves: a page's own text does not order its revisions better than its length does (median absolute rank correlation with time 0.99 vs 0.98 in the pilot and 0.91 vs 0.88 in the confirmation; Wilcoxon p = 0.20 and 0.26), so the page-body clock of Section 5.1 is mostly growth. Nor does content tell which of two near-duplicates came first: in a pre-registered test on cross-label near-duplicate pairs, the best pilot-selected direction score was at chance on held-out pairs (length-balanced accuracy 0.47, 95% interval 0.41 to 0.53, burst and template removed; 0.46 with them; simulated copy-of-copy chains give 0.66 to 0.82, exploratory), and 2,679 never-analyzed hub-page introductions agree (0.51, 0.40 to 0.61); order appears only where texts grow, through length.
+Both pre-registered predictions held in both halves (Figure 1c; exact values in Table C2): the most similar partner beats the closest-length partner by more than the required 0.20, and the pair-level AUC exceeds 0.5 (pilot 0.529, 95% interval 0.525 to 0.536; confirmation 0.524, 0.520 to 0.529), although only slightly, because most introductions have no near-duplicate. At a stricter similarity of 0.9, the most similar partner falls within the hour in 98.8% of confirmation-half cases (162 introductions, burst and template removed). Text therefore tells co-time: a near-duplicate is strong evidence that two artifacts were written within the same hour, which can synchronize events across agents even without timestamps. It does not tell calendar time, and it did not transfer to the coding swarm, where agents almost never share text across agents and files outside git (no confirmation-run pair reached similarity 0.5; pair-level AUC 0.526, below length alone, 0.545). A second pre-registered line failed in both halves: a page's own text does not order its revisions better than its length does (median absolute rank correlation with time 0.99 vs 0.98 in the pilot and 0.91 vs 0.88 in the confirmation; Wilcoxon p = 0.20 and 0.26), so the page-body clock of Section 5.1 is mostly growth. Nor does content tell which of two near-duplicates came first: in a pre-registered test on cross-label near-duplicate pairs, the best pilot-selected direction score was at chance on held-out pairs (length-balanced accuracy 0.47, 95% interval 0.41 to 0.53, burst and template removed; 0.46 with them; simulated copy-of-copy chains give 0.66 to 0.82, exploratory), and 2,679 never-analyzed hub-page introductions agree (0.51, 0.40 to 0.61); order appears only where texts grow, through length.
 
 ### 5.4 What text does tell: a calendar from shared material
 
 Co-time needs a near-duplicate, which only about 6% of texts have. A weaker but broader kind of time comes from the population: if the swarm keeps introducing shared material (domains, page names, phrases) that persists, a text cannot predate the first appearance of the newest material it contains, the terminus post quem of archaeology. This needs no clock and no lineage, only some timestamped artifacts. We tested it in a pre-registered held-out design (PREREG_FRONTIER_T.md; hashed before computation, committed afterwards, DECISIONS D18): anchors with known times are the pages in two quarters of `crc32(page_id)`, a third quarter selects among four variants (pilot), and the fourth is the held-out confirmation. For each target, eligible anchors are texts by another label, on another page, and not near-duplicates (Jaccard below 0.3, decided without times), so co-time cannot drive the result; the bound is the 90th percentile of the first-appearance times of the target's rarer shared 3-shingles. The null permutes anchor times.
 
-**Table 4.** Calendar dating, held-out confirmation quarter (1,918 introductions; B = 200 permutations). Success: true time within [bound - 1 h, bound + 24 h].
-
-| Variant | Covered | Success | Null mean (97.5th pct.) | p |
-|---|---|---|---|---|
-| primary (pre-registered) | 71.1% | **0.678** | 0.228 (0.253) | 0.005 |
-| burst and template removed (pre-registered secondary) | 73.9% | 0.669 | 0.225 | 0.005 |
-| date-like features dropped (exploratory) | 69.3% | 0.683 | 0.230 | 0.005 |
-| same-family anchors excluded (exploratory) | 70.9% | 0.679 | 0.228 | 0.005 |
-| similar-label anchors excluded (exploratory) | 70.4% | 0.642 | 0.217 | 0.005 |
-| all three exclusions (exploratory) | 68.4% | 0.651 | 0.224 | 0.005 |
-
-The pre-registered prediction held, and the main author reproduced it exactly from the committed scripts. Of covered targets, 0.40 fall 1 to 24 hours after the bound (day-scale rather than co-time), against 0.18 under the null. The signal is strongest on the busiest days and weaker but present outside the two busiest (0.55 vs 0.25). With only 2% of artifacts timestamped, 23% of the rest are covered, with 0.57 success against 0.27 (exploratory). Dating a text by its most similar non-near-duplicate timestamped artifact puts 80% within a day (null 31%; median error 1.7 h vs 44 h; exploratory). This is calendar information carried by population-level novelty, not by divergence within lineages: it is consistent with both the absence of a clock in Section 5.1 and the task drift suspected in Section 5.2, and it cannot tell persistent new material from daily changes in topic.
+The pre-registered prediction held (Figure 1d; Table C3), and the main author reproduced it exactly from the committed scripts. Of covered targets, 0.40 fall 1 to 24 hours after the bound (day-scale rather than co-time), against 0.18 under the null. The signal is strongest on the busiest days and weaker but present outside the two busiest (0.55 vs 0.25). With only 2% of artifacts timestamped, 23% of the rest are covered, with 0.57 success against 0.27 (exploratory). Dating a text by its most similar non-near-duplicate timestamped artifact puts 80% within a day (null 31%; median error 1.7 h vs 44 h; exploratory). This is calendar information carried by population-level novelty, not by divergence within lineages: it is consistent with both the absence of a clock in Section 5.1 and the task drift suspected in Section 5.2, and it cannot tell persistent new material from daily changes in topic.
 
 ### 5.5 Why: three copy modes, none accumulating
 
@@ -122,8 +102,8 @@ The pre-registered prediction held, and the main author reproduced it exactly fr
 
 **What the model saw (exploratory, pre-registered).** Mantiq's proxy records every model request, so we asked whether agents' added text resembles sources that were verbatim in their model context before they wrote (6,293 first exposures; 75% of agent-written sources reached some other agent's context). Within each written text, sources the model had seen are not ranked as more similar than unseen ones (pre-registered within-target AUC 0.46, 95% interval 0.44 to 0.48; 1,212 targets), but substantial overlap is concentrated in seen sources: 3.7% of seen-source pairs reach containment of 0.5 or more versus 0.5% of unseen pairs (mean containment 0.039 vs 0.009). Agents copy from their context occasionally and in chunks; most of what they see leaves no lexical trace, and much similarity arises without exposure. File-system reads, which include automated reads, do not predict similarity at all (AUC 0.48; Appendix C).
 
-![Figure 2](../outputs/figs/fig6_wiki_vs_mantiq.png)
-*Figure 2. (a) collusion.wiki: mean distance of pairs under 1 hour apart, same label vs different labels (lower is more similar; N = same / different pairs). (b) Mantiq (true identity; post hoc descriptives): cross-agent reuse is exact copying through git; edits build on the same agent's text.*
+![Figure 2](../outputs/figs/fig2_copy_modes.png)
+*Figure 2. How agents copy. (a) collusion.wiki: mean distance of pairs under 1 hour apart, same label vs different labels (lower is more similar; N = same / different pairs). (b) Mantiq (true identity; post hoc descriptives): cross-agent reuse is exact copying through git, and edits build on the same agent's text. (c) Mantiq: share of source-text pairs with containment of at least 0.5 when the source was in the writer's model context vs not (95% Wilson intervals).*
 
 ### 5.6 A pitfall: whole-family tests are anti-conservative
 
@@ -174,7 +154,7 @@ Seed `numpy.random.default_rng(20261108)` (fresh per stage; documented offsets f
 
 **C.3 Robustness of the window tests.** Leave-one-family-out: short-lag p = 0.001 in all five; long-lag T from -0.334 to 0.026, all p ≥ 0.46; 24-hour all p ≥ 0.23. Pair-weighted mean ρ: 0.088, -0.111, -0.189 (all pairs) and 0.067, -0.111, -0.189 (cross-label). Compression distance (zlib): short T = 0.321 (p = 0.001), long -0.197 (0.994), cross-label short 0.003 (0.753). Character 4-gram TF-IDF (pre-registered C2): short 0.226 (0.001), long -0.022 (0.73), 24 h 0.062 (0.10), cross-label short 0.082 (0.13). Families with (k = 5, threshold 0.3): 3 eligible, no window significant (short T = -0.117, p = 0.80; long -0.017, p = 0.92). Template removed: short T = 0.365 (p = 0.001), long -0.172 (0.925). Sampling-matched cross-label power (fixed families): 0.93 to 1.00 short-lag and 0.86 to 1.00 at 24 hours, edit rates 0.0025 to 0.20.
 
-**C.0 Families and lag curves.** Table C1 lists the eligible families; Figure C1 shows their lag curves against planted references.
+**C.0 Families and lag curves.** Table C1 lists the eligible families; Figure C1 shows their lag curves against planted references, and Figure C2 the lifespans of all families with at least 5 pages.
 
 **Table C1.** The six eligible wiki families (one representative per page; ρ for lags under 6 h and of 6 h or more).
 
@@ -187,8 +167,33 @@ Seed `numpy.random.default_rng(20261108)` (fresh per stage; documented offsets f
 | data-link lists | 154 | 109 | 721.4 | 7 | 0.06 | 0.05 | -0.05 (5,260) |
 | default-page text | 121 | 112 | 499.8 | 9 | 0.12 | 0.11 | -0.18 (5,765) |
 
-![Figure C1](../outputs/figs/fig2_lag_curves.png)
-*Figure C1. Mean distance by lag for the five varying wiki families (gray), planted clocks (blue) and planted no-clock stars (orange). Real introductions saturate within hours; planted clocks keep rising beyond a day.*
+![Figure C1](../outputs/figs/figC1_lag_curves.png)
+*Figure C1. Mean distance by lag for the five varying wiki families (black, open markers), planted clocks (blue) and planted no-clock stars (orange). Real introductions saturate within hours; planted clocks keep rising beyond a day.*
+
+![Figure C2](../outputs/figs/figC2_lifespans.png)
+*Figure C2. ECDF of lineage lifespans (families with at least 5 pages) under four similarity definitions; the primary definition is k = 3, threshold 0.3.*
+
+**C.0b Co-time and calendar, exact values.**
+
+**Table C2.** Co-time, pilot and confirmation halves. For introductions with a partner at similarity of 0.5 or more, share whose partner was written within 1 hour, for the most similar partner, the partner closest in length, and a random partner.
+
+| Half | Set | Introductions covered | Most similar | Closest length | Random | Difference, 95% CI | Median lag |
+|---|---|---|---|---|---|---|---|
+| pilot | all | 365 (9.0%) | 0.956 | 0.553 | 0.133 | [0.35, 0.45] | 0.5 min |
+| confirmation | all | 377 (9.6%) | **0.950** | 0.573 | 0.166 | **[0.33, 0.43]** | 0.6 min |
+| pilot | burst and template removed | 193 (5.2%) | 0.917 | 0.316 | 0.087 | [0.53, 0.68] | 3.3 min |
+| confirmation | burst and template removed | 213 (5.9%) | **0.920** | 0.366 | 0.115 | **[0.49, 0.62]** | 3.0 min |
+
+**Table C3.** Calendar dating, held-out confirmation quarter (1,918 introductions; B = 200 permutations). Success: true time within [bound - 1 h, bound + 24 h].
+
+| Variant | Covered | Success | Null mean (97.5th pct.) | p |
+|---|---|---|---|---|
+| primary (pre-registered) | 71.1% | **0.678** | 0.228 (0.253) | 0.005 |
+| burst and template removed (pre-registered secondary) | 73.9% | 0.669 | 0.225 | 0.005 |
+| date-like features dropped (exploratory) | 69.3% | 0.683 | 0.230 | 0.005 |
+| same-family anchors excluded (exploratory) | 70.9% | 0.679 | 0.228 | 0.005 |
+| similar-label anchors excluded (exploratory) | 70.4% | 0.642 | 0.217 | 0.005 |
+| all three exclusions (exploratory) | 68.4% | 0.651 | 0.224 | 0.005 |
 
 **C.4 A failed control.** We planned the 63 wiki pages recreated after deletion as a positive control. Their text is new (median distance to the last pre-deletion version 1.0; 4 of 60 identical): agents reused deleted titles, not deleted text. The page-body control (Section 5.1) replaces it.
 
