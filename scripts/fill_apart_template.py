@@ -86,7 +86,7 @@ def table_el(rows):
     el = t._tbl; el.getparent().remove(el)
     return el
 
-FIGW = {"fig1_three_times": 5.3, "fig2_copy_modes": 6.2, "figC1_lag_curves": 5.0, "figC2_lifespans": 3.6}
+FIGW = {"fig1_three_times": 4.8, "fig2_copy_modes": 6.2, "figC1_lag_curves": 5.0, "figC2_lifespans": 3.6}
 
 def emit(cur, text):
     """Render a markdown fragment after the cursor."""
@@ -155,6 +155,22 @@ if _ti >= 0:
 _i = S["1. Introduction"]
 _ci = _i.find("*Figure 1."); _cj = _i.find("\n\n", _ci)
 S["1. Introduction"] = _i[:_ci] + "*Figure 1. Three kinds of time in agent text (collusion.wiki). (a) No detected clock: distance between added texts does not grow with lag, unlike a planted clock, while whole page bodies drift (positive control). (b) Detection of planted clocks with the real sampling, families fixed or rebuilt end to end (band: 95% Wilson interval; crosses: no-clock controls). (c) Co-time: share of near-duplicate partners written within 1 h, pilot and held-out halves. (d) Calendar: share of covered held-out texts within [-1 h, +24 h] of the first-appearance estimate, real vs permuted anchor times.*" + _i[_cj:]
+
+# move Table 2 (window tests) to the appendix to respect the 8-page limit in the template's typography
+_r = S["4. Results"]
+_a = _r.find("**Table 2.**")
+if _a >= 0:
+    _b = _r.find("\n\n", _r.find("|", _a))
+    _b = len(_r) if _b < 0 else _b
+    _tab = _r[_a:_b]
+    S["4. Results"] = _r[:_a] + "Table 2 (Appendix) lists all window statistics; the key values are summarized here." + _r[_b:]
+    S["Appendix"] = S["Appendix"] + "\n\n### E. Window tests (Table 2)\n\n" + _tab
+
+# condensed limitations in the main text; the full list goes to the appendix
+S["Appendix"] = S["Appendix"] + "\n\n### F. Full list of limitations\n\n" + S["Limitations"]
+S["Limitations"] = ("One testable corpus with only four long-lived families; lexical, masked families (paraphrase is invisible); synthetic token-level clocks, "
+    "with clocks confined to one family not excluded; association rather than dating for the clock test; an empirical, one-sided calendar interval with 71% coverage "
+    "on one corpus; an inconclusive Mantiq replication; Swarm Traces tested only for anchor feasibility; labels are not identities. Full list in Appendix F.")
 
 # contributions as the template's numbered list
 _i = S["1. Introduction"]
@@ -231,3 +247,36 @@ for p in d.paragraphs:
                 emit(cur, S[key])
 d.save(str(OUT))
 print("wrote", OUT)
+
+# ---------------------------------------------------------------- replicate the template's direct (run-level) formatting
+from docx.shared import RGBColor
+OSTT = "Old Standard TT"
+def set_font(run, name=OSTT):
+    rPr = run._r.get_or_add_rPr()
+    rf = rPr.find(qn("w:rFonts"))
+    if rf is None:
+        rf = OxmlElement("w:rFonts"); rPr.insert(0, rf)
+    for a in ("w:ascii", "w:hAnsi", "w:cs", "w:eastAsia"):
+        rf.set(qn(a), name)
+def all_paragraphs(container):
+    for p in container.paragraphs:
+        yield p
+    for t in container.tables:
+        for row in t.rows:
+            for c in row.cells:
+                yield from all_paragraphs(c)
+for p in all_paragraphs(d):
+    for r in p.runs:
+        if r.font.name == "Courier New":
+            continue
+        set_font(r)
+    if p.style.name == "Heading 3":
+        pf = p.paragraph_format; pf.space_before = Pt(10); pf.space_after = Pt(2)
+        for r in p.runs:
+            r.bold = True; r.font.size = Pt(13); r.font.color.rgb = RGBColor(0x66, 0x66, 0x66)
+    if p.style.name == "Heading 2":
+        pf = p.paragraph_format; pf.space_before = Pt(10); pf.space_after = Pt(0)
+        for r in p.runs:
+            r.bold = True; r.font.size = Pt(14); r.font.color.rgb = RGBColor(0x43, 0x43, 0x43)
+d.save(str(OUT))
+print("formatted", OUT)
