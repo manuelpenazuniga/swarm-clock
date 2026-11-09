@@ -6,7 +6,7 @@ This file is the single source of truth for anyone (human or agent) continuing t
 
 ## 0. Who, what, when
 
-- **Author:** MP (Manuel Peña), Biological Engineer (PUC Chile), founder/independent AI engineer, Santiago, Chile. Background: computational biology, food-tech CTO, Web3/Rust, healthcare AI (vertigo triage, agentic benchmarks), Kaggle. Goal: strengthen his AI safety research profile; a strong result can lead to the Apart Fellowship.
+- **Author:** MP (Manuel Peña-Zúñiga), Biological Engineer (PUC Chile), founder/independent AI engineer, Santiago, Chile. Background: computational biology, food-tech CTO, Web3/Rust, healthcare AI (vertigo triage, agentic benchmarks), Kaggle. Goal: strengthen his AI safety research profile; a strong result can lead to the Apart Fellowship.
 - **Team:** solo. Has Colab Pro, API credits, coding agents. Plans to sleep very little tonight.
 - **Event:** Apart Research "Swarm Alignment Hackathon", co-organized with AI Alignment Foundation and AE Studio. https://apartresearch.com/sprints/swarm-alignment-2026
 - **HARD DEADLINE:** Sunday 2026-11-08 23:59 Anywhere on Earth = **Monday 2026-11-09 08:59 Santiago (UTC-3)**. Target: submit a complete draft by **08:00 Santiago**, then overwrite with the final version if allowed. Never risk the deadline for an extra analysis.

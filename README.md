@@ -2,7 +2,7 @@
 
 **Co-time and a calendar, but no clock.** Code, pre-registrations, results and paper for a study of whether the text that AI agent swarms write can supply the timestamps that post-hoc incident corpora lack.
 
-*Apart Research Swarm Alignment Hackathon, November 2026. Track: Multi-Agent Oversight and Control (with Agent Infrastructure and Science of Agent Networks). Author: Manuel Peña, independent researcher, Santiago, Chile.*
+*Apart Research Swarm Alignment Hackathon, November 2026. Track: Multi-Agent Oversight and Control (with Agent Infrastructure and Science of Agent Networks). Author: Manuel Peña-Zúñiga, independent researcher, Santiago, Chile.*
 
 ![Three kinds of time in agent text](outputs/figs/fig1_three_times.png)
 
@@ -88,7 +88,7 @@ Seed: `numpy.random.default_rng(20261108)` per stage. Input SHA-256 hashes are i
 ## Citation
 
 ```
-Peña, M. (2026). Can a Swarm's Text Tell Time? Co-Time and a Calendar, but No Clock.
+Peña-Zúñiga, M. (2026). Can a Swarm's Text Tell Time? Co-Time and a Calendar, but No Clock.
 Apart Research Swarm Alignment Hackathon. https://github.com/manuelpenazuniga/swarm-clock
 ```
 

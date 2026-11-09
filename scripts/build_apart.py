@@ -39,7 +39,7 @@ conclusion = ("We asked whether the text an agent swarm writes can tell time. In
 code = """- **Code repository**: https://github.com/manuelpenazuniga/swarm-clock (pipeline, `swarmclock audit` tool, pre-registrations, decision log, output tables and figures).
 - **Data/Datasets**: Swarm Traces (https://swarmtraces.org/), collusion.wiki (https://collusion.wiki/explorer/download), Mantiq swarm traces (https://huggingface.co/datasets/zenml/mantiq-swarm-traces, CC-BY-4.0). Input SHA-256 hashes are listed in Appendix B. Swarm Traces payloads are attack code and are processed as inert text only.
 - **Other artifacts**: interim PDF and DOCX renderings, independent audit reports (`outputs/REVIEW.md`)."""
-contrib = "M.P. conceived the question, designed and ran all analyses, and wrote the report (solo project)."
+contrib = "Manuel Peña-Zúñiga conceived the question, designed and ran all analyses, and wrote the report (solo project)."
 llm = ("We used Claude (Anthropic) through Claude Code to refactor the analysis notebooks into a pipeline, run and extend the analyses, draft and revise "
 "the text and figures, and run independent sub-agent reviews; GPT-6 Astra (via Codex) and Gemini 4 Argon (via agy) were used as independent auditors. "
 "Some extension designs (the co-time split-half test and the calendar test) were proposed and piloted by AI agents and pre-registered before computation, "
@@ -47,7 +47,7 @@ llm = ("We used Claude (Anthropic) through Claude Code to refactor the analysis 
 "re-run and reproduced, and every reference was checked against its source. The author is responsible for all content.")
 out = f"""# {title}
 
-Manuel Peña  
+Manuel Peña-Zúñiga  
 Independent researcher, Santiago, Chile
 
 **With Apart Research**

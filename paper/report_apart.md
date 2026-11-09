@@ -1,6 +1,6 @@
 # Can a Swarm's Text Tell Time? Co-Time and a Calendar, but No Clock
 
-Manuel Peña  
+Manuel Peña-Zúñiga  
 Independent researcher, Santiago, Chile
 
 **With Apart Research**
@@ -142,7 +142,7 @@ We asked whether the text an agent swarm writes can tell time. In the one corpus
 
 ## Author Contributions
 
-M.P. conceived the question, designed and ran all analyses, and wrote the report (solo project).
+Manuel Peña-Zúñiga conceived the question, designed and ran all analyses, and wrote the report (solo project).
 
 ## References
 

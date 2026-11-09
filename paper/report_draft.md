@@ -1,6 +1,6 @@
 # Rogue Swarms Leave No Clock: Artifact Lineages in Two Real Agent Incidents Are Recency Bursts, Not Accumulating Lineages
 
-**Author:** Manuel Peña (MP), independent (Santiago, Chile)
+**Author:** Manuel Peña-Zúñiga (MP), independent (Santiago, Chile)
 **Track:** 4 (Multi-Agent Oversight and Control), with implications for Track 3 (Agent Infrastructure)
 **Code:** [repo link TBD]
 
