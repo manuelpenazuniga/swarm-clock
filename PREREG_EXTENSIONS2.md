@@ -16,3 +16,7 @@ Committed BEFORE any of these quantities was computed. Motivation: three indepen
 ## C2. Non-lexical-token check on the wiki (character n-grams)
 
 Same six primary families, representatives, strata, windows and B = 999 as Table 3 (all pairs and cross-label), with distance = 1 - cosine similarity of character 4-gram TF-IDF vectors (scikit-learn `TfidfVectorizer(analyzer="char_wb", ngram_range=(4, 4))`, fitted on the representatives of each family) on the masked text. Prediction: same pattern as Jaccard (positive short-lag all-pairs T, no positive long-lag T).
+
+## P. Real-data positive control (added 2026-11-08 ~23:20, before computation)
+
+Question: does the same window test fire on real agent text when accumulation exists by construction? Unit: full page bodies (not introductions) of wiki pages with at least 15 revisions in the analysis window (request-log times, before 2026-07-03), hubs INCLUDED (they are the most-edited pages), masked with the same masker. Each page is one "family"; each revision is one block (no representative selection). Distance: 1 - Jaccard on k = 3 shingles; strata: length terciles within page; windows as Table 3; B = 999; all pairs and cross-label. Prediction: positive long-lag T with p < 0.05 (bodies accumulate content over time, pitfall 2 of CONTEXT.md). If it does not fire, the test is insensitive even to built-in accumulation and the paper must say so.

@@ -721,6 +721,135 @@ def power_end_to_end():
     save(pd.DataFrame(rows), "power_end_to_end" + (f"_{tag}" if tag else ""))
 
 
+def _char4_dist(texts, i, j):
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    V = TfidfVectorizer(analyzer="char_wb", ngram_range=(4, 4)).fit_transform(list(texts))
+    sim = (V[i].multiply(V[j])).sum(axis=1).A1
+    return 1 - sim
+
+
+@stage
+def ext_c2_char4():
+    """PREREG_EXTENSIONS2 C2: character 4-gram TF-IDF cosine distance, window tests (wiki primary)."""
+    rng = new_rng(); rows = []
+    D = load_D("D_primary"); Ps = [P for _, P in real_pairs(D, elig_ids(D), dist=_char4_dist)]
+    for cross in (False, True):
+        rows += _window_rows(Ps, rng, cross, {"distance": "char 4-gram TF-IDF cosine"})
+    R = pd.DataFrame(rows); print(R.to_string(index=False)); save(R, "ext_c2_char4_windows")
+
+
+@stage
+def ext_a_prime():
+    """PREREG_EXTENSIONS2 A-prime: model-level exposure (source probe lines verbatim in the reader's model requests)."""
+    import glob as _g, pyarrow.parquet as pq
+    from scipy.stats import rankdata
+    from swarmclock import mantiq as mq
+    rng = new_rng(); mk = mq.MantiqMasker()
+    boiler = r"pytest-cache-files-|\.pytest_cache|CACHEDIR\.TAG"
+    FV = mq.load("file_versions", ["run", "version_id", "sha256", "made_by", "agent_id", "event_id", "path"])
+    blobs = mq.load("blobs", ["run", "sha256", "text"]); btext = dict(zip(zip(blobs.run, blobs.sha256), blobs.text))
+    dur = dict(zip(*[mq.load("runs")[c] for c in ("run", "seconds")]))
+    AM = FV[(FV.made_by == "agent") & FV.agent_id.notna()]
+    ts = mq.event_times(AM[["run", "event_id"]].drop_duplicates())
+    AM = AM.assign(ts=[ts.get((r, e), np.nan) for r, e in zip(AM.run, AM.event_id)]).dropna(subset=["ts"])
+    first = AM.sort_values("ts").drop_duplicates(["run", "sha256"])[["run", "sha256", "agent_id", "ts", "path"]].rename(columns={"agent_id": "w", "ts": "t_auth"})
+    first = first[~first.path.str.contains(mq.EXCL_PATH) & ~first.path.str.contains(boiler, regex=True)]
+    first["text"] = [btext.get((r, h)) for r, h in zip(first.run, first.sha256)]
+    first = first[first.text.notna()].copy()
+    def probes(t):
+        ls = sorted({l.strip() for l in t.split("\n") if len(l.strip()) >= 30}, key=len, reverse=True)
+        return ls[:3]
+    first["probes"] = first.text.map(probes)
+    n_noprobe = int((first.probes.map(len) == 0).sum())
+    first = first[first.probes.map(len) > 0].copy()
+    first["S"] = [fm.shingle_set(mk(t), 3) for t in first.text]
+    first = first[first.S.map(len) > 0]
+    # model requests: agent, time, decoded text
+    def strings(o, out):
+        if isinstance(o, str): out.append(o)
+        elif isinstance(o, dict):
+            for v in o.values(): strings(v, out)
+        elif isinstance(o, list):
+            for v in o: strings(v, out)
+    REQ = []
+    for f in sorted(_g.glob(str(mq.MDIR / "events" / "*" / "*.parquet"))):
+        E = pq.read_table(f, columns=["run", "kind", "agent_id", "ts_wall_ns", "blobs"]).to_pandas()
+        E = E[E.kind == "model.request"]
+        for run, a, t, bl in zip(E.run, E.agent_id, E.ts_wall_ns, E.blobs):
+            try:
+                items = json.loads(bl) if isinstance(bl, str) else list(bl)
+            except Exception:
+                items = []
+            sha = next((x.get("sha256") for x in items if isinstance(x, dict) and x.get("role") == "request_body"), None)
+            raw = btext.get((run, sha)) if sha else None
+            if raw is None:
+                continue
+            try:
+                out = []; strings(json.loads(raw), out); txt = "\n".join(out)
+            except Exception:
+                txt = raw
+            REQ.append((run, a, t, txt))
+    REQ = pd.DataFrame(REQ, columns=["run", "agent", "t", "txt"])
+    print("requests with text:", len(REQ), "| sources:", len(first), "| sources without probe:", n_noprobe, flush=True)
+    # first model exposure time of each source for each other agent
+    expo = {}; ever = set()
+    for (run, a), Rq in REQ.sort_values("t").groupby(["run", "agent"]):
+        Fr = first[(first.run == run) & (first.w != a)]
+        for h, pr, ta in zip(Fr.sha256, Fr.probes, Fr.t_auth):
+            for t, txt in zip(Rq.t.values, Rq.txt.values):
+                if t <= ta:
+                    continue
+                if any(p in txt for p in pr):
+                    expo[(run, a, h)] = t; ever.add((run, h)); break
+    print("model-level exposures:", len(expo), flush=True)
+    U = pd.read_parquet(INTERIM / "mantiq_U-F-noboiler.parquet")
+    U["S"] = [fm.shingle_set(m, 3) for m in U.m]
+    rows = []
+    for run, Ur in U.groupby("run"):
+        Fr = first[first.run == run]
+        for x_id, x_S, r, tx in zip(Ur.rev_id, Ur.S, Ur.label, Ur.ts_ns):
+            nx = len(x_S)
+            for S, w, ta, h in zip(Fr.S, Fr.w.values, Fr.t_auth.values, Fr.sha256.values):
+                if w == r or ta >= tx:
+                    continue
+                te = expo.get((run, r, h)); ex = te is not None and te < tx
+                rows.append((run, x_id, r, ex, len(x_S & S) / nx, (tx - te) / (dur[run] * 1e9) if ex else np.nan))
+    P = pd.DataFrame(rows, columns=["run", "target", "reader", "exposed", "c", "lag_frac"])
+    def auc(c, e):
+        n1 = int(e.sum()); n0 = len(e) - n1
+        if not n1 or not n0: return np.nan
+        r_ = rankdata(c); return (r_[e].sum() - n1 * (n1 + 1) / 2) / (n1 * n0)
+    wt = P.groupby(["run", "target"]).apply(lambda g: auc(g.c.values, g.exposed.values)).dropna().rename("auc").reset_index()
+    def wmean(df): return df.auc.mean()
+    runs = wt.run.unique(); G = {k: g for k, g in wt.groupby("run")}
+    boots = [wmean(pd.concat([G[k] for k in rng.choice(runs, len(runs))])) for _ in range(999)]
+    PG = {k: g for k, g in P.groupby("run")}
+    pooled = auc(P.c.values, P.exposed.values)
+    pboots = []
+    for _ in range(999):
+        Q = pd.concat([PG[k] for k in rng.choice(P.run.unique(), P.run.nunique())])
+        pboots.append(auc(Q.c.values, Q.exposed.values))
+    E = P[P.exposed].assign(d=lambda d: 1 - d.c)
+    desc = {}
+    for wname, lo, hi in stt.MQ_WIN:
+        vals = []
+        for run, g in E.groupby("run"):
+            m = (g.lag_frac >= lo) & (g.lag_frac < hi)
+            if m.sum() >= 10 and np.ptp(g.d[m]) > 0 and np.ptp(g.lag_frac[m]) > 0:
+                vals.append(np.corrcoef(rankdata(g.d[m]), rankdata(g.lag_frac[m]))[0, 1])
+        desc[wname] = {"runs": len(vals), "mean_rho": float(np.mean(vals)) if vals else None}
+    summ = {"requests_with_text": int(len(REQ)), "sources": int(len(first)), "sources_without_probe": n_noprobe,
+            "model_exposures": int(len(expo)), "share_sources_ever_in_other_agents_context": len(ever) / len(first),
+            "pairs": int(len(P)), "exposed_pairs": int(P.exposed.sum()), "targets_within": int(len(wt)),
+            "within_target_auc_mean": float(wt.auc.mean()), "within_target_auc_ci": [float(x) for x in np.nanquantile(boots, [.025, .975])],
+            "pooled_auc": float(pooled), "pooled_auc_ci": [float(x) for x in np.nanquantile(pboots, [.025, .975])],
+            "mean_c_exposed": float(P.c[P.exposed].mean()), "mean_c_unexposed": float(P.c[~P.exposed].mean()),
+            "share_exposed_pairs_c_ge_0.5": float((P.c[P.exposed] >= .5).mean()), "share_unexposed_pairs_c_ge_0.5": float((P.c[~P.exposed] >= .5).mean()),
+            "A2_descriptive": desc}
+    print(json.dumps(summ, indent=1)); (sio.TABLES / "ext_a_prime_model_exposure.json").write_text(json.dumps(summ, indent=1))
+    P.to_parquet(INTERIM / "ext_a_prime_pairs.parquet")
+
+
 # ---------------------------------------------------------------- Mantiq (PREREG_MANTIQ.md)
 @stage
 def mantiq_build():

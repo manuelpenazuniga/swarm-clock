@@ -1,0 +1,46 @@
+===== stage ext_a_prime
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/scripts/run_stage.py:756: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  first = first[~first.path.str.contains(mq.EXCL_PATH) & ~first.path.str.contains(boiler, regex=True)]
+requests with text: 13625 | sources: 1246 | sources without probe: 227
+model-level exposures: 6293
+/Volumes/MacMiniExt/dev/research/SwarmAlignmentHackathon/swarm-clock-project/scripts/run_stage.py:822: FutureWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  wt = P.groupby(["run", "target"]).apply(lambda g: auc(g.c.values, g.exposed.values)).dropna().rename("auc").reset_index()
+{
+ "requests_with_text": 13625,
+ "sources": 1246,
+ "sources_without_probe": 227,
+ "model_exposures": 6293,
+ "share_sources_ever_in_other_agents_context": 0.7463884430176565,
+ "pairs": 96058,
+ "exposed_pairs": 19827,
+ "targets_within": 1212,
+ "within_target_auc_mean": 0.46184174739490175,
+ "within_target_auc_ci": [
+  0.44041219154549277,
+  0.4763497539516263
+ ],
+ "pooled_auc": 0.5234613357610072,
+ "pooled_auc_ci": [
+  0.49115390967504496,
+  0.5550615525926323
+ ],
+ "mean_c_exposed": 0.03908522705300221,
+ "mean_c_unexposed": 0.008757232105285026,
+ "share_exposed_pairs_c_ge_0.5": 0.03747415140969385,
+ "share_unexposed_pairs_c_ge_0.5": 0.004866786477942045,
+ "A2_descriptive": {
+  "short (<D/3)": {
+   "runs": 18,
+   "mean_rho": 0.12537231883855776
+  },
+  "long (>=D/3)": {
+   "runs": 16,
+   "mean_rho": 0.008845926072250111
+  },
+  "very long (>=2D/3)": {
+   "runs": 4,
+   "mean_rho": 0.13341037654271248
+  }
+ }
+}
+===== ext_a_prime done in 18.4s
