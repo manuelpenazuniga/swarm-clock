@@ -55,3 +55,6 @@ F1 per-family long-lag permutation tests (B = 9,999, Holm, m = 4): round-status 
 
 ## D18. Frontier lines T (terminus post quem dating), A, D, H, S (agent run via a second Claude account, 00:08 to 00:30)
 An independent analysis agent wrote PREREG_FRONTIER.md, PREREG_FRONTIER_H.md and PREREG_FRONTIER_T.md and hashed each before computing (self-recorded hash times 00:13:52, 00:18:37, 00:24:18; output files are timestamped after each). Disclosure: these files were committed to this repository only after the computations (they lived in a scratch folder); the "Written" times inside two of them are wrong estimates, the hash times are authoritative. Scripts are in scripts/frontier/, the agent's outputs in scripts/frontier/out_original/. The confirmation of T was re-run by the main author from the committed scripts before being reported (see D19).
+
+## D19. Reproduction of the TPQ confirmation (main author, 2026-11-09 ~00:35)
+From the committed scripts (scripts/frontier/t_tpq.py), the pilot selection (q90, m = 2) and the confirmation result reproduce exactly: covered 71.1% of 1,918 targets; success 0.678 vs null mean 0.228 (97.5th percentile 0.253; p = 0.005, B = 200); day-scale successes 0.400 vs 0.180; T1 true. Outputs in scripts/frontier/out_repro/.
